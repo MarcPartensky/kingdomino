@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import domination.*;
+import domination.Player;
 
 // Main game class.
 public class Domination {

@@ -2,7 +2,7 @@ package domination;
 
 public class Player {
 
-	public Player build() {
+	static public Player build() {
 		return new Player();
 	}
 
