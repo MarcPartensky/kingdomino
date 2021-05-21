@@ -1,7 +1,9 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+// import javafx.event.KeyEvent;
 
 public class Main extends Application {
 	protected String title = "King Domino";
@@ -11,7 +13,7 @@ public class Main extends Application {
 	// protected int width = 2560;
 	// protected int height = 1600;
 	protected int width = 800;
-	protected int height = 600;
+		protected int height = 600;
 
 	// @Override
 	// protected void initSettings(GameSettings settings) {
@@ -34,11 +36,15 @@ public class Main extends Application {
 
 			switch(event.getCode().getCode()) {
 					case 27 : { // 27 = ESC key
-							primaryStage.close();
+							stage.close();
+							break;
+					}
+					case 81 : { // 81 = q key
+							stage.close();
 							break;
 					}
 					case 10 : { // 10 = Return
-							primaryStage.setWidth( primaryStage.getWidth() * 2);
+							stage.setWidth( stage.getWidth() * 2);
 					}
 					default:  {
 							System.out.println("Unrecognized key");
@@ -46,7 +52,7 @@ public class Main extends Application {
 			}
 	});
 
-		stage.setOnCloseRequest(close);
+		// stage.setOnCloseRequest(close);
 		stage.show();
 	}
 
@@ -59,9 +65,9 @@ public class Main extends Application {
 		Application.launch(args);
 	}
 
-	protected void close(event) {
-		System.out.println("closing game");
-	}
+	// protected void close(event) {
+	// 	System.out.println("closing game");
+	// }
 
 
 	// protected static void loop(Domination game) {
@@ -77,4 +83,3 @@ public class Main extends Application {
 	// protected static void draw(Domination game) {
 	// }
 }
-i

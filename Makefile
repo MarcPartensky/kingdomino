@@ -1,3 +1,4 @@
 run:
-	./gradlew run
+	# ./gradlew run
+	gradle run
 
