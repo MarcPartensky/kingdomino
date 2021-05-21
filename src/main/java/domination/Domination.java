@@ -1,30 +1,34 @@
+package domination;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import domination.Player;
+import domination.Deck;
 
-// Domination
+/*
+ * Main game class.
+ */
 public class Domination {
-	public ArrayList<Player> players = new ArrayList<Player>();
-	public boolean done = false;
+	protected boolean done = false;
+	protected ArrayList<Player> players;
+	protected Deck deck;
 
-	// Initalize the game the game.
-	public Domination(ArrayList<Player> players) {
-		this.players = players;
-	}
-
-	// Build the game with default arguments.
-	public static Domination build(Integer playerNumber) {
+	/*
+	 * Build the game with default arguments.
+	 */
+	public static Domination build(Integer playerNumber, Deck deck) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (int i=0; i<playerNumber; i++) {
 			players.add(Player.build());
 		}
-		Domination game = new Domination(players);
-		return game;
+		return new Domination(players, deck);
 	}
 
-	// Draw the game with the canvas
-	public void draw() {
-
+	/*
+	 * Initalize the game the game.
+	 */
+	public Domination(ArrayList<Player> players, Deck deck) {
+		this.players = players;
+		this.deck = deck;
 	}
-
-
 }
