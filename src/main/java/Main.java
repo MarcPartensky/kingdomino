@@ -1,9 +1,9 @@
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-// import javafx.event.KeyEvent;
 
 public class Main extends Application {
 	protected String title = "King Domino";
@@ -26,10 +26,25 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		stage.setTitle(title);
 
-		Label label = new Label("test");
-		Scene scene = new Scene(label, width, height);
+    Pane pane = new Pane();
+
+    ReadOnlyDoubleProperty widthProperty = pane.widthProperty();
+    widthProperty.addListener( new ChangeListener<Number> (){
+      @Override
+      public void changed(
+        ObservableValue<? extends Number> observableValue,
+        Number oldVal, Number newVal) {
+
+          System.out.println("widthProperty changed from "
+            + oldVal.doubleValue() + " to " + newVal.doubleValue());
+      }
+    });
+		// Label label = new Label("test");
+		Scene scene = new Scene(pane, width, height);
+
 		stage.setFullScreen(fullscreen);
 		stage.setScene(scene);
+		scene.setCursor(Cursor.OPEN_HAND);
 
 		stage.addEventHandler(KeyEvent.KEY_PRESSED,  (event) -> {
 			System.out.println("Key pressed: " + event.toString());

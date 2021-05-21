@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import domination.Player;
 
-// Main game class.
+// Domination
 public class Domination {
 	public ArrayList<Player> players = new ArrayList<Player>();
 	public boolean done = false;
@@ -21,7 +21,7 @@ public class Domination {
 		return game;
 	}
 
-	// draw the game with the canvas
+	// Draw the game with the canvas
 	public void draw() {
 
 	}
