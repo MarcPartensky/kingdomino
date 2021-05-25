@@ -16,6 +16,5 @@ public class Player {
 	 * Initialize a player.
 	 */
 	public Player() {
-		// put something in here
 	}
 }

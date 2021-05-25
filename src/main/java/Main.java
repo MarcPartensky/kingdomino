@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import domination.Domination;
 import domination.Card;
 import domination.Deck;
+// import domination.Player;
 
 /*
  * Main application of the game.
@@ -35,7 +36,7 @@ public class Main extends Application {
 	protected Stage stage;
 	protected Circle circle = new Circle();
 	protected String csvPath = "../../../assets/dominos.csv";
-	protected ArrayList<Image> images = new ArrayList<Image>();
+	// protected ArrayList<Image> images = new ArrayList<Image>();
 	protected int sceneMode = 2;
 	protected int playerNumber = 2;
 
@@ -81,21 +82,32 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setTitle(title);
-
-		Deck deck;
-		deck = buildDeck();
-		ArrayList<Player> players;
-		players.add(new Player());
-		players.add(new Player());
-		Domination game = new Domination(playerNumber, deck);
-		loadImages();
-
-		// Scene scene = new Scene(pane, 1024, 800, true);
-		// stage.show();
-
 		stage.setFullScreen(fullscreen);
-		Scene scene = getScene();
+
+		// Deck deck = buildDeck();
+		// ArrayList<Player> players = new ArrayList<Player>();
+		// players.add(new Player());
+		// players.add(new Player());
+		// Domination game = new Domination(players, deck);
+		// loadImages();
+
+		Label label = new Label("Menu");
+		Button button1 = new Button("2 Players");
+		Button button2 = new Button("3 Players");
+		Button button3 = new Button("4 Players");
+
+		FlowPane flowpane = new FlowPane();
+
+		flowpane.getChildren().add(button1);
+		flowpane.getChildren().add(button2);
+		flowpane.getChildren().add(button3);
+
+		Scene scene = new Scene(flowpane, width, height);
+
+		// Scene scene = getScene();
+		// Scene scene = buildMenu();
 		stage.setScene(scene);
+
 		// scene.setCursor(Cursor.OPEN_HAND);
 		// stage.setOnCloseRequest(close);
 
@@ -116,47 +128,65 @@ public class Main extends Application {
 	}
 
 	/*
-	 * Choose the scene to load depending on the scene mode.
+	 * Menu scene, first scene of the game.
 	 */
-	public Scene getScene() {
-		Scene scene;
-		if (sceneMode == 0) {
-			scene = buildMenu();
-		// } else if (sceneMode == 1) {
-		// 	Scene scene = mainScene();
-		} else if (sceneMode == 2) {
-			scene = testScene();
-		}
-		return scene;
-	}
+	// public Scene buildMenu() {
+	// 	Label label = new Label("Menu");
+	// 	Button button1 = new Button("2 Players");
+	// 	Button button2 = new Button("3 Players");
+	// 	Button button3 = new Button("4 Players");
 
+	// 	FlowPane flowpane = new FlowPane();
+
+	// 	flowpane.getChildren().add(button1);
+	// 	flowpane.getChildren().add(button2);
+	// 	flowpane.getChildren().add(button3);
+
+	// 	return new Scene(flowpane, width, height);
+	// }
 
 	/*
 	 * Test scene.
 	 */
-	public Scene testScene() {
-		Pane pane = new Pane();
-		pane.setStyle("-fx-background-color: #000000;");
+	// public Scene testScene() {
+	// 	Pane pane = new Pane();
+	// 	pane.setStyle("-fx-background-color: #000000;");
 
-		circle.setCenterX(100);
-		circle.setCenterY(100);
-		circle.setRadius(125);
-		circle.setStroke(Color.valueOf("#ff00ff"));
-		circle.setStrokeWidth(5);
-		circle.setFill(Color.TRANSPARENT);
+	// 	circle.setCenterX(100);
+	// 	circle.setCenterY(100);
+	// 	circle.setRadius(125);
+	// 	circle.setStroke(Color.valueOf("#ff00ff"));
+	// 	circle.setStrokeWidth(5);
+	// 	circle.setFill(Color.TRANSPARENT);
 
-		Rectangle rectangle = new Rectangle();
-		rectangle.setX(200);
-		rectangle.setY(200);
-		rectangle.setWidth(300);
-		rectangle.setHeight(400);
-		rectangle.setStroke(Color.TRANSPARENT);
-		rectangle.setFill(Color.valueOf("#00ffff"));
+	// 	Rectangle rectangle = new Rectangle();
+	// 	rectangle.setX(200);
+	// 	rectangle.setY(200);
+	// 	rectangle.setWidth(300);
+	// 	rectangle.setHeight(400);
+	// 	rectangle.setStroke(Color.TRANSPARENT);
+	// 	rectangle.setFill(Color.valueOf("#00ffff"));
 
-		pane.getChildren().add(circle);
-		pane.getChildren().add(rectangle);
-		return scene;
-	}
+	// 	pane.getChildren().add(circle);
+	// 	pane.getChildren().add(rectangle);
+
+	// 	return new Scene(pane, width, height);
+	// }
+
+	/*
+	 * Choose the scene to load depending on the scene mode.
+	 */
+	// public Scene getScene() {
+	// 	System.out.println(sceneMode);
+	// 	if (sceneMode == 0) {
+	// 		return buildMenu();
+	// 	// } else if (sceneMode == 1) {
+	// 	// 	Scene scene = mainScene();
+	// 	// } else if (sceneMode == 2) {
+	// 	} else {
+	// 		return testScene();
+	// 	}
+	// }
 
 	/*
 	 * Main function to launch the game.
@@ -168,27 +198,9 @@ public class Main extends Application {
 	}
 
 	/*
-	 * Menu scene, first scene of the game.
-	 */
-	public Scene buildMenu() {
-		Label label = new Label("Menu");
-		Button button1 = new Button("2 Players");
-		Button button2 = new Button("3 Players");
-		Button button3 = new Button("4 Players");
-
-		FlowPane flowpane = new FlowPane();
-
-		flowpane.getChildren().add(button1);
-		flowpane.getChildren().add(button2);
-		flowpane.getChildren().add(button3);
-
-		return new Scene(flowpane, width, height);
-	}
-
-	/*
 	 * Load the images.
 	 */
-	public static void loadImages() {
+	public void loadImages() {
 		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
 		// Image image = new Image(input);
 		// ImageView imageView = new ImageView(image);
