@@ -1,6 +1,8 @@
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 // import java.net.URL;
 
@@ -126,35 +128,39 @@ public class Main extends Application {
 	}
 
 
+	/*
+	 * Main function to launch the game.
+	 */
 	public static void main(String[] args) {
 		// Integer playerNumber = Integer.valueOf(args[0]);
 		// System.out.println(args[0]);
 		Application.launch(args);
 	}
 
+	/*
+	 * Load the images.
+	 */
 	public static void loadImages() {
 
 	}
 
-	public static void buildDeck() {
+	/*
+	 * Build the deck of cards.
+	 */
+	public static Deck buildDeck() {
+		ArrayList<Card> cards = new ArrayList<Card>();
 		try {
 			BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
-			String row;
-			ArrayList<Card> cards = new ArrayList<Card>();
-		while ((row = csvReader.readLine()) != null) {
-			String[] data = row.split(",");
-			System.out.println(data);
-			cards.add(new Card());
-		}
-		csvReader.close();
-		} catch (FileNotFoundException e) {
+			// while ((row = csvReader.readLine()) != null) {
+			// 	String[] data = row.split(",");
+			// 	System.out.println(data);
+			// 	cards.add(new Card());
+			// }
+			csvReader.close();
+		} catch (IOException e) {
 			System.out.println("Csv path not found.");
 			System.out.println(e.getClass());
 		}
-		return new Deck();
+		return new Deck(cards);
 	}
-
-	// protected static void update(Domination game) {
-	// }
-
 }

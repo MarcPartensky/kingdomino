@@ -9,9 +9,8 @@ public class Deck {
 	/*
 	 * Initialize the deck.
 	 */
-	public Deck(ArrayList<Card> cards, String path) {
+	public Deck(ArrayList<Card> cards) {
 		this.cards = cards;
-		this.path = path;
 	}
 }
 
