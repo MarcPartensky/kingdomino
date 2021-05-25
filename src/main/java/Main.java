@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
@@ -22,6 +24,9 @@ import domination.Domination;
 import domination.Card;
 import domination.Deck;
 
+/*
+ * Main application of the game.
+ */
 public class Main extends Application {
 	protected String title = "King Domino";
 	protected boolean fullscreen = false;
@@ -29,7 +34,10 @@ public class Main extends Application {
 	protected int height = 600;
 	protected Stage stage;
 	protected Circle circle = new Circle();
-	protected static String csvPath = "../../../assets/dominos.csv";
+	protected String csvPath = "../../../assets/dominos.csv";
+	protected ArrayList<Image> images = new ArrayList<Image>();
+	protected int sceneMode = 2;
+	protected int playerNumber = 2;
 
 	// @Override
 	// protected void initSettings(GameSettings settings) {
@@ -72,10 +80,61 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		// Domination game = new Domination();
-	 // FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
-	 stage.setTitle(title);
+		stage.setTitle(title);
 
+		Deck deck;
+		deck = buildDeck();
+		ArrayList<Player> players;
+		players.add(new Player());
+		players.add(new Player());
+		Domination game = new Domination(playerNumber, deck);
+		loadImages();
+
+		// Scene scene = new Scene(pane, 1024, 800, true);
+		// stage.show();
+
+		stage.setFullScreen(fullscreen);
+		Scene scene = getScene();
+		stage.setScene(scene);
+		// scene.setCursor(Cursor.OPEN_HAND);
+		// stage.setOnCloseRequest(close);
+
+		// ReadOnlyDoubleProperty widthProperty = pane.widthProperty();
+		// widthProperty.addListener( new ChangeListener<Number> (){
+		//   @Override
+		//   public void changed(
+		//     ObservableValue<? extends Number> observableValue,
+		//     Number oldVal, Number newVal) {
+
+		//       System.out.println("widthProperty changed from "
+		//         + oldVal.doubleValue() + " to " + newVal.doubleValue());
+		//   }
+		// });
+
+		stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
+		stage.show();
+	}
+
+	/*
+	 * Choose the scene to load depending on the scene mode.
+	 */
+	public Scene getScene() {
+		Scene scene;
+		if (sceneMode == 0) {
+			scene = buildMenu();
+		// } else if (sceneMode == 1) {
+		// 	Scene scene = mainScene();
+		} else if (sceneMode == 2) {
+			scene = testScene();
+		}
+		return scene;
+	}
+
+
+	/*
+	 * Test scene.
+	 */
+	public Scene testScene() {
 		Pane pane = new Pane();
 		pane.setStyle("-fx-background-color: #000000;");
 
@@ -94,68 +153,60 @@ public class Main extends Application {
 		rectangle.setStroke(Color.TRANSPARENT);
 		rectangle.setFill(Color.valueOf("#00ffff"));
 
-		// Pane pane = new Pane();
 		pane.getChildren().add(circle);
 		pane.getChildren().add(rectangle);
-
-		// Scene scene = new Scene(pane, 1024, 800, true);
-
-		// stage.show();
-
-		// ReadOnlyDoubleProperty widthProperty = pane.widthProperty();
-		// widthProperty.addListener( new ChangeListener<Number> (){
-		//   @Override
-		//   public void changed(
-		//     ObservableValue<? extends Number> observableValue,
-		//     Number oldVal, Number newVal) {
-
-		//       System.out.println("widthProperty changed from "
-		//         + oldVal.doubleValue() + " to " + newVal.doubleValue());
-		//   }
-		// });
-
-		// Label label = new Label("test");
-		Scene scene = new Scene(pane, width, height);
-
-		stage.setFullScreen(fullscreen);
-		stage.setScene(scene);
-		// scene.setCursor(Cursor.OPEN_HAND);
-		// stage.setOnCloseRequest(close);
-
-		stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
-
-		stage.show();
+		return scene;
 	}
-
 
 	/*
 	 * Main function to launch the game.
 	 */
 	public static void main(String[] args) {
 		// Integer playerNumber = Integer.valueOf(args[0]);
-		// System.out.println(args[0]);
+		System.out.println(args[0]);
 		Application.launch(args);
+	}
+
+	/*
+	 * Menu scene, first scene of the game.
+	 */
+	public Scene buildMenu() {
+		Label label = new Label("Menu");
+		Button button1 = new Button("2 Players");
+		Button button2 = new Button("3 Players");
+		Button button3 = new Button("4 Players");
+
+		FlowPane flowpane = new FlowPane();
+
+		flowpane.getChildren().add(button1);
+		flowpane.getChildren().add(button2);
+		flowpane.getChildren().add(button3);
+
+		return new Scene(flowpane, width, height);
 	}
 
 	/*
 	 * Load the images.
 	 */
 	public static void loadImages() {
-
+		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
+		// Image image = new Image(input);
+		// ImageView imageView = new ImageView(image);
 	}
 
 	/*
 	 * Build the deck of cards.
 	 */
-	public static Deck buildDeck() {
+	protected Deck buildDeck() {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		try {
 			BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
-			// while ((row = csvReader.readLine()) != null) {
-			// 	String[] data = row.split(",");
-			// 	System.out.println(data);
-			// 	cards.add(new Card());
-			// }
+			String row;
+			while ((row = csvReader.readLine()) != null) {
+				String[] data = row.split(",");
+				System.out.println(data);
+				// cards.add(new Card());
+			}
 			csvReader.close();
 		} catch (IOException e) {
 			System.out.println("Csv path not found.");

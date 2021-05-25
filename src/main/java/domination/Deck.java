@@ -2,6 +2,9 @@ package domination;
 
 import java.util.ArrayList;
 
+/*
+ * Deck of cards of the game.
+ */
 public class Deck {
 	protected String path;
 	protected ArrayList<Card> cards;
