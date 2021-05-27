@@ -17,13 +17,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
+// import javafx.scene.image.ImageView;
+// import javafx.scene.image.Image;
 
 import domination.Domination;
 import domination.Card;
 import domination.Deck;
-// import domination.Player;
+import domination.Player;
 
 /*
  * Main application of the game.
@@ -34,10 +34,9 @@ public class Main extends Application {
 	protected int width = 800;
 	protected int height = 600;
 	protected Stage stage;
-	protected Circle circle = new Circle();
 	protected String csvPath = "../../../assets/dominos.csv";
 	// protected ArrayList<Image> images = new ArrayList<Image>();
-	protected int sceneMode = 2;
+	protected int sceneMode = 0;
 	protected int playerNumber = 2;
 
 	// @Override
@@ -62,19 +61,15 @@ public class Main extends Application {
 				stage.close();
 				break;
 			}
-			case 10 : { // Return
-				stage.setWidth( stage.getWidth() * 2);
-			}
-			case 74: {
-				circle.setCenterY(circle.getCenterY() + 10);
-				break;
-			}
+			// case 10 : { // Return
+			// 	stage.setWidth(stage.getWidth() * 2);
+			// 	break;
+			// }
 			default:  {
 				System.out.println("Unrecognized key");
 			}
 		}
 	}
-
 
 	/*
 	 * Start the game.
@@ -84,28 +79,14 @@ public class Main extends Application {
 		stage.setTitle(title);
 		stage.setFullScreen(fullscreen);
 
-		// Deck deck = buildDeck();
-		// ArrayList<Player> players = new ArrayList<Player>();
-		// players.add(new Player());
-		// players.add(new Player());
-		// Domination game = new Domination(players, deck);
+		Deck deck = buildDeck();
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(new Player());
+		players.add(new Player());
+		Domination game = new Domination(players, deck);
 		// loadImages();
 
-		Label label = new Label("Menu");
-		Button button1 = new Button("2 Players");
-		Button button2 = new Button("3 Players");
-		Button button3 = new Button("4 Players");
-
-		FlowPane flowpane = new FlowPane();
-
-		flowpane.getChildren().add(button1);
-		flowpane.getChildren().add(button2);
-		flowpane.getChildren().add(button3);
-
-		Scene scene = new Scene(flowpane, width, height);
-
-		// Scene scene = getScene();
-		// Scene scene = buildMenu();
+		Scene scene = getScene();
 		stage.setScene(scene);
 
 		// scene.setCursor(Cursor.OPEN_HAND);
@@ -117,7 +98,6 @@ public class Main extends Application {
 		//   public void changed(
 		//     ObservableValue<? extends Number> observableValue,
 		//     Number oldVal, Number newVal) {
-
 		//       System.out.println("widthProperty changed from "
 		//         + oldVal.doubleValue() + " to " + newVal.doubleValue());
 		//   }
@@ -130,81 +110,78 @@ public class Main extends Application {
 	/*
 	 * Menu scene, first scene of the game.
 	 */
-	// public Scene buildMenu() {
-	// 	Label label = new Label("Menu");
-	// 	Button button1 = new Button("2 Players");
-	// 	Button button2 = new Button("3 Players");
-	// 	Button button3 = new Button("4 Players");
+	public Scene buildMenu() {
+		Label label = new Label("Menu");
+		Button button1 = new Button("2 Players");
+		Button button2 = new Button("3 Players");
+		Button button3 = new Button("4 Players");
 
-	// 	FlowPane flowpane = new FlowPane();
+		FlowPane flowpane = new FlowPane();
+		flowpane.getChildren().add(button1);
+		flowpane.getChildren().add(button2);
+		flowpane.getChildren().add(button3);
 
-	// 	flowpane.getChildren().add(button1);
-	// 	flowpane.getChildren().add(button2);
-	// 	flowpane.getChildren().add(button3);
-
-	// 	return new Scene(flowpane, width, height);
-	// }
+		return new Scene(flowpane, width, height);
+	}
 
 	/*
 	 * Test scene.
 	 */
-	// public Scene testScene() {
-	// 	Pane pane = new Pane();
-	// 	pane.setStyle("-fx-background-color: #000000;");
+	public Scene testScene() {
+		Pane pane = new Pane();
+		pane.setStyle("-fx-background-color: #000000;");
 
-	// 	circle.setCenterX(100);
-	// 	circle.setCenterY(100);
-	// 	circle.setRadius(125);
-	// 	circle.setStroke(Color.valueOf("#ff00ff"));
-	// 	circle.setStrokeWidth(5);
-	// 	circle.setFill(Color.TRANSPARENT);
+		Circle circle = new Circle();
+		circle.setCenterX(100);
+		circle.setCenterY(100);
+		circle.setRadius(125);
+		circle.setStroke(Color.valueOf("#ff00ff"));
+		circle.setStrokeWidth(5);
+		circle.setFill(Color.TRANSPARENT);
 
-	// 	Rectangle rectangle = new Rectangle();
-	// 	rectangle.setX(200);
-	// 	rectangle.setY(200);
-	// 	rectangle.setWidth(300);
-	// 	rectangle.setHeight(400);
-	// 	rectangle.setStroke(Color.TRANSPARENT);
-	// 	rectangle.setFill(Color.valueOf("#00ffff"));
+		Rectangle rectangle = new Rectangle();
+		rectangle.setX(200);
+		rectangle.setY(200);
+		rectangle.setWidth(300);
+		rectangle.setHeight(400);
+		rectangle.setStroke(Color.TRANSPARENT);
+		rectangle.setFill(Color.valueOf("#00ffff"));
 
-	// 	pane.getChildren().add(circle);
-	// 	pane.getChildren().add(rectangle);
-
-	// 	return new Scene(pane, width, height);
-	// }
+		pane.getChildren().add(circle);
+		pane.getChildren().add(rectangle);
+		return new Scene(pane, width, height);
+	}
 
 	/*
 	 * Choose the scene to load depending on the scene mode.
 	 */
-	// public Scene getScene() {
-	// 	System.out.println(sceneMode);
-	// 	if (sceneMode == 0) {
-	// 		return buildMenu();
-	// 	// } else if (sceneMode == 1) {
-	// 	// 	Scene scene = mainScene();
-	// 	// } else if (sceneMode == 2) {
-	// 	} else {
-	// 		return testScene();
-	// 	}
-	// }
+	public Scene getScene() {
+		System.out.println(sceneMode);
+		if (sceneMode == 0) {
+			return buildMenu();
+		// } else if (sceneMode == 1) {
+		} else {
+			return testScene();
+		}
+	}
 
 	/*
 	 * Main function to launch the game.
 	 */
 	public static void main(String[] args) {
 		// Integer playerNumber = Integer.valueOf(args[0]);
-		System.out.println(args[0]);
+		// System.out.println(args[0]);
 		Application.launch(args);
 	}
 
 	/*
 	 * Load the images.
 	 */
-	public void loadImages() {
-		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
-		// Image image = new Image(input);
-		// ImageView imageView = new ImageView(image);
-	}
+	// public void loadImages() {
+	// 	FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
+	// 	Image image = new Image(input);
+	// 	ImageView imageView = new ImageView(image);
+	// }
 
 	/*
 	 * Build the deck of cards.
