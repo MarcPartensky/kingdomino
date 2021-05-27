@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.FlowPane;
+// import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.SplitPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
@@ -19,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 // import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.geometry.Pos;
 
 import domination.Domination;
 import domination.Card;
@@ -109,6 +113,7 @@ public class Main extends Application {
 
 		stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
 		stage.show();
+		this.stage = stage;
 	}
 
 	/*
@@ -120,50 +125,45 @@ public class Main extends Application {
 		Button buttonThreePlayers = new Button("3 Players");
 		Button buttonFourPlayers = new Button("4 Players");
 
-		buttonTwoPlayers.setOnAction(actionEvent ->  {
-			playerNumber = 2;
-			System.out.println("2 players");
-			loadTheGame();
-		});
+		buttonTwoPlayers.setOnAction((actionEvent) ->  loadGame(2));
+		buttonThreePlayers.setOnAction((actionEvent) ->  loadGame(3));
+		buttonFourPlayers.setOnAction((actionEvent) ->  loadGame(4));
 
-		buttonThreePlayers.setOnAction(actionEvent ->  {
-			playerNumber = 3;
-			System.out.println("3 players");
-			loadTheGame();
-		});
+		// buttonTwoPlayers.setMaxWidth(Double.MAX_VALUE);
+		// buttonThreePlayers.setMaxWidth(Double.MAX_VALUE);
+		// buttonFourPlayers.setMaxWidth(Double.MAX_VALUE);
 
-		buttonFourPlayers.setOnAction(actionEvent ->  {
-			playerNumber = 4;
-			System.out.println("4 players");
-			loadTheGame();
-		});
+		VBox vbox = new VBox(buttonTwoPlayers, buttonThreePlayers, buttonFourPlayers);
+		vbox.setSpacing(5);
+		vbox.setFillWidth(true);
+		vbox.setAlignment(Pos.CENTER);
 
-		FlowPane flowpane = new FlowPane();
-		flowpane.getChildren().add(label);
-		flowpane.getChildren().add(buttonTwoPlayers);
-		flowpane.getChildren().add(buttonThreePlayers);
-		flowpane.getChildren().add(buttonFourPlayers);
+		// SplitPane pane = new SplitPane();
+		// pane.getChildren().add(label);
+		// pane.getChildren().add(buttonTwoPlayers);
+		// pane.getChildren().add(buttonThreePlayers);
+		// pane.getChildren().add(buttonFourPlayers);
 
-		return new Scene(flowpane, width, height);
+		return new Scene(vbox, width, height);
 	}
 
 	/*
 	 * Build the game object.
 	 */
-	public void loadTheGame() {
+	public void loadGame(int playerNumber) {
 		Label label = new Label("Menu");
-		Deck deck = buildDeck();
+		// Deck deck = buildDeck();
 		// ArrayList<Player> players = new ArrayList<Player>();
 		// players.add(new Player());
 		// players.add(new Player());
-		loadImages();
+		// loadImages();
 
 		// The game in itself does not posesses the images.
 		// Deck deck = buildDeck();
 		// game = Domination.build(playerNumber, deck);
-		FlowPane flowpane = new FlowPane();
-		flowpane.getChildren().add(label);
-		Scene scene = new Scene(flowpane, width, height);
+		Pane pane = new Pane();
+		pane.getChildren().add(label);
+		Scene scene = new Scene(pane, width, height);
 		stage.setScene(scene);
 	}
 
@@ -188,11 +188,11 @@ public class Main extends Application {
 	/*
 	 * Load the csv.
 	 */
-	public void loadCsv() {
+	// public void loadCsv() {
 		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
 		// Image image = new Image(input);
 		// ImageView imageView = new ImageView(image);
-	}
+	// }
 
 	/*
 	 * Build the deck of cards.
