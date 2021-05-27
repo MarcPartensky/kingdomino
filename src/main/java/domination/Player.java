@@ -1,20 +1,30 @@
 package domination;
 
+import domination.Board;
+
 /*
  * Main player class.
  */
 public class Player {
+	protected Board board;
 
 	/*
 	 * Build a player with default arguments.
 	 */
-	static public Player build() {
-		return new Player();
+	public static Player build() {
+		Board board = new Board();
+		return new Player(board);
 	}
 
 	/*
 	 * Initialize a player.
 	 */
-	public Player() {
+	public Player(Board board) {
+		this.board = board;
 	}
+
+	public Board getBoard() {
+		return board;
+	}
+
 }
