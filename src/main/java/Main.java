@@ -12,8 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 // import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.control.SplitPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
@@ -41,6 +47,7 @@ public class Main extends Application {
 	protected String csvPath = "../../../assets/dominos.csv";
 	final int cardsNumber = 48;
 	protected Image[] images = new Image[cardsNumber];
+	protected String backgroundImagePath = "assets/img/deco/fond.png";
 	protected int sceneMode = 0;
 	protected int playerNumber = 2;
 	protected Domination game;
@@ -119,8 +126,15 @@ public class Main extends Application {
 	/*
 	 * Menu scene, first scene of the game.
 	 */
-	public Scene buildMenu() {
+	public Scene buildMenu() throws Exception {
 		Label label = new Label("Menu");
+
+		FileInputStream backgroundImageStream = new FileInputStream(backgroundImagePath);
+		BackgroundImage backgroundImage = new BackgroundImage(new Image(backgroundImageStream, width, height, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
+
+
 		Button buttonTwoPlayers = new Button("2 Players");
 		Button buttonThreePlayers = new Button("3 Players");
 		Button buttonFourPlayers = new Button("4 Players");
@@ -134,6 +148,7 @@ public class Main extends Application {
 		// buttonFourPlayers.setMaxWidth(Double.MAX_VALUE);
 
 		VBox vbox = new VBox(buttonTwoPlayers, buttonThreePlayers, buttonFourPlayers);
+		vbox.setBackground(new Background(backgroundImage));
 		vbox.setSpacing(5);
 		vbox.setFillWidth(true);
 		vbox.setAlignment(Pos.CENTER);
@@ -161,8 +176,27 @@ public class Main extends Application {
 		// The game in itself does not posesses the images.
 		// Deck deck = buildDeck();
 		// game = Domination.build(playerNumber, deck);
-		Pane pane = new Pane();
-		pane.getChildren().add(label);
+
+		Button button1 = new Button("Button 1");
+		Button button2 = new Button("Button 2");
+		Button button3 = new Button("Button 3");
+		Button button4 = new Button("Button 4");
+		Button button5 = new Button("Button 5");
+		Button button6 = new Button("Button 6");
+
+		GridPane pane = new GridPane();
+		// pane.setSpacing(5);
+		// pane.setFillWidth(true);
+		// pane.setAlignment(Pos.CENTER);
+
+		pane.add(button1, 0, 0, 1, 1);
+		pane.add(button2, 1, 0, 1, 1);
+		pane.add(button3, 2, 0, 1, 1);
+		pane.add(button4, 0, 1, 1, 1);
+		pane.add(button5, 1, 1, 1, 1);
+		pane.add(button6, 2, 1, 1, 1);
+
+		// pane.getChildren().add(label);
 		Scene scene = new Scene(pane, width, height);
 		stage.setScene(scene);
 	}
