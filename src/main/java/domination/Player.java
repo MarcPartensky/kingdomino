@@ -6,7 +6,7 @@ import domination.Board;
  * Main player class.
  */
 public class Player {
-	protected Board board;
+	public Board board;
 
 	/*
 	 * Build a player with default arguments.

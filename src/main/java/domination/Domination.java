@@ -9,9 +9,9 @@ import domination.Deck;
  * Main game class.
  */
 public class Domination {
-	protected boolean done = false;
-	protected ArrayList<Player> players;
+	public ArrayList<Player> players;
 	protected Deck deck;
+	protected boolean done = false;
 
 	/*
 	 * Build the game with default arguments.

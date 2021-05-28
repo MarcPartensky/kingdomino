@@ -1,9 +1,12 @@
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
+// import org.apache.commons.io.FileUtils;
 // import java.net.URL;
 
 import javafx.application.Application;
@@ -34,6 +37,7 @@ import domination.Domination;
 import domination.Card;
 import domination.Deck;
 import domination.Player;
+import domination.Board;
 
 /*
  * Main application of the game.
@@ -45,12 +49,16 @@ public class Main extends Application {
 	protected int height = 600;
 	protected Stage stage;
 	protected String csvPath = "../../../assets/dominos.csv";
-	final int cardsNumber = 48;
-	protected Image[] images = new Image[cardsNumber];
+	protected int cardsNumber = 48;
+	protected String monotilesPath = "assets/img/monotiles";
+	protected ArrayList<Image> monotiles = new ArrayList<Image>();
+	protected String tilesPath = "assets/img/tiles";
+	protected ArrayList<Image> tiles = new ArrayList<Image>();
 	protected String backgroundImagePath = "assets/img/deco/fond.png";
 	protected BackgroundImage backgroundImage;
 	protected int sceneMode = 0;
 	protected int playerNumber = 2;
+	protected int playerTurn = 0;
 	protected Domination game;
 	protected boolean skipMenu = true;
 
@@ -88,6 +96,7 @@ public class Main extends Application {
 			// 	System.out.println("b");
 			// 	break;
 			// }
+
 			default:  {
 				System.out.println("Unrecognized key");
 			}
@@ -198,14 +207,15 @@ public class Main extends Application {
 		// pane.setSpacing(10);
 
 
-		pane.add(button1, 0, 0, 1, 1);
-		pane.add(button2, 1, 0, 1, 1);
-		pane.add(button3, 2, 0, 1, 1);
-		pane.add(button4, 0, 1, 1, 1);
-		pane.add(button5, 1, 1, 1, 1);
-		pane.add(button6, 2, 1, 1, 1);
+		// pane.add(button1, 0, 0, 1, 1);
+		// pane.add(button2, 1, 0, 1, 1);
+		// pane.add(button3, 2, 0, 1, 1);
+		// pane.add(button4, 0, 1, 1, 1);
+		// pane.add(button5, 1, 1, 1, 1);
+		// pane.add(button6, 2, 1, 1, 1);
 
-		Scene scene = new Scene(pane, width, height);
+		// Scene scene = new Scene(pane, width, height);
+		Scene scene = buildBoardScene();
 		stage.setScene(scene);
 	}
 
@@ -216,13 +226,65 @@ public class Main extends Application {
 		Application.launch(args);
 	}
 
+	protected Scene buildBoardScene() {
+		GridPane pane = new GridPane();
+		pane.setHgap(10);
+		pane.setVgap(10);
+		// pane.setSpacing(5);
+		// pane.setFillWidth(true);
+		pane.setAlignment(Pos.CENTER);
+		pane.setBackground(new Background(backgroundImage));
+		Board board = game.players.get(playerTurn).board;
+		board.show(pane, tiles);
+		return new Scene(pane, width, height);
+	}
+
 	/*
 	 * Load the images.
 	 */
-	public void loadImages() {
+	public void loadImages() throws Exception {
+		// File monotilesDirectory = new File(monotilesPath);
+		// File[] monotilesFiles = monotilesDirectory.listFiles();
+		// File tilesDirectory = new File(tilesPath);
+		// File[] tilesFiles = monotilesDirectory.listFiles();
+
 		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
-		// Image image = new Image(input);
-		// ImageView imageView = new ImageView(image);
+		// Iterator monotilesIterator = FileUtils.iterateFiles(new File(monotilesPath), null, false);
+
+		// int i = 0;
+		// for (Iterator<String> monotileIterator = list.iterator(); monotileIterator.hasNext(); i++) {
+		// 		String monotilePath = monotilesIterator.next();
+		// 		System.out.println(i + ": " + monotilePath);
+		// 		monotiles.add(new Image(monotilePath));
+		// }
+
+		// i = 0;
+		// for (Iterator<String> tileIterator = list.iterator(); tileIterator.hasNext(); i++) {
+		// 		String tilePath = tilesIterator.next();
+		// 		System.out.println(i + ": " + tilePath);
+		// 		tiles.add(new Image(tilePath));
+		// }
+
+		File monotilesDirectory = new File(monotilesPath);
+		File[] monotilesFiles = monotilesDirectory.listFiles();
+
+		String path;
+		for (int i = 0; i < monotilesFiles.length; i++) {
+			path = monotilesPath + "/" + monotilesFiles[i].getName();
+			System.out.println(path);
+			FileInputStream monotileStream = new FileInputStream(path);
+			monotiles.add(new Image(monotileStream));
+		}
+
+		File tilesDirectory = new File(tilesPath);
+		File[] tilesFiles = tilesDirectory.listFiles();
+
+		for (int i = 0; i < tilesFiles.length; i++) {
+			path = tilesPath + "/" + tilesFiles[i].getName();
+			System.out.println(path);
+			FileInputStream tileStream = new FileInputStream(path);
+			tiles.add(new Image(tileStream));
+		}
 	}
 
 
@@ -240,11 +302,11 @@ public class Main extends Application {
 	/*
 	 * Load the csv.
 	 */
-	// public void loadCsv() {
+	public void loadCsv() {
 		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
 		// Image image = new Image(input);
 		// ImageView imageView = new ImageView(image);
-	// }
+	}
 
 	/*
 	 * Build the deck of cards.
