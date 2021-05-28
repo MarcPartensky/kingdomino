@@ -22,8 +22,7 @@ public class Board {
 	public Board() {
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				grid[x][y].n = 0;
-				grid[x][y].nKing = 0;
+				grid[x][y] = new Case();
 			}
 		}
 	}
