@@ -48,9 +48,11 @@ public class Main extends Application {
 	final int cardsNumber = 48;
 	protected Image[] images = new Image[cardsNumber];
 	protected String backgroundImagePath = "assets/img/deco/fond.png";
+	protected BackgroundImage backgroundImage;
 	protected int sceneMode = 0;
 	protected int playerNumber = 2;
 	protected Domination game;
+	protected boolean skipMenu = true;
 
 	// @Override
 	// protected void initSettings(GameSettings settings) {
@@ -99,10 +101,11 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		stage.setTitle(title);
 		stage.setFullScreen(fullscreen);
+		// stage.setResizable(true);
+		loadResources();
 
 		Scene scene = buildMenu();
 		stage.setScene(scene);
-		System.out.println("stage exists");
 
 		// scene.setCursor(Cursor.OPEN_HAND);
 		// stage.setOnCloseRequest(close);
@@ -121,27 +124,25 @@ public class Main extends Application {
 		stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
 		stage.show();
 		this.stage = stage;
+
+		if (skipMenu) {
+			loadGame(playerNumber);
+		}
 	}
 
 	/*
 	 * Menu scene, first scene of the game.
 	 */
-	public Scene buildMenu() throws Exception {
+	public Scene buildMenu() {
 		Label label = new Label("Menu");
-
-		FileInputStream backgroundImageStream = new FileInputStream(backgroundImagePath);
-		BackgroundImage backgroundImage = new BackgroundImage(new Image(backgroundImageStream, width, height, false, true),
-				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
-
 
 		Button buttonTwoPlayers = new Button("2 Players");
 		Button buttonThreePlayers = new Button("3 Players");
 		Button buttonFourPlayers = new Button("4 Players");
 
-		buttonTwoPlayers.setOnAction((actionEvent) ->  loadGame(2));
-		buttonThreePlayers.setOnAction((actionEvent) ->  loadGame(3));
-		buttonFourPlayers.setOnAction((actionEvent) ->  loadGame(4));
+		buttonTwoPlayers.setOnAction(actionEvent ->  loadGame(2));
+		buttonThreePlayers.setOnAction(actionEvent ->  loadGame(3));
+		buttonFourPlayers.setOnAction(actionEvent ->  loadGame(4));
 
 		// buttonTwoPlayers.setMaxWidth(Double.MAX_VALUE);
 		// buttonThreePlayers.setMaxWidth(Double.MAX_VALUE);
@@ -158,6 +159,7 @@ public class Main extends Application {
 		// pane.getChildren().add(buttonTwoPlayers);
 		// pane.getChildren().add(buttonThreePlayers);
 		// pane.getChildren().add(buttonFourPlayers);
+		// pane.getChildren().add(label);
 
 		return new Scene(vbox, width, height);
 	}
@@ -171,7 +173,6 @@ public class Main extends Application {
 		// ArrayList<Player> players = new ArrayList<Player>();
 		// players.add(new Player());
 		// players.add(new Player());
-		// loadImages();
 
 		// The game in itself does not posesses the images.
 		// Deck deck = buildDeck();
@@ -189,7 +190,13 @@ public class Main extends Application {
 		pane.setVgap(10);
 		// pane.setSpacing(5);
 		// pane.setFillWidth(true);
+		pane.setAlignment(Pos.CENTER);
+		pane.setBackground(new Background(backgroundImage));
+		// pane.setSpacing(5);
+		// pane.setFillWidth(true);
 		// pane.setAlignment(Pos.CENTER);
+		// pane.setSpacing(10);
+
 
 		pane.add(button1, 0, 0, 1, 1);
 		pane.add(button2, 1, 0, 1, 1);
@@ -198,7 +205,6 @@ public class Main extends Application {
 		pane.add(button5, 1, 1, 1, 1);
 		pane.add(button6, 2, 1, 1, 1);
 
-		// pane.getChildren().add(label);
 		Scene scene = new Scene(pane, width, height);
 		stage.setScene(scene);
 	}
@@ -207,8 +213,6 @@ public class Main extends Application {
 	 * Main function to launch the game.
 	 */
 	public static void main(String[] args) {
-		// Integer playerNumber = Integer.valueOf(args[0]);
-		// System.out.println(args[0]);
 		Application.launch(args);
 	}
 
@@ -219,6 +223,18 @@ public class Main extends Application {
 		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
 		// Image image = new Image(input);
 		// ImageView imageView = new ImageView(image);
+	}
+
+
+	/*
+	 * Load the resources of the game.
+	 */
+	public void loadResources() throws Exception {
+		loadImages();
+		FileInputStream backgroundImageStream = new FileInputStream(backgroundImagePath);
+		backgroundImage = new BackgroundImage(new Image(backgroundImageStream, width, height, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
 	}
 
 	/*
