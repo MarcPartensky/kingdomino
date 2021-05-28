@@ -184,23 +184,23 @@ public class Main extends Application {
 		// players.add(new Player());
 
 		// The game in itself does not posesses the images.
-		// Deck deck = buildDeck();
-		// game = Domination.build(playerNumber, deck);
+		Deck deck = buildDeck();
+		game = Domination.build(playerNumber, deck);
 
-		Button button1 = new Button("Button 1");
-		Button button2 = new Button("Button 2");
-		Button button3 = new Button("Button 3");
-		Button button4 = new Button("Button 4");
-		Button button5 = new Button("Button 5");
-		Button button6 = new Button("Button 6");
+		// Button button1 = new Button("Button 1");
+		// Button button2 = new Button("Button 2");
+		// Button button3 = new Button("Button 3");
+		// Button button4 = new Button("Button 4");
+		// Button button5 = new Button("Button 5");
+		// Button button6 = new Button("Button 6");
 
-		GridPane pane = new GridPane();
-		pane.setHgap(10);
-		pane.setVgap(10);
+		// GridPane pane = new GridPane();
+		// pane.setHgap(10);
+		// pane.setVgap(10);
 		// pane.setSpacing(5);
 		// pane.setFillWidth(true);
-		pane.setAlignment(Pos.CENTER);
-		pane.setBackground(new Background(backgroundImage));
+		// pane.setAlignment(Pos.CENTER);
+		// pane.setBackground(new Background(backgroundImage));
 		// pane.setSpacing(5);
 		// pane.setFillWidth(true);
 		// pane.setAlignment(Pos.CENTER);
@@ -243,28 +243,6 @@ public class Main extends Application {
 	 * Load the images.
 	 */
 	public void loadImages() throws Exception {
-		// File monotilesDirectory = new File(monotilesPath);
-		// File[] monotilesFiles = monotilesDirectory.listFiles();
-		// File tilesDirectory = new File(tilesPath);
-		// File[] tilesFiles = monotilesDirectory.listFiles();
-
-		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
-		// Iterator monotilesIterator = FileUtils.iterateFiles(new File(monotilesPath), null, false);
-
-		// int i = 0;
-		// for (Iterator<String> monotileIterator = list.iterator(); monotileIterator.hasNext(); i++) {
-		// 		String monotilePath = monotilesIterator.next();
-		// 		System.out.println(i + ": " + monotilePath);
-		// 		monotiles.add(new Image(monotilePath));
-		// }
-
-		// i = 0;
-		// for (Iterator<String> tileIterator = list.iterator(); tileIterator.hasNext(); i++) {
-		// 		String tilePath = tilesIterator.next();
-		// 		System.out.println(i + ": " + tilePath);
-		// 		tiles.add(new Image(tilePath));
-		// }
-
 		File monotilesDirectory = new File(monotilesPath);
 		File[] monotilesFiles = monotilesDirectory.listFiles();
 
