@@ -185,6 +185,8 @@ public class Main extends Application {
 		Button button6 = new Button("Button 6");
 
 		GridPane pane = new GridPane();
+		pane.setHgap(10);
+		pane.setVgap(10);
 		// pane.setSpacing(5);
 		// pane.setFillWidth(true);
 		// pane.setAlignment(Pos.CENTER);
