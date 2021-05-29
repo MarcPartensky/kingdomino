@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.scene.layout.CornerRadii;
 // import org.apache.commons.io.FileUtils;
 // import java.net.URL;
 
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 // import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -23,6 +25,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.control.SplitPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
@@ -32,6 +35,7 @@ import javafx.stage.Stage;
 // import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 
 import domination.Domination;
 import domination.Card;
@@ -187,13 +191,6 @@ public class Main extends Application {
 		Deck deck = buildDeck();
 		game = Domination.build(playerNumber, deck);
 
-		// Button button1 = new Button("Button 1");
-		// Button button2 = new Button("Button 2");
-		// Button button3 = new Button("Button 3");
-		// Button button4 = new Button("Button 4");
-		// Button button5 = new Button("Button 5");
-		// Button button6 = new Button("Button 6");
-
 		// GridPane pane = new GridPane();
 		// pane.setHgap(10);
 		// pane.setVgap(10);
@@ -205,7 +202,6 @@ public class Main extends Application {
 		// pane.setFillWidth(true);
 		// pane.setAlignment(Pos.CENTER);
 		// pane.setSpacing(10);
-
 
 		// pane.add(button1, 0, 0, 1, 1);
 		// pane.add(button2, 1, 0, 1, 1);
@@ -227,15 +223,18 @@ public class Main extends Application {
 	}
 
 	protected Scene buildBoardScene() {
-		GridPane pane = new GridPane();
-		pane.setHgap(10);
-		pane.setVgap(10);
-		// pane.setSpacing(5);
-		// pane.setFillWidth(true);
-		pane.setAlignment(Pos.CENTER);
+		StackPane  pane = new StackPane();
 		pane.setBackground(new Background(backgroundImage));
+		// pane.setFillWidth(true);
+		GridPane gridPane = new GridPane();
+		// pane.getChildren().add(new Label("Pane"));
+		pane.getChildren().add(gridPane);
+		gridPane.setHgap(10);
+		gridPane.setVgap(10);
+		gridPane.setAlignment(Pos.CENTER);
+		gridPane.setBackground(new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY)));
 		Board board = game.players.get(playerTurn).board;
-		board.show(pane, tiles);
+		board.show(gridPane, tiles);
 		return new Scene(pane, width, height);
 	}
 
