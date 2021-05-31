@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.util.stream.DoubleStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.ColumnConstraints;
 // import org.apache.commons.io.FileUtils;
 // import java.net.URL;
 
@@ -16,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 // import javafx.scene.layout.FlowPane;
@@ -53,7 +58,7 @@ public class Main extends Application {
 	protected int height = 600;
 	protected Stage stage;
 	protected String csvPath = "../../../assets/dominos.csv";
-	protected int cardsNumber = 48;
+	protected int dominosNumber = 48;
 	protected String monotilesPath = "assets/img/monotiles";
 	protected ArrayList<Image> monotiles = new ArrayList<Image>();
 	protected String tilesPath = "assets/img/tiles";
@@ -65,6 +70,14 @@ public class Main extends Application {
 	protected int playerTurn = 0;
 	protected Domination game;
 	protected boolean skipMenu = true;
+
+	/*
+	 * Main function to launch the game.
+	 */
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
+
 
 	// @Override
 	// protected void initSettings(GameSettings settings) {
@@ -117,7 +130,11 @@ public class Main extends Application {
 		// stage.setResizable(true);
 		loadResources();
 
+		dominosNumber = playerNumber * (48/4);
+
 		Scene scene = buildMenu();
+		// stage.centerOnScreen();
+		// stage.setResizable(false);
 		stage.setScene(scene);
 
 		// scene.setCursor(Cursor.OPEN_HAND);
@@ -182,7 +199,6 @@ public class Main extends Application {
 	 */
 	public void loadGame(int playerNumber) {
 		Label label = new Label("Menu");
-		// Deck deck = buildDeck();
 		// ArrayList<Player> players = new ArrayList<Player>();
 		// players.add(new Player());
 		// players.add(new Player());
@@ -213,29 +229,68 @@ public class Main extends Application {
 		// Scene scene = new Scene(pane, width, height);
 		Scene scene = buildBoardScene();
 		stage.setScene(scene);
-	}
-
-	/*
-	 * Main function to launch the game.
-	 */
-	public static void main(String[] args) {
-		Application.launch(args);
+		// stage.show();
 	}
 
 	protected Scene buildBoardScene() {
-		StackPane  pane = new StackPane();
-		pane.setBackground(new Background(backgroundImage));
+		// AnchorPane root = new AnchorPane();
+		// VBox root = new VBox();
+		// Pane root = new Pane();
+		StackPane root = new StackPane();
+		// root.setMinSize(500, 500);
+		// root.setFillWidth(true);
+		// pane.setSpacing(20);
+		root.setBackground(new Background(backgroundImage));
 		// pane.setFillWidth(true);
 		GridPane gridPane = new GridPane();
+		gridPane.setBackground(new Background(
+					new BackgroundFill(Color.web("#964B00"), CornerRadii.EMPTY, new Insets(10))));
+		gridPane.getColumnConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
+				.mapToObj(width -> {
+						ColumnConstraints constraints = new ColumnConstraints();
+						System.out.println(width);
+						constraints.setPercentWidth(width);
+						constraints.setFillWidth(true);
+						return constraints;
+				}).toArray(ColumnConstraints[]::new));
+		gridPane.getRowConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
+				.mapToObj(height -> {
+						RowConstraints constraints = new RowConstraints();
+						constraints.setPercentHeight(height);
+						constraints.setFillHeight(true);
+						return constraints;
+				}).toArray(RowConstraints[]::new));
+		RowConstraints rowConstraints = new RowConstraints();
+		ColumnConstraints columnConstraints = new ColumnConstraints();
+		rowConstraints.setVgrow(Priority.ALWAYS);
+		columnConstraints.setHgrow(Priority.ALWAYS);
+		gridPane.getRowConstraints().add(rowConstraints);
+		gridPane.getColumnConstraints().add(columnConstraints);
 		// pane.getChildren().add(new Label("Pane"));
-		pane.getChildren().add(gridPane);
-		gridPane.setHgap(10);
-		gridPane.setVgap(10);
+		root.getChildren().add(gridPane);
+		// AnchorPane.setLeftAnchor(gridPane, 0.0);
+		// AnchorPane.setRightAnchor(gridPane, 0.0);
+		// gridPane.setHgrow(Priority.ALWAYS);
+		// root.setFillWidth(true);
+		// gridPane.setHgap(10);
+		// gridPane.setVgap(10);
+		// gridPane.setAlignment(Pos.CENTER);
 		gridPane.setAlignment(Pos.CENTER);
-		gridPane.setBackground(new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY)));
+		gridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		gridPane.setGridLinesVisible(true);
+		// gridPane.setMinSize(150.0, Control.USE_PREF_SIZE);
+		// gridPane.setMaxSize(150.0, Control.USE_PREF_SIZE);
+		// pane.setPadding(new Insets(15));
 		Board board = game.players.get(playerTurn).board;
+		// gridPane.setFitHeight(100);
+		// gridPane.setFitWidth(100);
+		// gridPane.setPreserveRatio(true);
+		// gridPane.setFillWidth(true);
+		// GridPane.setConstraints(gridPane, 8, 8);
+		// gridPane.setHgrow(Priority.ALWAYS);
+		gridPane.prefWidthProperty().bind(root.widthProperty());
 		board.show(gridPane, tiles);
-		return new Scene(pane, width, height);
+		return new Scene(root, width, height);
 	}
 
 	/*
@@ -295,14 +350,22 @@ public class Main extends Application {
 			String row;
 			while ((row = csvReader.readLine()) != null) {
 				String[] data = row.split(",");
-				System.out.println(data);
-				// cards.add(new Card());
+				cards.add(new Card(
+							Integer.parseInt(data[0]),
+							Integer.parseInt(data[1]),
+							Integer.parseInt(data[2]),
+							Integer.parseInt(data[3]),
+							Integer.parseInt(data[4]),
+							));
 			}
 			csvReader.close();
 		} catch (IOException e) {
 			System.out.println("Csv path not found.");
 			System.out.println(e.getClass());
 		}
-		return new Deck(cards);
+		Deck deck = new Deck();
+		deck.shuffle();
+		deck.truncate(carsdNumber);
+		return deck;
 	}
 }
