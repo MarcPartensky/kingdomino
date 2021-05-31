@@ -15,7 +15,7 @@ public class Deck {
 	/*
 	 * Initialize the deck.
 	 */
-	public Deck(ArrayList<domino> dominos) {
+	public Deck(ArrayList<Domino> dominos) {
 		this.dominos = dominos;
 	}
 
@@ -30,7 +30,7 @@ public class Deck {
 	 * Trancate the deck.
 	 */
 	public void truncate(int n) {
-		dominos = dominos.subList(0, n);
+		dominos = new ArrayList<String>(dominos.subList(0, n));
 	}
 }
 

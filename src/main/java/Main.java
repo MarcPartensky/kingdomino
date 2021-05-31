@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.stream.DoubleStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
+import java.util.HashSet;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -43,7 +45,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
 import domination.Domination;
-import domination.Card;
+import domination.Domino;
 import domination.Deck;
 import domination.Player;
 import domination.Board;
@@ -94,12 +96,12 @@ public class Main extends Application {
 
 		switch(event.getCode().getCode()) {
 			case 27 : { // ESC key
-				stage.close();
-				break;
+									stage.close();
+									break;
 			}
 			case 81 : { // q key
-				stage.close();
-				break;
+									stage.close();
+									break;
 			}
 			// case 65 : { // a
 			// 	Scene scene = buildMenu();
@@ -115,7 +117,7 @@ public class Main extends Application {
 			// }
 
 			default:  {
-				System.out.println("Unrecognized key");
+									System.out.println("Unrecognized key");
 			}
 		}
 	}
@@ -247,18 +249,18 @@ public class Main extends Application {
 					new BackgroundFill(Color.web("#964B00"), CornerRadii.EMPTY, new Insets(10))));
 		gridPane.getColumnConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
 				.mapToObj(width -> {
-						ColumnConstraints constraints = new ColumnConstraints();
-						System.out.println(width);
-						constraints.setPercentWidth(width);
-						constraints.setFillWidth(true);
-						return constraints;
+					ColumnConstraints constraints = new ColumnConstraints();
+					System.out.println(width);
+					constraints.setPercentWidth(width);
+					constraints.setFillWidth(true);
+					return constraints;
 				}).toArray(ColumnConstraints[]::new));
 		gridPane.getRowConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
 				.mapToObj(height -> {
-						RowConstraints constraints = new RowConstraints();
-						constraints.setPercentHeight(height);
-						constraints.setFillHeight(true);
-						return constraints;
+					RowConstraints constraints = new RowConstraints();
+					constraints.setPercentHeight(height);
+					constraints.setFillHeight(true);
+					return constraints;
 				}).toArray(RowConstraints[]::new));
 		RowConstraints rowConstraints = new RowConstraints();
 		ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -344,28 +346,49 @@ public class Main extends Application {
 	 * Build the deck of cards.
 	 */
 	protected Deck buildDeck() {
-		ArrayList<Card> cards = new ArrayList<Card>();
+		ArrayList<int[]> data = new ArrayList<int[]>();
+		ArrayList<Domino> dominos = new ArrayList<Domino>();
+		HashSet<String> dominosTypeHashset = new HashSet();
+
 		try {
 			BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
 			String row;
+			boolean first = true;
 			while ((row = csvReader.readLine()) != null) {
-				String[] data = row.split(",");
-				cards.add(new Card(
-							Integer.parseInt(data[0]),
-							Integer.parseInt(data[1]),
-							Integer.parseInt(data[2]),
-							Integer.parseInt(data[3]),
-							Integer.parseInt(data[4]),
-							));
+				if (first) { continue; }
+				String[] rowData = row.split(",");
+				int[] rowDataInt = new int[5];
+				for (int i=0; i<5; i++) {
+					rowDataInt[i] = Integer.parseInt(rowData[i]);
+				}
+				data.add(rowDataInt);
+				// gros forçage
+				dominosTypeHashset.add(rowData[1]);
+				dominosTypeHashset.add(rowData[3]);
 			}
 			csvReader.close();
 		} catch (IOException e) {
 			System.out.println("Csv path not found.");
 			System.out.println(e.getClass());
 		}
-		Deck deck = new Deck();
+
+		List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
+
+		for (int i=0; i<data.size(); i++) {
+			// System.out.print(data.get(i) + " ");
+			dominos.add(new Domino(
+						data.get(i)[4],
+						dominosTypeList.indexOf(data.get(i)[1]),
+						dominosTypeList.indexOf(data.get(i)[3]),
+						data.get(i)[0],
+						data.get(i)[2]
+					));
+		}
+
+		Deck deck = new Deck(dominos);
 		deck.shuffle();
-		deck.truncate(carsdNumber);
+		deck.truncate(dominosNumber);
+
 		return deck;
 	}
 }
