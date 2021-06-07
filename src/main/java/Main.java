@@ -56,22 +56,24 @@ import domination.Board;
 public class Main extends Application {
 	protected String title = "King Domino";
 	protected boolean fullscreen = false;
+	protected boolean skipMenu = true;
 	protected int width = 800;
 	protected int height = 600;
 	protected Stage stage;
-	protected String csvPath = "assets/dominos.csv";
 	protected final int dominosMaxNumber = 48;
 	protected int dominosNumber = 48;
-	protected String monotilesPath = "assets/img/monotiles";
-	protected ArrayList<Image> monotiles = new ArrayList<Image>();
-	protected String tilesPath = "assets/img/tiles";
-	protected ArrayList<Image> tiles = new ArrayList<Image>();
-	protected String backgroundImagePath = "assets/img/deco/fond.png";
-	protected BackgroundImage backgroundImage;
 	protected int sceneMode = 0;
 	protected int playerNumber = 2;
+	protected String csvPath = "assets/dominos.csv";
+	protected String tilesPath = "assets/img/tiles";
+	protected ArrayList<Image> tiles = new ArrayList<Image>();
+	protected String monotilesPath = "assets/img/monotiles";
+	protected ArrayList<Image> monotiles = new ArrayList<Image>();
+	// protected String emptyMonotilePath = "assets/img/empty.png";
+	// protected Image emptyMonotile;
+	protected String backgroundImagePath = "assets/img/deco/fond.png";
+	protected BackgroundImage backgroundImage;
 	protected Domination game;
-	protected boolean skipMenu = true;
 
 	/*
 	 * Main function to launch the game.
@@ -79,7 +81,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
-
 
 	// @Override
 	// protected void initSettings(GameSettings settings) {
@@ -186,6 +187,22 @@ public class Main extends Application {
 		//   }
 		// });
 
+	  // gridPane.heightProperty().addListener(new ChangeListener<Number>() {
+			// @Override public void changed(ObservableValue<? extends Number>
+				// observableValue, Number oldSceneHeight, Number newSceneHeight) {
+				// this.height = newSceneHeight;
+				// System.out.println("height: " + newSceneHeight);
+			// }
+    // });
+
+    // gridPane.widthProperty().addListener(new ChangeListener<Number>() {
+			// @Override public void changed(ObservableValue<? extends Number>
+				// observableValue, Number oldSceneWidth, Number newSceneWidth) {
+					// this.width = newSceneWidth;
+					// System.out.println("Width: " + newSceneWidth);
+        // }
+    // });
+
 		stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
 		stage.show();
 		this.stage = stage;
@@ -240,13 +257,11 @@ public class Main extends Application {
 
 		// The game in itself does not posesses the images.
 		Deck deck = buildDeck();
-		// Board board = Board.random();
 		game = Domination.build(playerNumber, deck);
 
 		// Scene scene = new Scene(pane, width, height);
 		Scene scene = buildBoardScene();
 		stage.setScene(scene);
-		// stage.show();
 	}
 
 	// GridPane pane = new GridPane();
@@ -316,16 +331,7 @@ public class Main extends Application {
 		// gridPane.setPreserveRatio(true);
 		// gridPane.setFillWidth(true);
 		// GridPane.setConstraints(gridPane, 8, 8);
-	  // gridPane.heightProperty().addListener(new ChangeListener<Number>() {
-		// @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-				// System.out.println("Height: " + newSceneHeight);
-		// }
-    // });
-    // gridPane.widthProperty().addListener(new ChangeListener<Number>() {
-        // @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-            // System.out.println("Width: " + newSceneWidth);
-        // }
-    // });	// gridPane.setHgrow(Priority.ALWAYS);
+		//gridPane.setHgrow(Priority.ALWAYS);
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		board.show(gridPane, monotiles, 100, 100);
 		return new Scene(root, width, height);
@@ -337,8 +343,7 @@ public class Main extends Application {
 	public Scene buildDeckScene() {
 		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
-		Scene scene = new Scene(root);
-		return scene;
+		return new Scene(root, width, height);
 	}
 
 	/*
