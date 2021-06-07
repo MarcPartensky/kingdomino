@@ -25,6 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.SplitPane;
 // import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Background;
@@ -33,7 +34,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.control.SplitPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
@@ -100,6 +100,12 @@ public class Main extends Application {
 				stage.close();
 				break;
 			}
+			case 70: { // f
+				System.out.println("Fullscreen mode");
+				fullscreen =! fullscreen;
+				stage.setFullScreen(fullscreen);
+				break;
+			}
 			case 80: { // p
 				System.out.println("Printing the board");
 				game.getBoard().print();
@@ -148,8 +154,6 @@ public class Main extends Application {
 		}
 		System.out.println("Key pressed: " + event.getCode().getCode());
 	}
-
-
 
 	/*
 	 * Start the game.
