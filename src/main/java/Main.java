@@ -115,7 +115,6 @@ public class Main extends Application {
 				System.out.println(game.getBoard().grid[0][0].n);
 				Scene scene = buildBoardScene();
 				stage.setScene(scene);
-				// stage.show();
 				break;
 			}
 			// case 65 : { // a
@@ -130,13 +129,14 @@ public class Main extends Application {
 			// 	System.out.println("b");
 			// 	break;
 			// }
-
 			default:  {
 				System.out.println("Unrecognized key");
 			}
 		}
 		System.out.println("Key pressed: " + event.getCode().getCode());
 	}
+
+
 
 	/*
 	 * Start the game.
@@ -244,14 +244,6 @@ public class Main extends Application {
 	// pane.setAlignment(Pos.CENTER);
 	// pane.setSpacing(10);
 
-	// pane.add(button1, 0, 0, 1, 1);
-	// pane.add(button2, 1, 0, 1, 1);
-	// pane.add(button3, 2, 0, 1, 1);
-	// pane.add(button4, 0, 1, 1, 1);
-	// pane.add(button5, 1, 1, 1, 1);
-	// pane.add(button6, 2, 1, 1, 1);
-
-
 	protected Scene buildBoardScene() {
 		// AnchorPane root = new AnchorPane();
 		// VBox root = new VBox();
@@ -307,10 +299,26 @@ public class Main extends Application {
 		// gridPane.setPreserveRatio(true);
 		// gridPane.setFillWidth(true);
 		// GridPane.setConstraints(gridPane, 8, 8);
-		// gridPane.setHgrow(Priority.ALWAYS);
+	  // gridPane.heightProperty().addListener(new ChangeListener<Number>() {
+		// @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+				// System.out.println("Height: " + newSceneHeight);
+		// }
+    // });
+    // gridPane.widthProperty().addListener(new ChangeListener<Number>() {
+        // @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+            // System.out.println("Width: " + newSceneWidth);
+        // }
+    // });	// gridPane.setHgrow(Priority.ALWAYS);
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		board.show(gridPane, monotiles, 100, 100);
 		return new Scene(root, width, height);
+	}
+
+	/*
+	 * Show the deck.
+	 */
+	public void buildDeckScene() {
+
 	}
 
 	/*
