@@ -60,6 +60,7 @@ public class Main extends Application {
 	protected int height = 600;
 	protected Stage stage;
 	protected String csvPath = "assets/dominos.csv";
+	protected final int dominosMaxNumber = 48;
 	protected int dominosNumber = 48;
 	protected String monotilesPath = "assets/img/monotiles";
 	protected ArrayList<Image> monotiles = new ArrayList<Image>();
@@ -94,41 +95,53 @@ public class Main extends Application {
 		System.out.println("---");
 
 		switch(event.getCode().getCode()) {
-			case 27 : { // ESC key
-				System.out.println("Closing the stage.");
+			case 27 : { // ESC
+				System.out.println("Closing the stage");
 				stage.close();
 				break;
 			}
-			case 80: {
-				System.out.println("Printing the board.");
+			case 80: { // p
+				System.out.println("Printing the board");
 				game.getBoard().print();
 				break;
 			}
-			case 81 : { // q key
-				System.out.println("Closing the stage.");
+			case 81: { // q
+				System.out.println("Closing the stage");
 				stage.close();
 				break;
 			}
-			case 82: {
-				System.out.println("Randomizing the board.");
-				game.getBoard().randomize(dominosNumber);
-				System.out.println(game.getBoard().grid[0][0].n);
+			case 82: { // 3
+				System.out.println("Reset the game");
+				// game.reset();
 				Scene scene = buildBoardScene();
 				stage.setScene(scene);
 				break;
 			}
-			// case 65 : { // a
-			// 	Scene scene = buildMenu();
-			// 	stage.setScene(scene);
-			// 	System.out.println("a");
-			// 	break;
-			// }
-			// case 66 : { // b
-			// 	Scene scene = testScene();
-			// 	stage.setScene(scene);
-			// 	System.out.println("b");
-			// 	break;
-			// }
+			case 83: { // s
+				System.out.println("Shuffle the board");
+				game.getBoard().randomize(dominosNumber);
+				Scene scene = buildBoardScene();
+				stage.setScene(scene);
+				break;
+			}
+			case 49: { // 1
+				System.out.println("Show the menu");
+				Scene scene = buildMenu();
+				stage.setScene(scene);
+				break;
+			}
+			case 50: { // 2
+				System.out.println("Show the board");
+				Scene scene = buildBoardScene();
+				stage.setScene(scene);
+				break;
+			}
+			case 51: { // 3
+				System.out.println("Show the deck");
+				Scene scene = buildDeckScene();
+				stage.setScene(scene);
+				break;
+			}
 			default:  {
 				System.out.println("Unrecognized key");
 			}
@@ -148,7 +161,7 @@ public class Main extends Application {
 		// stage.setResizable(true);
 		loadResources();
 
-		dominosNumber = playerNumber * (48/4);
+		dominosNumber = playerNumber * (dominosMaxNumber/4);
 
 		Scene scene = buildMenu();
 		// stage.centerOnScreen();
@@ -248,10 +261,10 @@ public class Main extends Application {
 		// AnchorPane root = new AnchorPane();
 		// VBox root = new VBox();
 		// Pane root = new Pane();
-		StackPane root = new StackPane();
 		// root.setMinSize(500, 500);
 		// root.setFillWidth(true);
 		// pane.setSpacing(20);
+		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
 		// pane.setFillWidth(true);
 		GridPane gridPane = new GridPane();
@@ -317,8 +330,11 @@ public class Main extends Application {
 	/*
 	 * Show the deck.
 	 */
-	public void buildDeckScene() {
-
+	public Scene buildDeckScene() {
+		StackPane root = new StackPane();
+		root.setBackground(new Background(backgroundImage));
+		Scene scene = new Scene(root);
+		return scene;
 	}
 
 	/*
@@ -363,6 +379,7 @@ public class Main extends Application {
 	 * Build the deck of cards.
 	 */
 	protected Deck buildDeck() {
+		// Do not even try to understand.
 		ArrayList<int[]> data = new ArrayList<int[]>();
 		ArrayList<Domino> dominos = new ArrayList<Domino>();
 		HashSet<String> dominosTypeHashset = new HashSet();
@@ -379,7 +396,6 @@ public class Main extends Application {
 					rowDataInt[i] = Integer.parseInt(rowData[i]);
 				}
 				data.add(rowDataInt);
-				// gros forçage
 				dominosTypeHashset.add(rowData[1]);
 				dominosTypeHashset.add(rowData[3]);
 			}
@@ -390,7 +406,6 @@ public class Main extends Application {
 		}
 
 		List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
-
 		for (int i=0; i<data.size(); i++) {
 			// System.out.print(data.get(i) + " ");
 			dominos.add(new Domino(

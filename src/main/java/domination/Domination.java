@@ -34,7 +34,9 @@ public class Domination {
 		this.deck = deck;
 	}
 
-	// Get the board at the set turn.
+	/*
+	 * Get the board at the set turn.
+	 */
 	public Board getBoard() {
 		return players.get(turn).board;
 	}

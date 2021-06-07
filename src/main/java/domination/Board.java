@@ -76,8 +76,7 @@ public class Board {
 				subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 				System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
 				if (c.n == 0) {
-					Rectangle rect = new Rectangle(100, 100);
-					// rect.setFill(Color.TRANSPARENT);
+					Rectangle rect = new Rectangle(caseWidth, caseHeight);
 					rect.setFill(Color.WHITE);
 					rect.setStroke(Color.BLACK);
 					// rect.setFitWidth(100);
