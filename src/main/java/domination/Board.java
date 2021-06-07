@@ -23,6 +23,18 @@ public class Board {
 	static int height = 5;
 	public Case[][] grid = new Case[width][height];
 
+	static public String padLeftZeros(String inputString, int length) {
+    if (inputString.length() >= length) {
+        return inputString;
+    }
+    StringBuilder sb = new StringBuilder();
+    while (sb.length() < length - inputString.length()) {
+        sb.append(' ');
+    }
+    sb.append(inputString);
+    return sb.toString();
+	}
+
 	/*
 	 * Build a random board.
 	 */
@@ -50,7 +62,7 @@ public class Board {
 	/*
 	 * Show the board given on the given pane with the given images.
 	 */
-	public void show(GridPane pane, ArrayList<Image> images) {
+	public void show(GridPane pane, ArrayList<Image> images, int caseWidth, int caseHeight) {
 		Case c;
 		// Label label = new Label("Board");
 		// pane.getChildren().add(label);
@@ -64,10 +76,10 @@ public class Board {
 				subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 				System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
 				if (c.n == 0) {
-					Rectangle rect = new Rectangle();
+					Rectangle rect = new Rectangle(100, 100);
 					// rect.setFill(Color.TRANSPARENT);
 					rect.setFill(Color.WHITE);
-					rect.setStroke(Color.WHITE);
+					rect.setStroke(Color.BLACK);
 					// rect.setFitWidth(100);
 					// rect.setFitHeight(100);
 					// rect.setPreserveRatio(true);
@@ -78,8 +90,8 @@ public class Board {
 					// subpane.getChildren().add(new ImageView(images.get(c.n)));
 					// pane.add(subpane, x, y);
 					ImageView view = new ImageView(images.get(c.n));
-					view.setFitWidth(100);
-					view.setFitHeight(100);
+					view.setFitWidth(caseWidth);
+					view.setFitHeight(caseHeight);
 					subpane.getChildren().add(view);
 				}
 				// pane.getChildren().add(subpane, x, y);
@@ -92,19 +104,6 @@ public class Board {
 				// pane.add(button, x, y);
 			}
 		}
-	}
-
-	static public String padLeftZeros(String inputString, int length) {
-    if (inputString.length() >= length) {
-        return inputString;
-    }
-    StringBuilder sb = new StringBuilder();
-    while (sb.length() < length - inputString.length()) {
-        sb.append(' ');
-    }
-    sb.append(inputString);
-
-    return sb.toString();
 	}
 
 	/*

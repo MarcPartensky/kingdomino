@@ -309,7 +309,7 @@ public class Main extends Application {
 		// GridPane.setConstraints(gridPane, 8, 8);
 		// gridPane.setHgrow(Priority.ALWAYS);
 		gridPane.prefWidthProperty().bind(root.widthProperty());
-		board.show(gridPane, monotiles);
+		board.show(gridPane, monotiles, 100, 100);
 		return new Scene(root, width, height);
 	}
 
