@@ -3,6 +3,7 @@ package domination;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import domination.Player;
+import domination.Board;
 import domination.Deck;
 
 /*
@@ -12,6 +13,7 @@ public class Domination {
 	public ArrayList<Player> players;
 	protected Deck deck;
 	protected boolean done = false;
+	protected int turn = 0;
 
 	/*
 	 * Build the game with default arguments.
@@ -30,5 +32,10 @@ public class Domination {
 	public Domination(ArrayList<Player> players, Deck deck) {
 		this.players = players;
 		this.deck = deck;
+	}
+
+	// Get the board at the set turn.
+	public Board getBoard() {
+		return players.get(turn).board;
 	}
 }

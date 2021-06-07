@@ -31,11 +31,9 @@ public class Deck {
 	 */
 	public void truncate(int n) {
 		n = dominos.size() - n;
-		System.out.println(n);
 		for (int i=0; i<n; i++) {
 			dominos.remove(dominos.size()-1);
 		}
-		System.out.println("failed");
 	}
 }
 

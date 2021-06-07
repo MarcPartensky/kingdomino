@@ -69,7 +69,6 @@ public class Main extends Application {
 	protected BackgroundImage backgroundImage;
 	protected int sceneMode = 0;
 	protected int playerNumber = 2;
-	protected int playerTurn = 0;
 	protected Domination game;
 	protected boolean skipMenu = true;
 
@@ -92,16 +91,32 @@ public class Main extends Application {
 	 * Deal with events.
 	 */
 	public void eventHandlerKeyPressed(KeyEvent event, Stage stage) {
-		System.out.println("Key pressed: " + event.toString());
+		System.out.println("---");
 
 		switch(event.getCode().getCode()) {
 			case 27 : { // ESC key
-									stage.close();
-									break;
+				System.out.println("Closing the stage.");
+				stage.close();
+				break;
+			}
+			case 80: {
+				System.out.println("Printing the board.");
+				game.getBoard().print();
+				break;
 			}
 			case 81 : { // q key
-									stage.close();
-									break;
+				System.out.println("Closing the stage.");
+				stage.close();
+				break;
+			}
+			case 82: {
+				System.out.println("Randomizing the board.");
+				game.getBoard().randomize(dominosNumber);
+				System.out.println(game.getBoard().grid[0][0].n);
+				Scene scene = buildBoardScene();
+				stage.setScene(scene);
+				// stage.show();
+				break;
 			}
 			// case 65 : { // a
 			// 	Scene scene = buildMenu();
@@ -117,9 +132,10 @@ public class Main extends Application {
 			// }
 
 			default:  {
-									System.out.println("Unrecognized key");
+				System.out.println("Unrecognized key");
 			}
 		}
+		System.out.println("Key pressed: " + event.getCode().getCode());
 	}
 
 	/*
@@ -207,32 +223,34 @@ public class Main extends Application {
 
 		// The game in itself does not posesses the images.
 		Deck deck = buildDeck();
+		// Board board = Board.random();
 		game = Domination.build(playerNumber, deck);
-
-		// GridPane pane = new GridPane();
-		// pane.setHgap(10);
-		// pane.setVgap(10);
-		// pane.setSpacing(5);
-		// pane.setFillWidth(true);
-		// pane.setAlignment(Pos.CENTER);
-		// pane.setBackground(new Background(backgroundImage));
-		// pane.setSpacing(5);
-		// pane.setFillWidth(true);
-		// pane.setAlignment(Pos.CENTER);
-		// pane.setSpacing(10);
-
-		// pane.add(button1, 0, 0, 1, 1);
-		// pane.add(button2, 1, 0, 1, 1);
-		// pane.add(button3, 2, 0, 1, 1);
-		// pane.add(button4, 0, 1, 1, 1);
-		// pane.add(button5, 1, 1, 1, 1);
-		// pane.add(button6, 2, 1, 1, 1);
 
 		// Scene scene = new Scene(pane, width, height);
 		Scene scene = buildBoardScene();
 		stage.setScene(scene);
 		// stage.show();
 	}
+
+	// GridPane pane = new GridPane();
+	// pane.setHgap(10);
+	// pane.setVgap(10);
+	// pane.setSpacing(5);
+	// pane.setFillWidth(true);
+	// pane.setAlignment(Pos.CENTER);
+	// pane.setBackground(new Background(backgroundImage));
+	// pane.setSpacing(5);
+	// pane.setFillWidth(true);
+	// pane.setAlignment(Pos.CENTER);
+	// pane.setSpacing(10);
+
+	// pane.add(button1, 0, 0, 1, 1);
+	// pane.add(button2, 1, 0, 1, 1);
+	// pane.add(button3, 2, 0, 1, 1);
+	// pane.add(button4, 0, 1, 1, 1);
+	// pane.add(button5, 1, 1, 1, 1);
+	// pane.add(button6, 2, 1, 1, 1);
+
 
 	protected Scene buildBoardScene() {
 		// AnchorPane root = new AnchorPane();
@@ -245,30 +263,30 @@ public class Main extends Application {
 		root.setBackground(new Background(backgroundImage));
 		// pane.setFillWidth(true);
 		GridPane gridPane = new GridPane();
-		gridPane.setBackground(new Background(
-					new BackgroundFill(Color.web("#964B00"), CornerRadii.EMPTY, new Insets(10))));
-		gridPane.getColumnConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
-				.mapToObj(width -> {
-					ColumnConstraints constraints = new ColumnConstraints();
-					System.out.println(width);
-					constraints.setPercentWidth(width);
-					constraints.setFillWidth(true);
-					return constraints;
-				}).toArray(ColumnConstraints[]::new));
-		gridPane.getRowConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
-				.mapToObj(height -> {
-					RowConstraints constraints = new RowConstraints();
-					constraints.setPercentHeight(height);
-					constraints.setFillHeight(true);
-					return constraints;
-				}).toArray(RowConstraints[]::new));
-		RowConstraints rowConstraints = new RowConstraints();
-		ColumnConstraints columnConstraints = new ColumnConstraints();
-		rowConstraints.setVgrow(Priority.ALWAYS);
-		columnConstraints.setHgrow(Priority.ALWAYS);
-		gridPane.getRowConstraints().add(rowConstraints);
-		gridPane.getColumnConstraints().add(columnConstraints);
-		// pane.getChildren().add(new Label("Pane"));
+		// gridPane.setBackground(new Background(
+		// 			new BackgroundFill(Color.web("#964B00"), CornerRadii.EMPTY, new Insets(10))));
+		// gridPane.getColumnConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
+		// 		.mapToObj(width -> {
+		// 			ColumnConstraints constraints = new ColumnConstraints();
+		// 			System.out.println(width);
+		// 			constraints.setPercentWidth(width);
+		// 			constraints.setFillWidth(true);
+		// 			return constraints;
+		// 		}).toArray(ColumnConstraints[]::new));
+		// gridPane.getRowConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
+		// 		.mapToObj(height -> {
+		// 			RowConstraints constraints = new RowConstraints();
+		// 			constraints.setPercentHeight(height);
+		// 			constraints.setFillHeight(true);
+		// 			return constraints;
+		// 		}).toArray(RowConstraints[]::new));
+		// RowConstraints rowConstraints = new RowConstraints();
+		// ColumnConstraints columnConstraints = new ColumnConstraints();
+		// rowConstraints.setVgrow(Priority.ALWAYS);
+		// columnConstraints.setHgrow(Priority.ALWAYS);
+		// gridPane.getRowConstraints().add(rowConstraints);
+		// gridPane.getColumnConstraints().add(columnConstraints);
+		// // pane.getChildren().add(new Label("Pane"));
 		root.getChildren().add(gridPane);
 		// AnchorPane.setLeftAnchor(gridPane, 0.0);
 		// AnchorPane.setRightAnchor(gridPane, 0.0);
@@ -283,7 +301,7 @@ public class Main extends Application {
 		// gridPane.setMinSize(150.0, Control.USE_PREF_SIZE);
 		// gridPane.setMaxSize(150.0, Control.USE_PREF_SIZE);
 		// pane.setPadding(new Insets(15));
-		Board board = game.players.get(playerTurn).board;
+		Board board = game.getBoard();
 		// gridPane.setFitHeight(100);
 		// gridPane.setFitWidth(100);
 		// gridPane.setPreserveRatio(true);
@@ -291,7 +309,7 @@ public class Main extends Application {
 		// GridPane.setConstraints(gridPane, 8, 8);
 		// gridPane.setHgrow(Priority.ALWAYS);
 		gridPane.prefWidthProperty().bind(root.widthProperty());
-		board.show(gridPane, tiles);
+		board.show(gridPane, monotiles);
 		return new Scene(root, width, height);
 	}
 
@@ -331,15 +349,6 @@ public class Main extends Application {
 		backgroundImage = new BackgroundImage(new Image(backgroundImageStream, width, height, false, true),
 				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
-	}
-
-	/*
-	 * Load the csv.
-	 */
-	public void loadCsv() {
-		// FileInputStream input = new FileInputStream("resources/images/iconmonstr-home-6-48.png");
-		// Image image = new Image(input);
-		// ImageView imageView = new ImageView(image);
 	}
 
 	/*

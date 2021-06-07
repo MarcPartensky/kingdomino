@@ -76,14 +76,54 @@ public class Board {
 					pane.add(rect, x, y);
 				} else {
 					// subpane.getChildren().add(new ImageView(images.get(c.n)));
+					// pane.add(subpane, x, y);
+					ImageView view = new ImageView(images.get(c.n));
+					view.setFitWidth(100);
+					view.setFitHeight(100);
+					subpane.getChildren().add(view);
 				}
 				// pane.getChildren().add(subpane, x, y);
+				pane.add(subpane, x, y);
 				// subpane.setFitHeight(100);
 				// subpane.setFitWidth(100);
 				// subpane.setPreserveRatio(true);
 				// pane.add(subpane, x, y);
-				Button button = new Button("Button");
-				pane.add(button, x, y);
+				// Button button = new Button("Button");
+				// pane.add(button, x, y);
+			}
+		}
+	}
+
+	static public String padLeftZeros(String inputString, int length) {
+    if (inputString.length() >= length) {
+        return inputString;
+    }
+    StringBuilder sb = new StringBuilder();
+    while (sb.length() < length - inputString.length()) {
+        sb.append(' ');
+    }
+    sb.append(inputString);
+
+    return sb.toString();
+	}
+
+	/*
+	 * Print the board content on the console.
+	 */
+	public void print() {
+		for (int x=0; x < width; x++) {
+			for (int y=0; y < height; y++) {
+				System.out.print(padLeftZeros(String.valueOf(grid[x][y].n), 2) + " ");
+			}
+			System.out.println();
+		}
+	}
+
+	// Randomize the board.
+	public void randomize(int max) {
+		for (int x=0; x < width; x++) {
+			for (int y=0; y < height; y++) {
+				grid[x][y].n = (int)(Math.random() * (max + 1));
 			}
 		}
 	}
