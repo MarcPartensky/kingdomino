@@ -19,18 +19,18 @@ import javafx.scene.control.Button;
 import domination.Case;
 
 public class Board {
-	final int width = 5;
-	final int height = 5;
+	static int width = 5;
+	static int height = 5;
 	public Case[][] grid = new Case[width][height];
 
 	/*
 	 * Build a random board.
 	 */
-	public static Board random() {
+	public static Board random(int max) {
 		Board board = new Board();
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				board.grid[x][y].n = (Math.random() * ((max - min) + 1)) + min;
+				board.grid[x][y].n = (int)(Math.random() * (max + 1));
 			}
 		}
 		return board;

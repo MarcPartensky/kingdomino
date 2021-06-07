@@ -59,7 +59,7 @@ public class Main extends Application {
 	protected int width = 800;
 	protected int height = 600;
 	protected Stage stage;
-	protected String csvPath = "../../../assets/dominos.csv";
+	protected String csvPath = "assets/dominos.csv";
 	protected int dominosNumber = 48;
 	protected String monotilesPath = "assets/img/monotiles";
 	protected ArrayList<Image> monotiles = new ArrayList<Image>();

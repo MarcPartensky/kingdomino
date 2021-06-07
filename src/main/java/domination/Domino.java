@@ -15,15 +15,15 @@ public class Domino {
 	protected int n;
 
 	/*
-	 * Return a random card.
+	 * Return a random card with ugly hard coded random values.
 	 */
 	static public Domino random(int dominosNumber) {
 	 return new Domino(
-				 dominoNumber * Math.random(),
-				 (Math.random() * ((max - min) + 1)) + min,
-				 (Math.random() * ((max - min) + 1)) + min,
-				 4 * Math.random(),
-				 4 * Math.random()
+				 (int)(dominosNumber * Math.random()),
+				 (int)(49 * Math.random()),
+				 (int)(49 * Math.random()),
+				 (int)(4 * Math.random()),
+				 (int)(4 * Math.random())
 			 );
 	}
 

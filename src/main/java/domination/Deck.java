@@ -30,7 +30,8 @@ public class Deck {
 	 * Trancate the deck.
 	 */
 	public void truncate(int n) {
-		dominos = new ArrayList<String>(dominos.subList(0, n));
+		System.out.println(n);
+		dominos.subList(0, n);
 	}
 }
 
