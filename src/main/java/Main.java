@@ -39,7 +39,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-// import javafx.scene.image.ImageView;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -270,7 +270,9 @@ public class Main extends Application {
 
 		// The game object in itself does not posesses the images.
 		Deck deck = buildDeck();
+		System.out.println("deck size:" + String.valueOf(deck.dominos.size()));
 		game = new Domination(players, deck);
+		game.nextRound();
 
 		// Scene scene = new Scene(pane, width, height);
 		Scene scene = buildBoardScene();
@@ -358,8 +360,20 @@ public class Main extends Application {
 	public Scene buildDeckScene() {
 		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
-
-
+		GridPane gridPane = new GridPane();
+		root.getChildren().add(gridPane);
+		gridPane.setAlignment(Pos.CENTER);
+		// gridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		// gridPane.setGridLinesVisible(true);
+		gridPane.setHgap(10);
+		gridPane.setVgap(10);
+		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
+			Image image = tiles.get(game.deck.pickedDominos.get(i).n);
+			ImageView view = new ImageView(image);
+			view.setRotate(90);
+			gridPane.add(view, i, 0, 1, 2);
+		}
+		gridPane.prefWidthProperty().bind(root.widthProperty());
 		return new Scene(root, width, height);
 	}
 
@@ -374,7 +388,7 @@ public class Main extends Application {
 		String path;
 		for (int i = 0; i < monotilesFiles.length; i++) {
 			path = monotilesPath + "/" + monotilesFiles[i].getName();
-			System.out.println(path);
+			// System.out.println(path);
 			FileInputStream monotileStream = new FileInputStream(path);
 			monotiles.add(new Image(monotileStream));
 		}
@@ -384,7 +398,7 @@ public class Main extends Application {
 		File[] tilesFiles = tilesDirectory.listFiles();
 		for (int i = 0; i < tilesFiles.length; i++) {
 			path = tilesPath + "/" + tilesFiles[i].getName();
-			System.out.println(path);
+			// System.out.println(path);
 			FileInputStream tileStream = new FileInputStream(path);
 			tiles.add(new Image(tileStream));
 		}
@@ -392,7 +406,7 @@ public class Main extends Application {
 		// load the castleImages
 	 for (int i=1; i<=playerNumber; i++) {
 		path = playersPath + String.valueOf(i) + "/castle.png";
-		System.out.println(path);
+		// System.out.println(path);
 		FileInputStream castleImageStream = new FileInputStream(path);
 		castleImages.add(new Image(castleImageStream));
 	 }
@@ -400,7 +414,7 @@ public class Main extends Application {
 		// load the castleTileImages
 	 for (int i=1; i<=playerNumber; i++) {
 		path = playersPath + String.valueOf(i) + "/tile.png";
-		System.out.println(path);
+		// System.out.println(path);
 		FileInputStream castleTileImageStream = new FileInputStream(path);
 		castleTileImages.add(new Image(castleTileImageStream));
 	 }
@@ -427,17 +441,19 @@ public class Main extends Application {
 		ArrayList<Domino> dominos = new ArrayList<Domino>();
 		HashSet<String> dominosTypeHashset = new HashSet();
 
+		System.out.println("csvPath: " + csvPath);
 		try {
 			BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
 			String row;
 			boolean first = true;
 			while ((row = csvReader.readLine()) != null) {
-				if (first) { continue; }
+				if (first) { first=false; continue; }
+				// System.out.println(row);
 				String[] rowData = row.split(",");
 				int[] rowDataInt = new int[5];
-				for (int i=0; i<5; i++) {
-					rowDataInt[i] = Integer.parseInt(rowData[i]);
-				}
+				rowDataInt[0] = Integer.parseInt(rowData[0]);
+				rowDataInt[2] = Integer.parseInt(rowData[2]);
+				rowDataInt[4] = Integer.parseInt(rowData[4]);
 				data.add(rowDataInt);
 				dominosTypeHashset.add(rowData[1]);
 				dominosTypeHashset.add(rowData[3]);
@@ -448,6 +464,7 @@ public class Main extends Application {
 			System.out.println(e.getClass());
 		}
 
+		// System.out.println("data size:" + String.valueOf(data.size()));
 		List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
 		for (int i=0; i<data.size(); i++) {
 			// System.out.print(data.get(i) + " ");

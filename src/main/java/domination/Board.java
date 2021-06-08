@@ -64,19 +64,15 @@ public class Board {
 	 */
 	public void show(GridPane pane, ArrayList<Image> images, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
 		Case c;
-		// Label label = new Label("Board");
-		// pane.getChildren().add(label);
-		// StackPane subpane;
-
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				System.out.println(x);
-				System.out.println(y);
+				// System.out.println(x);
+				// System.out.println(y);
 				if (x!=width/2 || y!=height/2) {
 					c = grid[x][y];
 					StackPane subpane = new StackPane();
 					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
-					System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
+					// System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
 					if (c.n == 0) {
 						Rectangle rect = new Rectangle(caseWidth, caseHeight);
 						rect.setFill(Color.WHITE);
@@ -88,19 +84,15 @@ public class Board {
 						// rect.setCache(true);
 						pane.add(rect, x, y);
 					} else {
-						// subpane.getChildren().add(new ImageView(images.get(c.n)));
 						ImageView view = new ImageView(images.get(c.n));
 						view.setFitWidth(caseWidth);
 						view.setFitHeight(caseHeight);
 						subpane.getChildren().add(view);
 					}
-					// pane.getChildren().add(subpane, x, y);
 					pane.add(subpane, x, y);
 					// subpane.setFitHeight(100);
 					// subpane.setFitWidth(100);
 					// subpane.setPreserveRatio(true);
-					// pane.add(subpane, x, y);
-					// Button button = new Button("Button");
 				}
 			}
 			ImageView view = new ImageView(castleTileImage);
@@ -129,5 +121,13 @@ public class Board {
 				grid[x][y].n = (int)(Math.random() * (max + 1));
 			}
 		}
+	}
+
+	/*
+	 * Compute the worth of the board following the rules.
+	 */
+	public int computeWorth() {
+		// annoying work to be done here
+		return 0;
 	}
 }

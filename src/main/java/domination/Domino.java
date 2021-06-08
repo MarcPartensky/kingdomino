@@ -12,7 +12,7 @@ public class Domino {
 	protected int case2;
 	protected int king1;
 	protected int king2;
-	protected int n;
+	public int n;
 
 	/*
 	 * Return a random card with ugly hard coded random values.
@@ -37,5 +37,9 @@ public class Domino {
 		this.case2 = case2;
 		this.king1 = king1;
 		this.king2 = king2;
+	}
+
+	public String toString() {
+		return String.format("Domino(n=%d, case1=%d, case2=%d, king1=%d, king2=%d)", n, case1, case2, king1, king2);
 	}
 }

@@ -10,8 +10,8 @@ import domination.Domino;
  */
 public class Deck {
 	protected String path;
-	protected ArrayList<Domino> dominos;
-	protected ArrayList<Domino> pickedDominos;
+	public ArrayList<Domino> dominos;
+	public ArrayList<Domino> pickedDominos = new ArrayList<Domino>();
 
 	/*
 	 * Initialize the deck.
@@ -41,10 +41,11 @@ public class Deck {
 	 * Pick dominos for the next turn.
 	 * Might fail if not enough dominos left.
 	 */
-	public void pick(int n) {
+	public void pick(int playerNumber) {
 		pickedDominos.clear();
-		for (int i=0; i<n; i++) {
+		for (int i=0; i<playerNumber; i++) {
 			Domino domino = dominos.remove(dominos.size()-1);
+			System.out.println(domino.toString());
 			pickedDominos.add(domino);
 		}
 	}

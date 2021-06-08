@@ -11,17 +11,19 @@ import domination.Deck;
  */
 public class Domination {
 	public ArrayList<Player> players;
-	protected Deck deck;
+	public Deck deck;
 	public boolean done = false;
 	public int round = 0;
 	public int turn = 0;
 
-	// /*
-	//  * Switch to next round.
-	//  */
-	// public void nextRound() {
-	// 	round++;
-	// }
+	/*
+	 * Switch to next round.
+	 */
+	public void nextRound() {
+		round++;
+		deck.pick(players.size());
+		System.out.println("picked dominos for next round");
+	}
 
 	/*
 	 * Initalize the game the game.
