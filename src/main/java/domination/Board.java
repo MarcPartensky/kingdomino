@@ -62,7 +62,7 @@ public class Board {
 	/*
 	 * Show the board given on the given pane with the given images.
 	 */
-	public void show(GridPane pane, ArrayList<Image> images, int caseWidth, int caseHeight) {
+	public void show(GridPane pane, ArrayList<Image> images, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
 		Case c;
 		// Label label = new Label("Board");
 		// pane.getChildren().add(label);
@@ -70,38 +70,43 @@ public class Board {
 
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				c = grid[x][y];
-				StackPane subpane = new StackPane();
-				// Pane subpane = new Pane();
-				subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
-				System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
-				if (c.n == 0) {
-					Rectangle rect = new Rectangle(caseWidth, caseHeight);
-					rect.setFill(Color.WHITE);
-					rect.setStroke(Color.BLACK);
-					// rect.setFitWidth(100);
-					// rect.setFitHeight(100);
-					// rect.setPreserveRatio(true);
-					// rect.setSmooth(true);
-					// rect.setCache(true);
-					pane.add(rect, x, y);
-				} else {
-					// subpane.getChildren().add(new ImageView(images.get(c.n)));
+				System.out.println(x);
+				System.out.println(y);
+				if (x!=width/2 || y!=height/2) {
+					c = grid[x][y];
+					StackPane subpane = new StackPane();
+					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
+					System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
+					if (c.n == 0) {
+						Rectangle rect = new Rectangle(caseWidth, caseHeight);
+						rect.setFill(Color.WHITE);
+						rect.setStroke(Color.BLACK);
+						// rect.setFitWidth(100);
+						// rect.setFitHeight(100);
+						// rect.setPreserveRatio(true);
+						// rect.setSmooth(true);
+						// rect.setCache(true);
+						pane.add(rect, x, y);
+					} else {
+						// subpane.getChildren().add(new ImageView(images.get(c.n)));
+						ImageView view = new ImageView(images.get(c.n));
+						view.setFitWidth(caseWidth);
+						view.setFitHeight(caseHeight);
+						subpane.getChildren().add(view);
+					}
+					// pane.getChildren().add(subpane, x, y);
+					pane.add(subpane, x, y);
+					// subpane.setFitHeight(100);
+					// subpane.setFitWidth(100);
+					// subpane.setPreserveRatio(true);
 					// pane.add(subpane, x, y);
-					ImageView view = new ImageView(images.get(c.n));
-					view.setFitWidth(caseWidth);
-					view.setFitHeight(caseHeight);
-					subpane.getChildren().add(view);
+					// Button button = new Button("Button");
 				}
-				// pane.getChildren().add(subpane, x, y);
-				pane.add(subpane, x, y);
-				// subpane.setFitHeight(100);
-				// subpane.setFitWidth(100);
-				// subpane.setPreserveRatio(true);
-				// pane.add(subpane, x, y);
-				// Button button = new Button("Button");
-				// pane.add(button, x, y);
 			}
+			ImageView view = new ImageView(castleTileImage);
+			view.setFitWidth(caseWidth);
+			view.setFitHeight(caseHeight);
+			pane.add(view, width/2, height/2);
 		}
 	}
 

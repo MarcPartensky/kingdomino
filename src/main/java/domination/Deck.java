@@ -11,6 +11,7 @@ import domination.Domino;
 public class Deck {
 	protected String path;
 	protected ArrayList<Domino> dominos;
+	protected ArrayList<Domino> pickedDominos;
 
 	/*
 	 * Initialize the deck.
@@ -33,6 +34,18 @@ public class Deck {
 		n = dominos.size() - n;
 		for (int i=0; i<n; i++) {
 			dominos.remove(dominos.size()-1);
+		}
+	}
+
+	/*
+	 * Pick dominos for the next turn.
+	 * Might fail if not enough dominos left.
+	 */
+	public void pick(int n) {
+		pickedDominos.clear();
+		for (int i=0; i<n; i++) {
+			Domino domino = dominos.remove(dominos.size()-1);
+			pickedDominos.add(domino);
 		}
 	}
 }

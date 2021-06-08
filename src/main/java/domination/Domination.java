@@ -12,19 +12,16 @@ import domination.Deck;
 public class Domination {
 	public ArrayList<Player> players;
 	protected Deck deck;
-	protected boolean done = false;
-	protected int turn = 0;
+	public boolean done = false;
+	public int round = 0;
+	public int turn = 0;
 
-	/*
-	 * Build the game with default arguments.
-	 */
-	public static Domination build(Integer playerNumber, Deck deck) {
-		ArrayList<Player> players = new ArrayList<Player>();
-		for (int i=0; i<playerNumber; i++) {
-			players.add(Player.build());
-		}
-		return new Domination(players, deck);
-	}
+	// /*
+	//  * Switch to next round.
+	//  */
+	// public void nextRound() {
+	// 	round++;
+	// }
 
 	/*
 	 * Initalize the game the game.

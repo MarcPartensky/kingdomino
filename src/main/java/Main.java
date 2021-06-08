@@ -59,6 +59,8 @@ public class Main extends Application {
 	protected boolean skipMenu = true;
 	protected int width = 800;
 	protected int height = 600;
+	protected int tileWidth = 100; // temp
+	protected int tileHeight = 100;
 	protected Stage stage;
 	protected final int dominosMaxNumber = 48;
 	protected int dominosNumber = 48;
@@ -71,6 +73,9 @@ public class Main extends Application {
 	protected ArrayList<Image> monotiles = new ArrayList<Image>();
 	// protected String emptyMonotilePath = "assets/img/empty.png";
 	// protected Image emptyMonotile;
+	protected String playersPath = "assets/img/player";
+	protected ArrayList<Image> castleImages = new ArrayList<Image>();
+	protected ArrayList<Image> castleTileImages = new ArrayList<Image>();
 	protected String backgroundImagePath = "assets/img/deco/fond.png";
 	protected BackgroundImage backgroundImage;
 	protected Domination game;
@@ -146,6 +151,13 @@ public class Main extends Application {
 			case 51: { // 3
 				System.out.println("Show the deck");
 				Scene scene = buildDeckScene();
+				stage.setScene(scene);
+				break;
+			}
+			case 65: { // a
+				System.out.println("Switch the board");
+				game.turn = (game.turn + 1) % playerNumber;
+				Scene scene = buildBoardScene();
 				stage.setScene(scene);
 				break;
 			}
@@ -250,14 +262,15 @@ public class Main extends Application {
 	 * Build the game object.
 	 */
 	public void loadGame(int playerNumber) {
-		Label label = new Label("Menu");
-		// ArrayList<Player> players = new ArrayList<Player>();
-		// players.add(new Player());
-		// players.add(new Player());
+		Label label = new Label("Load the game.");
+		ArrayList<Player> players = new ArrayList<Player>();
+		for (int i=0; i<playerNumber; i++) {
+			players.add(new Player(new Board()));
+		}
 
-		// The game in itself does not posesses the images.
+		// The game object in itself does not posesses the images.
 		Deck deck = buildDeck();
-		game = Domination.build(playerNumber, deck);
+		game = new Domination(players, deck);
 
 		// Scene scene = new Scene(pane, width, height);
 		Scene scene = buildBoardScene();
@@ -333,7 +346,9 @@ public class Main extends Application {
 		// GridPane.setConstraints(gridPane, 8, 8);
 		//gridPane.setHgrow(Priority.ALWAYS);
 		gridPane.prefWidthProperty().bind(root.widthProperty());
-		board.show(gridPane, monotiles, 100, 100);
+		Image castleImage = castleImages.get(game.turn);
+		Image castleTileImage = castleTileImages.get(game.turn);
+		board.show(gridPane, monotiles, castleImage, castleTileImage, tileWidth, tileHeight);
 		return new Scene(root, width, height);
 	}
 
@@ -343,6 +358,8 @@ public class Main extends Application {
 	public Scene buildDeckScene() {
 		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
+
+
 		return new Scene(root, width, height);
 	}
 
@@ -353,6 +370,7 @@ public class Main extends Application {
 		File monotilesDirectory = new File(monotilesPath);
 		File[] monotilesFiles = monotilesDirectory.listFiles();
 
+		// load the monotiles
 		String path;
 		for (int i = 0; i < monotilesFiles.length; i++) {
 			path = monotilesPath + "/" + monotilesFiles[i].getName();
@@ -361,15 +379,31 @@ public class Main extends Application {
 			monotiles.add(new Image(monotileStream));
 		}
 
+		// load the tiles
 		File tilesDirectory = new File(tilesPath);
 		File[] tilesFiles = tilesDirectory.listFiles();
-
 		for (int i = 0; i < tilesFiles.length; i++) {
 			path = tilesPath + "/" + tilesFiles[i].getName();
 			System.out.println(path);
 			FileInputStream tileStream = new FileInputStream(path);
 			tiles.add(new Image(tileStream));
 		}
+
+		// load the castleImages
+	 for (int i=1; i<=playerNumber; i++) {
+		path = playersPath + String.valueOf(i) + "/castle.png";
+		System.out.println(path);
+		FileInputStream castleImageStream = new FileInputStream(path);
+		castleImages.add(new Image(castleImageStream));
+	 }
+
+		// load the castleTileImages
+	 for (int i=1; i<=playerNumber; i++) {
+		path = playersPath + String.valueOf(i) + "/tile.png";
+		System.out.println(path);
+		FileInputStream castleTileImageStream = new FileInputStream(path);
+		castleTileImages.add(new Image(castleTileImageStream));
+	 }
 	}
 
 
