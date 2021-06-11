@@ -367,7 +367,9 @@ public class Main extends Application {
 		// gridPane.setGridLinesVisible(true);
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
+		System.out.println(game.deck.pickedDominos.size());
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
+			System.out.println(game.deck.pickedDominos.get(i).n);
 			Image image = tiles.get(game.deck.pickedDominos.get(i).n);
 			ImageView view = new ImageView(image);
 			view.setRotate(90);
@@ -398,7 +400,7 @@ public class Main extends Application {
 		File[] tilesFiles = tilesDirectory.listFiles();
 		for (int i = 0; i < tilesFiles.length; i++) {
 			path = tilesPath + "/" + tilesFiles[i].getName();
-			// System.out.println(path);
+			System.out.println(path);
 			FileInputStream tileStream = new FileInputStream(path);
 			tiles.add(new Image(tileStream));
 		}
