@@ -17,6 +17,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.ColumnConstraints;
+import java.lang.Integer;
+import java.lang.Character;
 // import org.apache.commons.io.FileUtils;
 // import java.net.URL;
 
@@ -84,26 +86,25 @@ public class Main extends Application {
 	protected String backgroundImagePath = "assets/img/deco/fond.png";
 	protected BackgroundImage backgroundImage;
 	protected Domination game;
-	protected HashMap<String, Integer> nameToLetters = new HashMap();
+	protected HashMap<String, Character> nameToLetters = new HashMap();
 
 	/*
 	 * Main function to launch the game.
 	 */
 	public static void main(String[] args) {
 		Application.launch(args);
-		build();
 	}
 
 	/*
 	 * Build some static attributes not to messup the main function.
 	 */
-	public static void build() {
+	public void build() {
 		nameToLetters.put("Champs", 'c');
 		nameToLetters.put("Foret", 'f');
 		nameToLetters.put("Mer", 'o');
 		nameToLetters.put("Prairie", 'p');
 		nameToLetters.put("Mine", 'i'); // wtf
-		nameToLetters.put("Montage", 'm');
+		nameToLetters.put("Montagne", 'm');
 	}
 
 	// @Override
@@ -192,6 +193,7 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
+		build();
 		stage.setTitle(title);
 		stage.setFullScreen(fullscreen);
 		// stage.setResizable(true);
@@ -459,54 +461,54 @@ public class Main extends Application {
 	/*
 	 * Build the deck of cards.
 	 */
-	protected Deck buildDeckV1() {
-		// Do not even try to understand.
-		ArrayList<int[]> data = new ArrayList<int[]>();
-		ArrayList<Domino> dominos = new ArrayList<Domino>();
-		// HashSet<String> dominosTypeHashset = new HashSet();
+	// protected Deck buildDeckV1() {
+	// 	// Do not even try to understand.
+	// 	ArrayList<int[]> data = new ArrayList<int[]>();
+	// 	ArrayList<Domino> dominos = new ArrayList<Domino>();
+	// 	// HashSet<String> dominosTypeHashset = new HashSet();
 
-		System.out.println("csvPath: " + csvPath);
-		try {
-			BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
-			String row;
-			boolean first = true;
-			while ((row = csvReader.readLine()) != null) {
-				if (first) { first=false; continue; }
-				// System.out.println(row);
-				String[] rowData = row.split(",");
-				int[] rowDataInt = new int[5];
-				rowDataInt[0] = Integer.parseInt(rowData[0]);
-				rowDataInt[2] = Integer.parseInt(rowData[2]);
-				rowDataInt[4] = Integer.parseInt(rowData[4]);
-				data.add(rowDataInt);
-				dominosTypeHashset.add(rowData[1]);
-				dominosTypeHashset.add(rowData[3]);
-			}
-			csvReader.close();
-		} catch (IOException e) {
-			System.out.println("Csv path not found.");
-			System.out.println(e.getClass());
-		}
+	// 	System.out.println("csvPath: " + csvPath);
+	// 	try {
+	// 		BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
+	// 		String row;
+	// 		boolean first = true;
+	// 		while ((row = csvReader.readLine()) != null) {
+	// 			if (first) { first=false; continue; }
+	// 			// System.out.println(row);
+	// 			String[] rowData = row.split(",");
+	// 			int[] rowDataInt = new int[5];
+	// 			rowDataInt[0] = Integer.parseInt(rowData[0]);
+	// 			rowDataInt[2] = Integer.parseInt(rowData[2]);
+	// 			rowDataInt[4] = Integer.parseInt(rowData[4]);
+	// 			data.add(rowDataInt);
+	// 			dominosTypeHashset.add(rowData[1]);
+	// 			dominosTypeHashset.add(rowData[3]);
+	// 		}
+	// 		csvReader.close();
+	// 	} catch (IOException e) {
+	// 		System.out.println("Csv path not found.");
+	// 		System.out.println(e.getClass());
+	// 	}
 
-		// System.out.println("data size:" + String.valueOf(data.size()));
-		List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
-		for (int i=0; i<data.size(); i++) {
-			System.out.println(Arrays.toString(data.get(i)));
-			dominos.add(new Domino(
-						data.get(i)[4],
-						dominosTypeList.indexOf(data.get(i)[1]),
-						dominosTypeList.indexOf(data.get(i)[3]),
-						data.get(i)[0],
-						data.get(i)[2]
-					));
-		}
+	// 	// System.out.println("data size:" + String.valueOf(data.size()));
+	// 	List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
+	// 	for (int i=0; i<data.size(); i++) {
+	// 		System.out.println(Arrays.toString(data.get(i)));
+	// 		dominos.add(new Domino(
+	// 					data.get(i)[4],
+	// 					dominosTypeList.indexOf(data.get(i)[1]),
+	// 					dominosTypeList.indexOf(data.get(i)[3]),
+	// 					data.get(i)[0],
+	// 					data.get(i)[2]
+	// 				));
+	// 	}
 
-		Deck deck = new Deck(dominos);
-		deck.shuffle();
-		deck.truncate(dominosNumber);
+	// 	Deck deck = new Deck(dominos);
+	// 	deck.shuffle();
+	// 	deck.truncate(dominosNumber);
 
-		return deck;
-	}
+	// 	return deck;
+	// }
 
 	/*
 	 * Build the deck smoothly.
@@ -522,13 +524,16 @@ public class Main extends Application {
 				i++;
 				if (i==1) { continue; }
 				String[] data = row.split(",");
+				System.out.println(data[1]);
+				System.out.println(data[3]);
 				System.out.println(nameToLetters.get(data[1]));
+				System.out.println(nameToLetters.get(data[3]));
 				dominos.add(new Domino(
 							i,
 							nameToLetters.get(data[1]),
 							nameToLetters.get(data[3]),
-							data[0],
-							data[2]
+							Integer.parseInt(data[0]),
+							Integer.parseInt(data[2])
 				));
 			}
 			csvReader.close();

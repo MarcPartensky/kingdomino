@@ -8,9 +8,8 @@ import javafx.scene.image.Image;
  * Card of the domination game.
  */
 public class Domino {
-	final public char[] types={ 'c', 'f', 'o', 'p' };
-	protected int type1;
-	protected int type2;
+	protected char type1;
+	protected char type2;
 	protected int crown1;
 	protected int crown2;
 	public int n;
@@ -21,8 +20,8 @@ public class Domino {
 	static public Domino random(int dominosNumber) {
 	 return new Domino(
 				 (int)(dominosNumber * Math.random()),
-				 (int)(49 * Math.random()),
-				 (int)(49 * Math.random()),
+				 (char)(49 * Math.random()),
+				 (char)(49 * Math.random()),
 				 (int)(4 * Math.random()),
 				 (int)(4 * Math.random())
 			 );
@@ -32,7 +31,7 @@ public class Domino {
 	 * Create a domino with its 2 types number and number of crowns,
 	 * and the image of the domino.
 	 */
-	public Domino(int n, int type1, int type2, int crown1, int crown2) {
+	public Domino(int n, char type1, char type2, int crown1, int crown2) {
 		this.n = n;
 		this.type1 = type1;
 		this.type2 = type2;
@@ -44,13 +43,15 @@ public class Domino {
 	 * Gives the string representation of a domino.
 	 */
 	public String toString() {
-		return String.format("Domino(n=%d, type1=%d, type2=%d, crown1=%d, crown2=%d)", n, type1, type2, crown1, crown2);
+		return String.format("Domino(n=%d, type1=%c, type2=%c, crown1=%d, crown2=%d)", n, type1, type2, crown1, crown2);
 	}
 
 	/*
 	 * Return the domino image name.
 	 */
 	public String getImageName() {
-		return types[type1] + String.valueOf(crown1) + "-" + types[type2] + String.valueOf(crown2) + ".png";
+		System.out.println("name");
+		System.out.println(type1);
+		return String.valueOf(type1) + String.valueOf(crown1) + "-" + String.valueOf(type2) + String.valueOf(crown2) + ".png";
 	}
 }
