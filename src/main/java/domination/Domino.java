@@ -50,8 +50,19 @@ public class Domino {
 	 * Return the domino image name.
 	 */
 	public String getImageName() {
-		System.out.println("name");
-		System.out.println(type1);
 		return String.valueOf(type1) + String.valueOf(crown1) + "-" + String.valueOf(type2) + String.valueOf(crown2) + ".png";
+	}
+
+	/*
+	 * Show the domino.
+	 */
+	public ImageView getView(Hashtable<String, Image>tiles, ArrayList<Image>monotiles) {
+		System.out.println(domino.toString());
+		System.out.println(domino.getImageName());
+		Image image = tiles.get(n);
+		ImageView view = new ImageView(image);
+		view.setRotate(90);
+		return view;
+
 	}
 }

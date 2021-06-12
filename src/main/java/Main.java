@@ -391,11 +391,6 @@ public class Main extends Application {
 		System.out.println("pickedDominoSize:" + String.valueOf(game.deck.pickedDominos.size()));
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
-			System.out.println(domino.toString());
-			System.out.println(domino.getImageName());
-			Image image = tiles.get(domino.n);
-			ImageView view = new ImageView(image);
-			view.setRotate(90);
 			gridPane.add(view, i, 0, 1, 2);
 		}
 		gridPane.prefWidthProperty().bind(root.widthProperty());
