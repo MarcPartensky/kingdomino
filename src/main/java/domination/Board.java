@@ -20,8 +20,8 @@ import javafx.scene.control.Button;
 import domination.Case;
 
 public class Board {
-	static int width = 5;
-	static int height = 5;
+	final static int width = 5;
+	final static int height = 5;
 	public Case[][] grid = new Case[width][height];
 
 	static public String padLeftZeros(String inputString, int length) {
@@ -129,5 +129,12 @@ public class Board {
 	public int computeWorth() {
 		// annoying work to be done here
 		return 0;
+	}
+
+	/*
+	 * Check if the move is valid.
+	 */
+	public isValidMove(int x1, int y1, int x2, int y2) {
+
 	}
 }

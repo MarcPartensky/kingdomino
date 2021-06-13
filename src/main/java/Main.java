@@ -390,8 +390,8 @@ public class Main extends Application {
 		System.out.println("pickedDominoSize:" + String.valueOf(game.deck.pickedDominos.size()));
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
-			ImageView view = domino.getView(tiles, monotiles);
-			gridPane.add(view, i, 0, 1, 2);
+			Pane pane = domino.getPane(tiles, monotiles);
+			gridPane.add(pane, i, 0, 1, 2);
 		}
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		return new Scene(root, width, height);

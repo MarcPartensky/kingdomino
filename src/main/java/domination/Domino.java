@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import domination.Domino;
+import domination.Case;
 
 /*
  * Card of the domination game.
@@ -59,14 +60,35 @@ public class Domino {
 	}
 
 	/*
+	 * Return the cases generated with a domino.
+	 */
+	public Case[] getCases() {
+		Case case1 = new Case(type1, crown1);
+		Case case2 = new Case(type2, crown2);
+		return new Case[] {case1, case2};
+	}
+
+	/*
 	 * Show the domino.
 	 */
-	public ImageView getView(HashMap<String, Image> tiles, HashMap<String, Image> monotiles) {
+	public Pane getPane(HashMap<String, Image> tiles, HashMap<String, Image> monotiles) {
 		System.out.println(toString());
-		System.out.println(getImageName());
-		Image image = tiles.get(n);
-		ImageView view = new ImageView(image);
-		view.setRotate(90);
-		return view;
+		String name = getImageName();
+		System.out.println(name);
+		if (tiles.containsKey(name)) {
+			Image image = tiles.get(n);
+			ImageView view = new ImageView(image);
+			view.setRotate(90);
+			return view;
+		} else {
+			StackPane pane = new StackPane();
+			// HBox = new Hbox();
+			// String monotilef1 = ;
+			Image image1 = monotiles.get(String.format(String.valueOf(type1) + String.valueOf(type2)));
+			ImageView view = new ImageView(image);
+			pane.add(view1);
+			pane.add(view2);
+			return pane;
+		}
 	}
 }
