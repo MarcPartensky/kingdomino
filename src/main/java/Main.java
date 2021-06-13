@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -75,9 +74,9 @@ public class Main extends Application {
 	protected String csvPath = "assets/dominos.csv";
 	protected String tilesPath = "assets/img/tiles";
 	// protected ArrayList<Image> tiles = new ArrayList<Image>();
-	protected Dictionary<String, Image> tiles = new Hashtable<String, Image>();
+	protected HashMap<String, Image> tiles = new HashMap<String, Image>();
 	protected String monotilesPath = "assets/img/monotiles";
-	protected ArrayList<Image> monotiles = new ArrayList<Image>();
+	protected HashMap<String, Image> monotiles = new HashMap<String, Image>();
 	// protected String emptyMonotilePath = "assets/img/empty.png";
 	// protected Image emptyMonotile;
 	protected String playersPath = "assets/img/player";
@@ -367,7 +366,7 @@ public class Main extends Application {
 		// gridPane.setPreserveRatio(true);
 		// gridPane.setFillWidth(true);
 		// GridPane.setConstraints(gridPane, 8, 8);
-		//gridPane.setHgrow(Priority.ALWAYS);
+		// gridPane.setHgrow(Priority.ALWAYS);
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		Image castleImage = castleImages.get(game.turn);
 		Image castleTileImage = castleTileImages.get(game.turn);
@@ -391,6 +390,7 @@ public class Main extends Application {
 		System.out.println("pickedDominoSize:" + String.valueOf(game.deck.pickedDominos.size()));
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
+			ImageView view = domino.getView(tiles, monotiles);
 			gridPane.add(view, i, 0, 1, 2);
 		}
 		gridPane.prefWidthProperty().bind(root.widthProperty());
@@ -401,46 +401,45 @@ public class Main extends Application {
 	 * Load the images.
 	 */
 	public void loadImages() throws Exception {
-		File monotilesDirectory = new File(monotilesPath);
-		File[] monotilesFiles = monotilesDirectory.listFiles();
 
 		// load the monotiles
-		String path;
+		File monotilesDirectory = new File(monotilesPath);
+		File[] monotilesFiles = monotilesDirectory.listFiles();
 		for (int i = 0; i < monotilesFiles.length; i++) {
-			path = monotilesPath + "/" + monotilesFiles[i].getName();
-			// System.out.println(path);
+			String name = monotilesFiles[i].getName();
+			String path = monotilesPath + "/" + name;
+			System.out.println(path);
 			FileInputStream monotileStream = new FileInputStream(path);
-			monotiles.add(new Image(monotileStream));
+			monotiles.put(name, new Image(monotileStream));
 		}
 
 		// load the tiles
 		File tilesDirectory = new File(tilesPath);
 		File[] tilesFiles = tilesDirectory.listFiles();
 		for (int i = 0; i < tilesFiles.length; i++) {
-			path = tilesPath + "/" + tilesFiles[i].getName();
+			String name = tilesFiles[i].getName();
+			String path = tilesPath + "/" + name;
 			System.out.println(path);
 			FileInputStream tileStream = new FileInputStream(path);
-			// tiles.add(new Image(tileStream));
-			tiles.put(tilesFiles[i].getName(), new Image(tileStream));
+			tiles.put(name, new Image(tileStream));
 		}
 
 		// load the castleImages
 	 for (int i=1; i<=playerNumber; i++) {
-		path = playersPath + String.valueOf(i) + "/castle.png";
-		// System.out.println(path);
+		String path = playersPath + String.valueOf(i) + "/castle.png";
+		System.out.println(path);
 		FileInputStream castleImageStream = new FileInputStream(path);
 		castleImages.add(new Image(castleImageStream));
 	 }
 
 		// load the castleTileImages
 	 for (int i=1; i<=playerNumber; i++) {
-		path = playersPath + String.valueOf(i) + "/tile.png";
-		// System.out.println(path);
+		String path = playersPath + String.valueOf(i) + "/tile.png";
+		System.out.println(path);
 		FileInputStream castleTileImageStream = new FileInputStream(path);
 		castleTileImages.add(new Image(castleTileImageStream));
 	 }
 	}
-
 
 	/*
 	 * Load the resources of the game.
@@ -484,7 +483,6 @@ public class Main extends Application {
 	// 		System.out.println("Csv path not found.");
 	// 		System.out.println(e.getClass());
 	// 	}
-
 	// 	// System.out.println("data size:" + String.valueOf(data.size()));
 	// 	List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
 	// 	for (int i=0; i<data.size(); i++) {
@@ -497,11 +495,9 @@ public class Main extends Application {
 	// 					data.get(i)[2]
 	// 				));
 	// 	}
-
 	// 	Deck deck = new Deck(dominos);
 	// 	deck.shuffle();
 	// 	deck.truncate(dominosNumber);
-
 	// 	return deck;
 	// }
 

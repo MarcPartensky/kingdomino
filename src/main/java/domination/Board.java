@@ -1,6 +1,7 @@
 package domination;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
@@ -62,14 +63,13 @@ public class Board {
 	/*
 	 * Show the board given on the given pane with the given images.
 	 */
-	public void show(GridPane pane, ArrayList<Image> images, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
-		Case c;
+	public void show(GridPane pane, HashMap<String, Image> images, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
 				// System.out.println(x);
 				// System.out.println(y);
 				if (x!=width/2 || y!=height/2) {
-					c = grid[x][y];
+					Case c = grid[x][y];
 					StackPane subpane = new StackPane();
 					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 					// System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));

@@ -2,7 +2,12 @@ package domination;
 import java.lang.Math;
 import java.util.Random;
 
+import java.util.HashMap;
+import java.util.ArrayList;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import domination.Domino;
 
 /*
  * Card of the domination game.
@@ -56,13 +61,12 @@ public class Domino {
 	/*
 	 * Show the domino.
 	 */
-	public ImageView getView(Hashtable<String, Image>tiles, ArrayList<Image>monotiles) {
-		System.out.println(domino.toString());
-		System.out.println(domino.getImageName());
+	public ImageView getView(HashMap<String, Image> tiles, HashMap<String, Image> monotiles) {
+		System.out.println(toString());
+		System.out.println(getImageName());
 		Image image = tiles.get(n);
 		ImageView view = new ImageView(image);
 		view.setRotate(90);
 		return view;
-
 	}
 }
