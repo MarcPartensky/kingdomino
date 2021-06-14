@@ -62,8 +62,6 @@ public class Domination {
 		Player player = getPlayer();
 		player.board.insert();
 		fillBoardDominos();
-		player.board.domino = player.dominos.remove(player.dominos.size() - 1);
-		player.board.nextDomino = true;
 		next();
 		System.out.println(String.format("turn=%d", turn));
 	}
@@ -74,8 +72,9 @@ public class Domination {
 	public void fillBoardDominos() {
 		for (Player player: players) {
 			if (player.board.nextDomino) {
-				System.out.println(player.name);
+				System.out.println(String.format("player dominos=%d", player.dominos.size()));
 				player.board.domino = player.dominos.remove(player.dominos.size() - 1);
+				player.board.nextDomino = false;
 			}
 		}
 	}
