@@ -17,14 +17,7 @@ public class Domination {
 	public int mode = 1; // selection and placement  = 2 modes
 	public int turn = 0;
 	public static int maxTurn;
-
-	/*
-	 * Switch to next round.
-	 */
-	public void nextRound() {
-		round++;
-		System.out.println("picked dominos for next round");
-	}
+	public ArrayList<Integer> playersOrder = new ArrayList<Integer>();
 
 	/*
 	 * Skip to the next step.
@@ -36,11 +29,12 @@ public class Domination {
 			} else {
 				turn = 0;
 				if (mode==0) {
-					mode++;
-				} else {
+					mode = 1;
 					clearPlayerDominos();
 					deck.pick(maxTurn);
+				} else {
 					mode = 0;
+					fillBoardDominos();
 					round++;
 				}
 			}
@@ -50,9 +44,44 @@ public class Domination {
 	}
 
 	/*
+	 * Setup player order.
+	 */
+	protected void setupPlayerOrder() {
+		int i = 0;
+		for (Domino domino : deck.pickedDominos) {
+			if (deck.pickedDominos.contains(domino)) {
+				playersOrder.add(++i);
+			}
+		}
+	}
+
+	/*
+	 * Insert a domino.
+	 */
+	public void insertDomino() {
+		Player player = getPlayer();
+		player.board.insert();
+		fillBoardDominos();
+		player.board.domino = player.dominos.remove(player.dominos.size() - 1);
+		player.board.nextDomino = true;
+	}
+
+	/*
+	 * Fill board dominos.
+	 */
+	public void fillBoardDominos() {
+		for (Player player: players) {
+			if (player.board.nextDomino) {
+				System.out.println(player.name);
+				player.board.domino = player.dominos.remove(player.dominos.size() - 1);
+			}
+		}
+	}
+
+	/*
 	 * Return the current player.
 	 */
-	public Player getCurrentPlayer() {
+	public Player getPlayer() {
 		return players.get(turn%players.size());
 	}
 

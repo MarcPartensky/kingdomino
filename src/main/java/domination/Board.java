@@ -30,6 +30,7 @@ public class Board {
 	public int cy=0; // pivot y position
 	public int cr=0; // pivot rotation
 	public Domino domino;
+	public boolean nextDomino = true;
 	public Case[][] grid = new Case[width][height];
 
 	/*
@@ -94,7 +95,7 @@ public class Board {
 		} else if (r==1) {
 			return x;
 		} else if (r==2) {
-			return x - 1 ;
+			return x - 1;
 		} else {
 			return x;
 		}
@@ -108,7 +109,7 @@ public class Board {
 		} else if (r==1) {
 			return y - 1;
 		} else if (r==2) {
-			return y ;
+			return y;
 		} else {
 			return y + 1;
 		}
@@ -150,7 +151,7 @@ public class Board {
 					// subpane.setPreserveRatio(true);
 				}
 			}
-			showDomino(pane, monotiles, width, height);
+			showDomino(pane, monotiles, caseWidth, caseHeight);
 			ImageView view = new ImageView(castleTileImage);
 			view.setFitWidth(caseWidth);
 			view.setFitHeight(caseHeight);
@@ -163,13 +164,15 @@ public class Board {
 	 */
 	protected void showDomino(GridPane pane, HashMap<String, Image> monotiles, int width, int height) {
 		int cx2 = getX2(cx, cr);
-		int cy2 = getX2(cy, cr);
+		int cy2 = getY2(cy, cr);
 		StackPane pane1 = new StackPane();
 		StackPane pane2 = new StackPane();
 		pane1.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 		pane2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 		String monotileName1 = Case.getRandomMonotileName(domino.type1, domino.crown1, monotiles.keySet());
 		String monotileName2 = Case.getRandomMonotileName(domino.type2, domino.crown2, monotiles.keySet());
+		System.out.println("monotileName1=" + monotileName1);
+		System.out.println("monotileName2=" + monotileName2);
 		ImageView view1 = new ImageView(monotiles.get(monotileName1));
 		ImageView view2 = new ImageView(monotiles.get(monotileName2));
 		view1.setFitWidth(width);
@@ -177,18 +180,18 @@ public class Board {
 		view2.setFitWidth(width);
 		view2.setFitHeight(height);
 		pane1.getChildren().add(view1);
-		pane2.getChildren().add(view1);
+		pane2.getChildren().add(view2);
 		pane1.setStyle("-fx-padding: 1;" +
 									"-fx-border-style: solid inside;" +
-									"-fx-border-width: 2;" +
-									"-fx-border-insets: 1;" +
-									"-fx-border-radius: 5;" +
+									"-fx-border-width: 0.3;" +
+									"-fx-border-insets: 0;" +
+									"-fx-border-radius: 1;" +
 									"-fx-border-color: red;");
-		pane1.setStyle("-fx-padding: 1;" +
+		pane2.setStyle("-fx-padding: 1;" +
 									"-fx-border-style: solid inside;" +
-									"-fx-border-width: 2;" +
-									"-fx-border-insets: 1;" +
-									"-fx-border-radius: 5;" +
+									"-fx-border-width: 0.3;" +
+									"-fx-border-insets: 0;" +
+									"-fx-border-radius: 1;" +
 									"-fx-border-color: red;");
 		pane.add(pane1, cx, cy);
 		pane.add(pane2, cx2, cy2);
@@ -215,14 +218,27 @@ public class Board {
 	}
 
 	/*
+	 * Check if the domino can be focused.
+	 */
+	public boolean canFocus(int x1, int y1, int r) {
+		int x2 = getX2(x1, r);
+		int y2 = getY2(y1, r);
+		if (!isInBorders(x1, y1, x2, y2)) {
+			return false;
+		} else if (!collidesWithCastle(x1, y1, x2, y2)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
 	 * Check if the domino can be inserted.
 	 */
 	public boolean canInsert(int x1, int y1, int r) {
 		int x2 = getX2(x1, r);
 		int y2 = getY2(y1, r);
-		if (!isInBorders(x1, y1, x2, y2)) {
-			return false;
-		} else if (!isValidMove(x1, y1, x2, y2, domino.type1, domino.type2)) {
+		if (!isValidMove(x1, y1, x2, y2, domino.type1, domino.type2)) {
 			return false;
 		} else {
 			return true;
@@ -247,6 +263,19 @@ public class Board {
 	}
 
 	/*
+	 * Check if the domino collides with the castle.
+	 */
+	public boolean collidesWithCastle(int x1, int y1, int x2, int y2) {
+		if (x1==width/2 && y1==height/2) {
+			return false;
+		} else if (x2==width/2 && y2==height/2) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
 	 * Check if the domino position respects position rules assuming
 	 * it is within the borders.
 	 */
@@ -256,20 +285,34 @@ public class Board {
 	}
 
 	/*
+	 * Tries to insert the domino.
+	 */
+	public void insert() {
+		if (canInsert(cx, cy, cr)) {
+			int cx2 = getX2(cx, cr);
+			int cy2 = getY2(cy, cr);
+			grid[cx][cy] = domino.getCase1();
+			grid[cx2][cy2] = domino.getCase2();
+			nextDomino = true;
+		}
+	}
+
+	/*
 	 * Tries to move the domino at the given relative position.
 	 */
 	public void move(int mx, int my) {
-		if (canInsert(cx + mx, cy + my, cr)) {
+		if (canFocus(cx + mx, cy + my, cr)) {
 			cx += mx;
 			cy += my;
+			System.out.println(String.format("x1=%d, y1=%d, x2=%d, y2=%d", cx, cy, getX2(cx, cr), getY2(cy, cr)));
 		}
 	}
 	/*
 	 * Tries to rotate the domino at the given relative position.
 	 */
 	public void rotate() {
-		if (canInsert(cx, cy, cr+1)) {
-			cr += 1;
+		if (canFocus(cx, cy, cr+1)) {
+			cr = (cr+1)%4;
 		}
 	}
 }
