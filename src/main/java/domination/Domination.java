@@ -64,6 +64,8 @@ public class Domination {
 		fillBoardDominos();
 		player.board.domino = player.dominos.remove(player.dominos.size() - 1);
 		player.board.nextDomino = true;
+		next();
+		System.out.println(String.format("turn=%d", turn));
 	}
 
 	/*

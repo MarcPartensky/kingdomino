@@ -227,6 +227,8 @@ public class Board {
 			return false;
 		} else if (!collidesWithCastle(x1, y1, x2, y2)) {
 			return false;
+		} else if (!collidesWithDominos(x1, y1, x2, y2)) {
+			return false;
 		} else {
 			return true;
 		}
@@ -266,6 +268,19 @@ public class Board {
 	 * Check if the domino collides with the castle.
 	 */
 	public boolean collidesWithCastle(int x1, int y1, int x2, int y2) {
+		if (x1==width/2 && y1==height/2) {
+			return false;
+		} else if (x2==width/2 && y2==height/2) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
+	 * Check if the domino collides with the castle.
+	 */
+	public boolean collidesWithDominos(int x1, int y1, int x2, int y2) {
 		if (x1==width/2 && y1==height/2) {
 			return false;
 		} else if (x2==width/2 && y2==height/2) {
