@@ -20,14 +20,6 @@ public class Deck {
 		this.dominos = dominos;
 	}
 
-	protected int getPickNumber(int playerNumber) {
-		if (playerNumber == 2) {
-			return 4;
-		} else {
-			return playerNumber;
-		}
-	}
-
 	/*
 	 *  Shuffle the deck.
 	 */
@@ -49,9 +41,8 @@ public class Deck {
 	 * Pick dominos for the next turn.
 	 * Might fail if not enough dominos left.
 	 */
-	public void pick(int playerNumber) {
+	public void pick(int pickNumber) {
 		pickedDominos.clear();
-		int pickNumber = getPickNumber(playerNumber);
 		for (int i=0; i<pickNumber; i++) {
 			Domino domino = dominos.remove(dominos.size()-1);
 			System.out.println(domino.toString());

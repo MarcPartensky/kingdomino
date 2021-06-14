@@ -63,9 +63,9 @@ public class Case {
 	}
 
 	/*
-	 * Return the name of the image of this case.
+	 * Return the name of the image of this case. (useless)
 	 */
-	public String getImageName() {
-		return String.valueOf(type) + String.valueOf(crown) + ".png";
-	}
+	// public String getImageName() {
+	// 	return String.valueOf(type) + String.valueOf(crown) + ".png";
+	// }
 }

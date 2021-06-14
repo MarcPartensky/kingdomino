@@ -14,15 +14,38 @@ public class Domination {
 	public Deck deck;
 	public boolean done = false;
 	public int round = 0;
+	public int mode = 0; // selection and placement  = 2 modes
 	public int turn = 0;
+	public static int maxTurn;
 
 	/*
 	 * Switch to next round.
 	 */
 	public void nextRound() {
 		round++;
-		deck.pick(players.size());
 		System.out.println("picked dominos for next round");
+	}
+
+	/*
+	 * Skip to the next step.
+	 */
+	public void next() {
+		if (deck.dominos.size()>0) {
+			if (turn<maxTurn-1) {
+				turn++;
+			} else {
+				if (mode==0) {
+					mode++;
+				} else {
+					clearPlayerDominos();
+					deck.pick(maxTurn);
+					mode = 0;
+					round++;
+				}
+			}
+		} else {
+			done = true;
+		}
 	}
 
 	/*
@@ -31,6 +54,21 @@ public class Domination {
 	public Domination(ArrayList<Player> players, Deck deck) {
 		this.players = players;
 		this.deck = deck;
+	}
+
+	public void load() {
+		if (players.size() == 2) {
+			maxTurn = 4;
+		} else {
+			maxTurn =  players.size();
+		}
+		deck.pick(maxTurn);
+	}
+
+	protected void clearPlayerDominos() {
+		for (Player player: players) {
+			player.dominos.clear();
+		}
 	}
 
 	/*

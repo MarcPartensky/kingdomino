@@ -21,8 +21,6 @@ import javafx.scene.layout.ColumnConstraints;
 import java.lang.Integer;
 import java.lang.Character;
 import java.util.concurrent.Callable;
-// import org.apache.commons.io.FileUtils;
-// import java.net.URL;
 
 import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
@@ -34,7 +32,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.SplitPane;
-// import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -295,7 +292,7 @@ public class Main extends Application {
 		Deck deck = buildDeck();
 		System.out.println("deck size:" + String.valueOf(deck.dominos.size()));
 		game = new Domination(players, deck);
-		game.nextRound();
+		game.load();
 
 		// Scene scene = new Scene(pane, width, height);
 		Scene scene = buildBoardScene();
