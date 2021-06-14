@@ -113,6 +113,9 @@ public class Domino {
 		}
 	}
 
+	/*
+	 * Return the numero of the domino.
+	 */
 	public int getN() {
 		return n;
 	}

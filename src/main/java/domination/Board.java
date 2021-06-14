@@ -20,8 +20,10 @@ import javafx.scene.control.Button;
 import domination.Case;
 
 public class Board {
-	final static int width = 5;
-	final static int height = 5;
+	public final static int width = 5;
+	public final static int height = 5;
+	public int cx=0;
+	public int cy=0;
 	public Case[][] grid = new Case[width][height];
 
 	static public String padLeftZeros(String inputString, int length) {
@@ -81,6 +83,14 @@ public class Board {
 					Case c = grid[x][y];
 					StackPane subpane = new StackPane();
 					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
+					if (x==cx && y==cy) {
+						subpane.setStyle("-fx-padding: 1;" +
+													"-fx-border-style: solid inside;" +
+													"-fx-border-width: 2;" +
+													"-fx-border-insets: 1;" +
+													"-fx-border-radius: 5;" +
+													"-fx-border-color: red;");
+					}
 					// System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
 					if (c.isNull == true) {
 						Rectangle rect = new Rectangle(caseWidth, caseHeight);

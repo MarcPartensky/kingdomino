@@ -88,6 +88,7 @@ public class Main extends Application {
 	protected HashMap<String, Character> nameToLetters = new HashMap();
 	protected int focusedDomino = 0;
 	protected boolean[] selectedDominos;
+	protected int[] boardCursor = { 0, 0 };
 
 	/*
 	 * Main function to launch the game.
@@ -216,22 +217,58 @@ public class Main extends Application {
 				break;
 			}
 			case 37: {
-				System.out.println("Focus left side domino");
-				System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
-				focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
-				System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
-				show();
-				System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				 if (game.mode==0) {
+					 System.out.println("Move board cursor left");
+					 if (game.getBoard().cx>0) {
+						game.getBoard().cx--;
+						show();
+					 }
+				 } else {
+					System.out.println("Focus left side domino");
+					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
+					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					show();
+					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				 }
+				break;
+			}
+			case 38: {
+				 if (game.mode==0) {
+					 System.out.println("Move board cursor up");
+					 if (game.getBoard().cy>0) {
+						game.getBoard().cy--;
+						show();
+					 }
+				 }
 				break;
 			}
 			case 39: {
-				System.out.println("Focus right side domino");
-				System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
-				focusedDomino = (focusedDomino + 1) % game.maxTurn;
-				System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
-				System.out.println(focusedDomino);
-				show();
-				System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				if (game.mode==0) {
+					 System.out.println("Move board cursor right");
+					 if (game.getBoard().cx<Board.width-1) {
+						game.getBoard().cx++;
+						show();
+					 }
+				} else {
+					System.out.println("Focus right side domino");
+					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					focusedDomino = (focusedDomino + 1) % game.maxTurn;
+					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(focusedDomino);
+					show();
+					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				}
+				break;
+			}
+			case 40: {
+				 if (game.mode==0) {
+					 System.out.println("Move board cursor down");
+					 if (game.getBoard().cy<Board.height-1) {
+						game.getBoard().cy++;
+						show();
+					 }
+				 }
 				break;
 			}
 			default:  {
@@ -289,7 +326,9 @@ public class Main extends Application {
         // }
     // });
 
-		stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
+		// stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
+		stage.addEventHandler(KeyEvent.KEY_RELEASED, (event) -> eventHandlerKeyPressed(event, stage));
+		// stage.setOnKeyPressed((event) -> eventHandlerKeyPressed(event, stage));
 		stage.show();
 		this.stage = stage;
 
@@ -410,6 +449,9 @@ public class Main extends Application {
 		}
 	}
 
+	/*
+	 * Return the scene of the board.
+	 */
 	protected Scene buildBoardScene() {
 		// AnchorPane root = new AnchorPane();
 		// VBox root = new VBox();
@@ -481,7 +523,7 @@ public class Main extends Application {
 		StackPane root = new StackPane();
 		// Label playerLabel = new Label(game.getCurrentPlayer().name);
 		// root.getChildren().add(playerLabel);
-		stage.setTitle(game.getCurrentPlayer().name);
+		stage.setTitle(game.players.get(game.turn%playerNumber).name);
 		root.setBackground(new Background(backgroundImage));
 		GridPane gridPane = new GridPane();
 		root.getChildren().add(gridPane);
