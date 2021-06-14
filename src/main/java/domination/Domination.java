@@ -34,7 +34,7 @@ public class Domination {
 			if (turn<maxTurn-1) {
 				turn++;
 			} else {
-				turn=0;
+				turn = 0;
 				if (mode==0) {
 					mode++;
 				} else {
@@ -49,6 +49,9 @@ public class Domination {
 		}
 	}
 
+	/*
+	 * Return the current player.
+	 */
 	public Player getCurrentPlayer() {
 		return players.get(turn%players.size());
 	}
@@ -61,6 +64,9 @@ public class Domination {
 		this.deck = deck;
 	}
 
+	/*
+	 * Load the game (not in constructor).
+	 */
 	public void load() {
 		if (players.size() == 2) {
 			maxTurn = 4;
@@ -70,6 +76,9 @@ public class Domination {
 		deck.pick(maxTurn);
 	}
 
+	/*
+	 * Clear player dominos.
+	 */
 	protected void clearPlayerDominos() {
 		for (Player player: players) {
 			player.dominos.clear();
