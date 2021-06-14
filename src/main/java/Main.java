@@ -145,14 +145,22 @@ public class Main extends Application {
 				break;
 			}
 			case 82: { // r
-				System.out.println("Reset the game");
-				loadGame(playerNumber);
-				show();
+				if (game.mode==0) {
+					System.out.println("Rotate the domino");
+					game.getBoard().rotate();
+					show();
+				}
 				break;
 			}
 			case 83: { // s
 				System.out.println("Shuffle the board");
 				game.getBoard().randomize();
+				show();
+				break;
+			}
+			case 84: { // t
+				System.out.println("Reset the game");
+				loadGame(playerNumber);
 				show();
 				break;
 			}
@@ -216,40 +224,33 @@ public class Main extends Application {
 				show();
 				break;
 			}
-			case 37: {
-				 if (game.mode==0) {
-					 System.out.println("Move board cursor left");
-					 if (game.getBoard().cx>0) {
-						game.getBoard().cx--;
-						show();
-					 }
-				 } else {
+			case 37: { // left
+				if (game.mode==0) {
+					System.out.println("Move board cursor left");
+					game.getBoard().move(-1, 0);
+					show();
+				} else {
 					System.out.println("Focus left side domino");
 					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
 					focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
 					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
 					show();
 					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
-				 }
+				}
 				break;
 			}
-			case 38: {
+			case 38: { // up
 				 if (game.mode==0) {
-					 System.out.println("Move board cursor up");
-					 if (game.getBoard().cy>0) {
-						game.getBoard().cy--;
-						show();
-					 }
+					System.out.println("Move board cursor up");
+					game.getBoard().move(0, 1);
 				 }
 				break;
 			}
-			case 39: {
+			case 39: { // right
 				if (game.mode==0) {
-					 System.out.println("Move board cursor right");
-					 if (game.getBoard().cx<Board.width-1) {
-						game.getBoard().cx++;
-						show();
-					 }
+					System.out.println("Move board cursor right");
+					game.getBoard().move(1, 0);
+					show();
 				} else {
 					System.out.println("Focus right side domino");
 					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
@@ -261,13 +262,11 @@ public class Main extends Application {
 				}
 				break;
 			}
-			case 40: {
+			case 40: { // down
 				 if (game.mode==0) {
-					 System.out.println("Move board cursor down");
-					 if (game.getBoard().cy<Board.height-1) {
-						game.getBoard().cy++;
-						show();
-					 }
+					System.out.println("Move board cursor down");
+					game.getBoard().move(0, -1);
+					show();
 				 }
 				break;
 			}
