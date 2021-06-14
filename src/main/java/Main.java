@@ -125,7 +125,7 @@ public class Main extends Application {
 		switch(event.getCode().getCode()) {
 			case 87 : { // ESC
 				System.out.println("Compute worth");
-				System.out.println(String.format("Board Worth is=", game.getBoard().computeWorth()));
+				System.out.println(String.format("Board Worth is=%d", game.getBoard().computeWorth()));
 				break;
 			}
 			case 27 : { // ESC
