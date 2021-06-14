@@ -209,12 +209,85 @@ public class Board {
 		}
 	}
 
+	public static ArrayList<int[]> getNeighbour(int x, int y){
+		ArrayList<int[]> result = new ArrayList<int[]>();
+		int[][] test = {{x,y}, {x+1, y}, {x, y+1}, {x, y-1}, {x-1,y}};//Potential neighbors
+		for (int[] coo : test) {
+			if (0<=coo[0] && coo[0]<width){
+				if (0<=coo[1] && coo[1]<height){
+					result.add(coo);
+				}
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<int[]> stepArea(ArrayList<int[]> area){
+		ArrayList<int[]> result = new ArrayList<int[]>();
+		ArrayList<int[]> neighbours = new ArrayList<int[]>();
+		for (int[] coo : area){
+			ArrayList<int[]> tmp = getNeighbour(coo[0], coo[1]);
+			neighbours.addAll(tmp);//potentially duplicates in the list
+		}
+		char typeRef = this.grid[area.get(0)[0]][area.get(0)[1]].type;
+		for (int[] coo : neighbours) {
+			if (this.grid[coo[0]][coo[1]].type==typeRef){
+				if (!result.contains(coo)){
+					result.add(coo);
+				}
+			}
+		}
+		return result;
+	}
+	/*
+	 * Returns the territory from the coordinates of a cell
+	 */
+	public ArrayList<int[]> getArea(int x, int y){
+		ArrayList<int[]> result = new ArrayList<int[]>();
+		result.add(new int[]{x, y});
+		for (int i = 0; i < width+height-1; i++) {
+			result = this.stepArea(result);
+		}
+		return result;
+	}
+
+	public static boolean in2Darray(int[] element, ArrayList<ArrayList<int[]>> list){
+		for (ArrayList<int[]> list1 : list) {
+			if (list1.contains(element)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public ArrayList<ArrayList<int[]>> getAreas(){
+		ArrayList<ArrayList<int[]>> result = new ArrayList<ArrayList<int[]>>();
+		for (int x=0; x < width; x++) {
+			for (int y=0; y < height; y++) {
+				if(in2Darray(new int[]{x, y}, result)){//The box is not already in a territory
+					result.add(this.getArea(x,y));
+				}
+			}
+		}
+		return result;
+	}
+
+
 	/*
 	 * Compute the worth of the board following the rules.
 	 */
+
 	public int computeWorth() {
-		// annoying work to be done here
-		return 0;
+		int result = 0;
+		ArrayList<ArrayList<int[]>> areas = this.getAreas();
+		for (ArrayList<int[]> area : areas){
+			int crownArea = 0;
+			for (int[] coo : area){
+				crownArea+=this.grid[coo[0]][coo[1]].crown;
+			}
+			result += crownArea * area.size();
+		}
+		return result;
 	}
 
 	/*
