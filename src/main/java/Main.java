@@ -224,8 +224,24 @@ public class Main extends Application {
 				break;
 			}
 			case 10: { // enter
-				System.out.println("Select focused domino");
-				selectDomino();
+				if (game.mode==1) {
+					System.out.println("Select focused domino");
+					selectDomino();
+				} else {
+					System.out.println("Insert domino");
+					insertDomino();
+				}
+				show();
+				break;
+			}
+			case 32: { // space
+				if (game.mode==1) {
+					System.out.println("Select focused domino");
+					selectDomino();
+				} else {
+					System.out.println("Insert domino");
+					insertDomino();
+				}
 				show();
 				break;
 			}
@@ -247,7 +263,8 @@ public class Main extends Application {
 			case 38: { // up
 				 if (game.mode==0) {
 					System.out.println("Move board cursor up");
-					game.getBoard().move(0, 1);
+					game.getBoard().move(0, -1);
+					show();
 				 }
 				break;
 			}
@@ -270,7 +287,7 @@ public class Main extends Application {
 			case 40: { // down
 				 if (game.mode==0) {
 					System.out.println("Move board cursor down");
-					game.getBoard().move(0, -1);
+					game.getBoard().move(0, 1);
 					show();
 				 }
 				break;
@@ -441,16 +458,25 @@ public class Main extends Application {
 	 * Select the focused domino.
 	 */
 	protected void selectDomino() {
-		if (game.mode == 1) {
-			Player player = game.getCurrentPlayer();
-			Domino domino = game.deck.pickedDominos.get(focusedDomino);
-			selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
-			player.dominos.add(domino);
-			game.next();
-			game.printState();
-		} else {
-			System.out.println("Can not select domino while in board scene.");
-		}
+		Player player = game.getPlayer();
+		Domino domino = game.deck.pickedDominos.get(focusedDomino);
+		selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
+		player.dominos.add(domino);
+		game.next();
+		game.printState();
+	}
+
+	/*
+	 * Insert the board domino inside the board.
+	 */
+	protected void insertDomino() {
+		game.insertDomino();
+		// if (board.canInsert(board.cx, board.cy, board.cr);
+		// Player player = game.getPlayer();
+		// Domino domino = game.deck.pickedDominos.get(focusedDomino);
+		// selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
+		// player.dominos.add(domino);
+		// game.next();
 	}
 
 	/*
@@ -525,7 +551,7 @@ public class Main extends Application {
 	 */
 	public Scene buildDeckScene() {
 		StackPane root = new StackPane();
-		// Label playerLabel = new Label(game.getCurrentPlayer().name);
+		// Label playerLabel = new Label(game.getPlayer().name);
 		// root.getChildren().add(playerLabel);
 		stage.setTitle(game.players.get(game.turn%playerNumber).name);
 		root.setBackground(new Background(backgroundImage));

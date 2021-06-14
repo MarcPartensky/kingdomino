@@ -66,12 +66,17 @@ public class Domino {
 	}
 
 	/*
-	 * Return the cases generated with a domino.
+	 * Return the first case generated with a domino.
 	 */
-	public Case[] getCases() {
-		Case case1 = new Case(type1, crown1);
-		Case case2 = new Case(type2, crown2);
-		return new Case[] {case1, case2};
+	public Case getCase1() {
+		return new Case(type1, crown1);
+	}
+
+	/*
+	 * Return the first case generated with a domino.
+	 */
+	public Case getCase2() {
+		return new Case(type2, crown2);
 	}
 
 	/*
