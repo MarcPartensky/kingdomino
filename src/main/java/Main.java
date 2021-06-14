@@ -488,7 +488,6 @@ public class Main extends Application {
 		// Pane root = new Pane();
 		// root.setMinSize(500, 500);
 		// root.setFillWidth(true);
-		// pane.setSpacing(20);
 		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
 		// pane.setFillWidth(true);

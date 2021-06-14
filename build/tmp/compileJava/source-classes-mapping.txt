@@ -1,14 +1,14 @@
-domination/Domino.java
- domination.Domino
-domination/Case.java
- domination.Case
+domination/Domination.java
+ domination.Domination
+Main.java
+ Main
 domination/Deck.java
  domination.Deck
 domination/Player.java
  domination.Player
 domination/Board.java
  domination.Board
-domination/Domination.java
- domination.Domination
-Main.java
- Main
+domination/Case.java
+ domination.Case
+domination/Domino.java
+ domination.Domino
