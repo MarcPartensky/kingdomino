@@ -123,6 +123,11 @@ public class Main extends Application {
 		System.out.println("---");
 
 		switch(event.getCode().getCode()) {
+			case 87 : { // ESC
+				System.out.println("Compute worth");
+				System.out.println(String.format("Board Worth is=", game.getBoard().computeWorth()));
+				break;
+			}
 			case 27 : { // ESC
 				System.out.println("Closing the stage");
 				stage.close();
