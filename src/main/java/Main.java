@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Dictionary;
 import javafx.scene.Node;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.ColumnConstraints;
 import java.lang.Integer;
 import java.lang.Character;
-import java.util.concurrent.Callable;
 
 import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
@@ -86,6 +86,8 @@ public class Main extends Application {
 	protected BackgroundImage backgroundImage;
 	protected Domination game;
 	protected HashMap<String, Character> nameToLetters = new HashMap();
+	protected int focusedDomino = 0;
+	protected boolean[] selectedDominos;
 
 	/*
 	 * Main function to launch the game.
@@ -144,15 +146,13 @@ public class Main extends Application {
 			case 82: { // r
 				System.out.println("Reset the game");
 				loadGame(playerNumber);
-				Scene scene = buildBoardScene();
-				stage.setScene(scene);
+				show();
 				break;
 			}
 			case 83: { // s
 				System.out.println("Shuffle the board");
 				game.getBoard().randomize();
-				Scene scene = buildBoardScene();
-				stage.setScene(scene);
+				show();
 				break;
 			}
 			case 74: { // j
@@ -176,8 +176,54 @@ public class Main extends Application {
 			case 65: { // a
 				System.out.println("Switch the board");
 				game.turn = (game.turn + 1) % playerNumber;
-				Scene scene = buildBoardScene();
+				Scene scene = buildDeckScene();
 				stage.setScene(scene);
+				break;
+			}
+			case 48: { // 0
+				System.out.println("Unfocus domino");
+				focusedDomino = -1;
+				show();
+				break;
+			}
+			case 49: { // 1
+				System.out.println("Focus first domino");
+				focusDomino(0);
+				show();
+				break;
+			}
+			case 50: { // 2
+				System.out.println("Focus second domino");
+				focusDomino(1);
+				show();
+				break;
+			}
+			case 51: { // 3
+				System.out.println("Focus third domino");
+				focusDomino(2);
+				show();
+				break;
+			}
+			case 52: { // 4
+				System.out.println("Focus fourth domino");
+				focusDomino(3);
+				show();
+				break;
+			}
+			case 10: { // enter
+				System.out.println("Select focused domino");
+				selectDomino();
+				show();
+				break;
+			}
+			case 37: {
+				focusedDomino = (focusedDomino + 1) % game.maxTurn;
+				show();
+				break;
+			}
+			case 39: {
+				focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
+				show();
 				break;
 			}
 			default:  {
@@ -289,17 +335,15 @@ public class Main extends Application {
 		for (int i=0; i<playerNumber; i++) {
 			players.add(new Player(new Board()));
 		}
-		System.out.println(String.format("playerNumber=%d", players.size()));
 
 		// The game object in itself does not posesses the images.
 		Deck deck = buildDeck();
 		System.out.println("deck size:" + String.valueOf(deck.dominos.size()));
 		game = new Domination(players, deck);
 		game.load();
+		selectedDominos = new boolean[game.maxTurn];
 
-		// Scene scene = new Scene(pane, width, height);
-		Scene scene = buildBoardScene();
-		stage.setScene(scene);
+		show();
 	}
 
 	// GridPane pane = new GridPane();
@@ -313,6 +357,49 @@ public class Main extends Application {
 	// pane.setFillWidth(true);
 	// pane.setAlignment(Pos.CENTER);
 	// pane.setSpacing(10);
+
+	/*
+	 * Show the game at its current state.
+	 */
+	protected void show() {
+		Scene scene;
+		if (game.mode==0) {
+			scene = buildBoardScene();
+		} else {
+			scene = buildDeckScene();
+		}
+		stage.setScene(scene);
+	}
+
+	/*
+	 * Focus the focused domino.
+	 */
+	protected void focusDomino(int n) {
+		if (game.mode == 1) {
+			if (n<=game.maxTurn) {
+				focusedDomino = n;
+			} else {
+				System.out.println(String.format("Domino %d does not exist.", n));
+				focusedDomino = -1;
+			}
+		} else {
+			System.out.println("Can not focus domino while in board scene.");
+		}
+	}
+
+	/*
+	 * Select the focused domino.
+	 */
+	protected void selectDomino() {
+		if (game.mode == 1) {
+			Player player = game.getCurrentPlayer();
+			Domino domino = game.deck.pickedDominos.get(focusedDomino);
+			selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
+			player.dominos.add(domino);
+		} else {
+			System.out.println("Can not select domino while in board scene.");
+		}
+	}
 
 	protected Scene buildBoardScene() {
 		// AnchorPane root = new AnchorPane();
@@ -383,6 +470,9 @@ public class Main extends Application {
 	 */
 	public Scene buildDeckScene() {
 		StackPane root = new StackPane();
+		// Label playerLabel = new Label(game.getCurrentPlayer().name);
+		// root.getChildren().add(playerLabel);
+		stage.setTitle(game.getCurrentPlayer().name);
 		root.setBackground(new Background(backgroundImage));
 		GridPane gridPane = new GridPane();
 		root.getChildren().add(gridPane);
@@ -395,6 +485,24 @@ public class Main extends Application {
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
 			Node node = domino.getNode(tiles, monotiles, tileWidth, tileHeight);
+			if (selectedDominos[i]) {
+				System.out.println(String.format("%d is selected", i+1));
+				node.setStyle("-fx-padding: 2;" +
+											"-fx-border-style: solid inside;" +
+											"-fx-border-width: 2;" +
+											"-fx-border-insets: 5;" +
+											"-fx-border-radius: 5;" +
+											"-fx-border-color: blue;");
+			}
+			if (focusedDomino==i) {
+				System.out.println(String.format("%d is focused", i+1));
+				node.setStyle("-fx-padding: 3;" +
+											"-fx-border-style: solid inside;" +
+											"-fx-border-width: 2;" +
+											"-fx-border-insets: 5;" +
+											"-fx-border-radius: 5;" +
+											"-fx-border-color: red;");
+			}
 			gridPane.add(node, i, 0, 1, 2);
 		}
 		gridPane.prefWidthProperty().bind(root.widthProperty());

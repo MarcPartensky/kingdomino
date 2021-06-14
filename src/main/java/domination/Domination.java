@@ -14,7 +14,7 @@ public class Domination {
 	public Deck deck;
 	public boolean done = false;
 	public int round = 0;
-	public int mode = 0; // selection and placement  = 2 modes
+	public int mode = 1; // selection and placement  = 2 modes
 	public int turn = 0;
 	public static int maxTurn;
 
