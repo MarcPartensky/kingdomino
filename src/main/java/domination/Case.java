@@ -1,22 +1,55 @@
 package domination;
+
+import java.util.Set;
+import java.util.HashSet;
+
 import java.util.Random;
 
 public class Case {
 	public static final char[] types = { 'c', 'f', 'i', 'm', 'p', 'o' };
 	public static int count = 0;
+	final public static int crownMaxNumber = 2;
 	public int n = 0;
 	public int crown = 0;
 	public char type;
+	public boolean isNull = false;
 
-	public Case() {}
+	/*
+	 * Return a random monotile filename based on the monotiles names.
+	 */
+	public static String getRandomMonotileName(char type, int crown, Set<String> monotilesNames) {
+		Set<String> filteredNames = new HashSet<String>();
+		String startName = String.valueOf(type)+String.valueOf(crown);
+		System.out.println(startName);
+
+		for (String monotileName: monotilesNames) {
+			if (monotileName.startsWith(startName))
+				filteredNames.add(monotileName);
+		}
+
+		int n = new Random().nextInt(filteredNames.size());
+		int i = 0;
+		String randomMonotileName = "";
+		for (String filteredName : filteredNames) {
+			if (i == n) randomMonotileName = filteredName;
+			i++;
+		}
+		System.out.println(randomMonotileName);
+		return randomMonotileName;
+	}
+
+
+	public Case() {
+		isNull = true;
+	}
 
 	/*
 	 * Return a random case.
 	 */
 	public static Case random() {
 		 return new Case(
-				(int)(49 * Math.random()),
-				types[new Random().nextInt(types.length)]
+				types[new Random().nextInt(types.length)],
+				(int)(crownMaxNumber * Math.random())
 		 );
 	}
 
@@ -33,6 +66,6 @@ public class Case {
 	 * Return the name of the image of this case.
 	 */
 	public String getImageName() {
-		return String.valueOf(type) + String.valueOf(crown) + "-" + String.valueOf(type2) + String.valueOf(crown2) + ".png";
+		return String.valueOf(type) + String.valueOf(crown) + ".png";
 	}
 }

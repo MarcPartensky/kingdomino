@@ -4,8 +4,13 @@ import java.util.Random;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import domination.Domino;
 import domination.Case;
@@ -71,7 +76,12 @@ public class Domino {
 	/*
 	 * Show the domino.
 	 */
-	public Pane getPane(HashMap<String, Image> tiles, HashMap<String, Image> monotiles) {
+	public Node getNode(
+			HashMap<String, Image> tiles,
+			HashMap<String, Image> monotiles,
+			int width,
+			int height
+	) {
 		System.out.println(toString());
 		String name = getImageName();
 		System.out.println(name);
@@ -81,14 +91,19 @@ public class Domino {
 			view.setRotate(90);
 			return view;
 		} else {
-			StackPane pane = new StackPane();
-			// HBox = new Hbox();
-			// String monotilef1 = ;
-			Image image1 = monotiles.get(String.format(String.valueOf(type1) + String.valueOf(type2)));
-			ImageView view = new ImageView(image);
-			pane.add(view1);
-			pane.add(view2);
-			return pane;
+			// StackPane pane = new StackPane();
+			String monotileName1 = Case.getRandomMonotileName(type1, crown1, monotiles.keySet());
+			String monotileName2 = Case.getRandomMonotileName(type2, crown2, monotiles.keySet());
+			Image image1 = monotiles.get(monotileName1);
+			ImageView view1 = new ImageView(image1);
+			view1.setFitWidth(width);
+			view1.setFitHeight(height);
+			Image image2 = monotiles.get(monotileName2);
+			ImageView view2 = new ImageView(image2);
+			view2.setFitWidth(width);
+			view2.setFitHeight(height);
+			return new VBox(view1, view2);
 		}
 	}
+
 }

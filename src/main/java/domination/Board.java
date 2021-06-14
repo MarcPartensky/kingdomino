@@ -39,14 +39,23 @@ public class Board {
 	/*
 	 * Build a random board.
 	 */
-	public static Board random(int max) {
+	public static Board random() {
 		Board board = new Board();
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				board.grid[x][y].n = (int)(Math.random() * (max + 1));
+				board.grid[x][y] = Case.random();
 			}
 		}
 		return board;
+	}
+
+	public void randomize() {
+		Board board = Board.random();
+		for (int x=0; x < width; x++) {
+			for (int y=0; y < height; y++) {
+				grid[x][y] = board.grid[x][y];
+			}
+		}
 	}
 
 	/*
@@ -63,7 +72,7 @@ public class Board {
 	/*
 	 * Show the board given on the given pane with the given images.
 	 */
-	public void show(GridPane pane, HashMap<String, Image> images, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
+	public void show(GridPane pane, HashMap<String, Image> monotiles, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
 				// System.out.println(x);
@@ -73,7 +82,8 @@ public class Board {
 					StackPane subpane = new StackPane();
 					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 					// System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
-					if (c.n == 0) {
+						System.out.println(String.format("case isNull=%b", c.isNull));
+					if (c.isNull == true) {
 						Rectangle rect = new Rectangle(caseWidth, caseHeight);
 						rect.setFill(Color.WHITE);
 						rect.setStroke(Color.BLACK);
@@ -84,7 +94,8 @@ public class Board {
 						// rect.setCache(true);
 						pane.add(rect, x, y);
 					} else {
-						ImageView view = new ImageView(images.get(c.n));
+						String monotileName = Case.getRandomMonotileName(c.type, c.crown, monotiles.keySet());
+						ImageView view = new ImageView(monotiles.get(monotileName));
 						view.setFitWidth(caseWidth);
 						view.setFitHeight(caseHeight);
 						subpane.getChildren().add(view);
@@ -114,15 +125,6 @@ public class Board {
 		}
 	}
 
-	// Randomize the board.
-	public void randomize(int max) {
-		for (int x=0; x < width; x++) {
-			for (int y=0; y < height; y++) {
-				grid[x][y].n = (int)(Math.random() * (max + 1));
-			}
-		}
-	}
-
 	/*
 	 * Compute the worth of the board following the rules.
 	 */
@@ -134,7 +136,8 @@ public class Board {
 	/*
 	 * Check if the move is valid.
 	 */
-	public isValidMove(int x1, int y1, int x2, int y2) {
-
+	public boolean isValidMove(int x1, int y1, int x2, int y2) {
+		// easy check
+		return true;
 	}
 }

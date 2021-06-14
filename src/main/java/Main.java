@@ -8,16 +8,19 @@ import java.util.stream.DoubleStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Dictionary;
+import javafx.scene.Node;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.ColumnConstraints;
 import java.lang.Integer;
 import java.lang.Character;
+import java.util.concurrent.Callable;
 // import org.apache.commons.io.FileUtils;
 // import java.net.URL;
 
@@ -150,7 +153,7 @@ public class Main extends Application {
 			}
 			case 83: { // s
 				System.out.println("Shuffle the board");
-				game.getBoard().randomize(dominosNumber);
+				game.getBoard().randomize();
 				Scene scene = buildBoardScene();
 				stage.setScene(scene);
 				break;
@@ -390,8 +393,8 @@ public class Main extends Application {
 		System.out.println("pickedDominoSize:" + String.valueOf(game.deck.pickedDominos.size()));
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
-			Pane pane = domino.getPane(tiles, monotiles);
-			gridPane.add(pane, i, 0, 1, 2);
+			Node node = domino.getNode(tiles, monotiles, tileWidth, tileHeight);
+			gridPane.add(node, i, 0, 1, 2);
 		}
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		return new Scene(root, width, height);
@@ -538,4 +541,5 @@ public class Main extends Application {
 
 		return deck;
 	}
+
 }
