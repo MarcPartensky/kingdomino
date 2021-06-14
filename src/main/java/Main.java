@@ -61,7 +61,7 @@ import domination.Board;
 public class Main extends Application {
 	protected String title = "King Domino";
 	protected boolean fullscreen = false;
-	protected boolean skipMenu = true;
+	protected boolean skipMenu = false;
 	protected int width = 800;
 	protected int height = 600;
 	protected int tileWidth = 100; // temp
@@ -73,7 +73,6 @@ public class Main extends Application {
 	protected int playerNumber = 2;
 	protected String csvPath = "assets/dominos.csv";
 	protected String tilesPath = "assets/img/tiles";
-	// protected ArrayList<Image> tiles = new ArrayList<Image>();
 	protected HashMap<String, Image> tiles = new HashMap<String, Image>();
 	protected String monotilesPath = "assets/img/monotiles";
 	protected HashMap<String, Image> monotiles = new HashMap<String, Image>();
@@ -141,9 +140,9 @@ public class Main extends Application {
 				stage.close();
 				break;
 			}
-			case 82: { // 3
+			case 82: { // r
 				System.out.println("Reset the game");
-				// game.reset();
+				loadGame(playerNumber);
 				Scene scene = buildBoardScene();
 				stage.setScene(scene);
 				break;
@@ -155,19 +154,19 @@ public class Main extends Application {
 				stage.setScene(scene);
 				break;
 			}
-			case 49: { // 1
+			case 74: { // j
 				System.out.println("Show the menu");
 				Scene scene = buildMenu();
 				stage.setScene(scene);
 				break;
 			}
-			case 50: { // 2
+			case 75: { // k
 				System.out.println("Show the board");
 				Scene scene = buildBoardScene();
 				stage.setScene(scene);
 				break;
 			}
-			case 51: { // 3
+			case 76: { // l
 				System.out.println("Show the deck");
 				Scene scene = buildDeckScene();
 				stage.setScene(scene);
@@ -248,7 +247,7 @@ public class Main extends Application {
 	 * Menu scene, first scene of the game.
 	 */
 	public Scene buildMenu() {
-		Label label = new Label("Menu");
+		// Label label = new Label("Menu");
 
 		Button buttonTwoPlayers = new Button("2 Players");
 		Button buttonThreePlayers = new Button("3 Players");
@@ -273,7 +272,7 @@ public class Main extends Application {
 		// pane.getChildren().add(buttonTwoPlayers);
 		// pane.getChildren().add(buttonThreePlayers);
 		// pane.getChildren().add(buttonFourPlayers);
-		// pane.getChildren().add(label);
+		// vbox.getChildren().add(label);
 
 		return new Scene(vbox, width, height);
 	}
@@ -282,11 +281,14 @@ public class Main extends Application {
 	 * Build the game object.
 	 */
 	public void loadGame(int playerNumber) {
+		this.playerNumber = playerNumber;
 		Label label = new Label("Load the game.");
+		System.out.println(String.format("playerNumber=%d", playerNumber));
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (int i=0; i<playerNumber; i++) {
 			players.add(new Player(new Board()));
 		}
+		System.out.println(String.format("playerNumber=%d", players.size()));
 
 		// The game object in itself does not posesses the images.
 		Deck deck = buildDeck();
@@ -515,10 +517,10 @@ public class Main extends Application {
 				i++;
 				if (i==1) { continue; }
 				String[] data = row.split(",");
-				System.out.println(data[1]);
-				System.out.println(data[3]);
-				System.out.println(nameToLetters.get(data[1]));
-				System.out.println(nameToLetters.get(data[3]));
+				// System.out.println(data[1]);
+				// System.out.println(data[3]);
+				// System.out.println(nameToLetters.get(data[1]));
+				// System.out.println(nameToLetters.get(data[3]));
 				dominos.add(new Domino(
 							i,
 							nameToLetters.get(data[1]),

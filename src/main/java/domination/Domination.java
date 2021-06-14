@@ -48,6 +48,10 @@ public class Domination {
 		}
 	}
 
+	public Player getCurrentPlayer() {
+		return players.get(turn%players.size());
+	}
+
 	/*
 	 * Initalize the game the game.
 	 */

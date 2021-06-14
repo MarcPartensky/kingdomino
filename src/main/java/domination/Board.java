@@ -82,7 +82,6 @@ public class Board {
 					StackPane subpane = new StackPane();
 					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 					// System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
-						System.out.println(String.format("case isNull=%b", c.isNull));
 					if (c.isNull == true) {
 						Rectangle rect = new Rectangle(caseWidth, caseHeight);
 						rect.setFill(Color.WHITE);

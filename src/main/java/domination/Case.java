@@ -20,13 +20,10 @@ public class Case {
 	public static String getRandomMonotileName(char type, int crown, Set<String> monotilesNames) {
 		Set<String> filteredNames = new HashSet<String>();
 		String startName = String.valueOf(type)+String.valueOf(crown);
-		System.out.println(startName);
-
 		for (String monotileName: monotilesNames) {
 			if (monotileName.startsWith(startName))
 				filteredNames.add(monotileName);
 		}
-
 		int n = new Random().nextInt(filteredNames.size());
 		int i = 0;
 		String randomMonotileName = "";
@@ -34,7 +31,6 @@ public class Case {
 			if (i == n) randomMonotileName = filteredName;
 			i++;
 		}
-		System.out.println(randomMonotileName);
 		return randomMonotileName;
 	}
 

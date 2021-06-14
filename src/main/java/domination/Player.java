@@ -12,6 +12,7 @@ public class Player {
 	public ArrayList<Domino> dominos = new ArrayList<Domino>();
 	public static int count=0;
 	public int n=0;
+	public String name;
 
 	/*
 	 * Initialize a player.

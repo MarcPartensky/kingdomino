@@ -1,5 +1,6 @@
 run:
-	gradle run --args="--skip true"
+	# gradle run --args="--skip true"
+	gradle run
 
 gradlew:
 	./gradlew run
