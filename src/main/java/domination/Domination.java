@@ -34,6 +34,7 @@ public class Domination {
 			if (turn<maxTurn-1) {
 				turn++;
 			} else {
+				turn=0;
 				if (mode==0) {
 					mode++;
 				} else {
@@ -80,5 +81,12 @@ public class Domination {
 	 */
 	public Board getBoard() {
 		return players.get(turn).board;
+	}
+
+	/*
+	 * Show the state of the game.
+	 */
+	public void printState() {
+		System.out.println(String.format("Game State: round=%d, mode=%d, turn=%d", round, mode, turn));
 	}
 }

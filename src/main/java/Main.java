@@ -182,7 +182,6 @@ public class Main extends Application {
 			}
 			case 48: { // 0
 				System.out.println("Unfocus domino");
-				focusedDomino = -1;
 				show();
 				break;
 			}
@@ -217,13 +216,22 @@ public class Main extends Application {
 				break;
 			}
 			case 37: {
-				focusedDomino = (focusedDomino + 1) % game.maxTurn;
+				System.out.println("Focus left side domino");
+				System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
+				System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
 				show();
+				System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
 				break;
 			}
 			case 39: {
-				focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
+				System.out.println("Focus right side domino");
+				System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				focusedDomino = (focusedDomino + 1) % game.maxTurn;
+				System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+				System.out.println(focusedDomino);
 				show();
+				System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
 				break;
 			}
 			default:  {
@@ -380,7 +388,6 @@ public class Main extends Application {
 				focusedDomino = n;
 			} else {
 				System.out.println(String.format("Domino %d does not exist.", n));
-				focusedDomino = -1;
 			}
 		} else {
 			System.out.println("Can not focus domino while in board scene.");
@@ -396,6 +403,8 @@ public class Main extends Application {
 			Domino domino = game.deck.pickedDominos.get(focusedDomino);
 			selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
 			player.dominos.add(domino);
+			game.next();
+			game.printState();
 		} else {
 			System.out.println("Can not select domino while in board scene.");
 		}
@@ -486,7 +495,7 @@ public class Main extends Application {
 			Domino domino = game.deck.pickedDominos.get(i);
 			Node node = domino.getNode(tiles, monotiles, tileWidth, tileHeight);
 			if (selectedDominos[i]) {
-				System.out.println(String.format("%d is selected", i+1));
+				System.out.println(String.format("%d is selected", i));
 				node.setStyle("-fx-padding: 2;" +
 											"-fx-border-style: solid inside;" +
 											"-fx-border-width: 2;" +
@@ -495,7 +504,7 @@ public class Main extends Application {
 											"-fx-border-color: blue;");
 			}
 			if (focusedDomino==i) {
-				System.out.println(String.format("%d is focused", i+1));
+				System.out.println(String.format("%d is focused", i));
 				node.setStyle("-fx-padding: 3;" +
 											"-fx-border-style: solid inside;" +
 											"-fx-border-width: 2;" +

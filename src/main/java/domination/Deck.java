@@ -3,6 +3,8 @@ package domination;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+// import java.util.Comparing;
 import domination.Domino;
 
 /*
@@ -48,6 +50,7 @@ public class Deck {
 			System.out.println(domino.toString());
 			pickedDominos.add(domino);
 		}
+		Collections.sort(pickedDominos, Comparator.comparing(domino -> domino.getN()));
 	}
 }
 

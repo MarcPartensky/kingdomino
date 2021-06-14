@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
 
 import domination.Domino;
 import domination.Case;
@@ -107,8 +108,13 @@ public class Domino {
 			ImageView view2 = new ImageView(image2);
 			view2.setFitWidth(width);
 			view2.setFitHeight(height);
-			return new VBox(view1, view2);
+			Label label = new Label(String.format("Domino %d", n));
+			return new VBox(label, view1, view2);
 		}
+	}
+
+	public int getN() {
+		return n;
 	}
 
 }
