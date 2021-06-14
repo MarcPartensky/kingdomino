@@ -71,6 +71,7 @@ public class Main extends Application {
 	protected int dominosNumber = 48;
 	protected int sceneMode = 0;
 	protected int playerNumber = 2;
+	final protected int maxPlayerNumber = 4;
 	protected String csvPath = "assets/dominos.csv";
 	protected String tilesPath = "assets/img/tiles";
 	protected HashMap<String, Image> tiles = new HashMap<String, Image>();
@@ -369,6 +370,7 @@ public class Main extends Application {
 		// gridPane.setFillWidth(true);
 		// GridPane.setConstraints(gridPane, 8, 8);
 		// gridPane.setHgrow(Priority.ALWAYS);
+		System.out.println(String.format("players=%d", game.players.size()));
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		Image castleImage = castleImages.get(game.turn);
 		Image castleTileImage = castleTileImages.get(game.turn);
@@ -427,7 +429,7 @@ public class Main extends Application {
 		}
 
 		// load the castleImages
-	 for (int i=1; i<=playerNumber; i++) {
+	 for (int i=1; i<=maxPlayerNumber; i++) {
 		String path = playersPath + String.valueOf(i) + "/castle.png";
 		System.out.println(path);
 		FileInputStream castleImageStream = new FileInputStream(path);
@@ -435,7 +437,7 @@ public class Main extends Application {
 	 }
 
 		// load the castleTileImages
-	 for (int i=1; i<=playerNumber; i++) {
+	 for (int i=1; i<=maxPlayerNumber; i++) {
 		String path = playersPath + String.valueOf(i) + "/tile.png";
 		System.out.println(path);
 		FileInputStream castleTileImageStream = new FileInputStream(path);
