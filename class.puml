@@ -1,0 +1,63 @@
+
+     ┌────┐          ┌─────┐
+     │test│          │test3│
+     └─┬──┘          └──┬──┘
+       │────┐           │
+       │    │           │
+       │<───┘           │
+       │                │
+       │                │
+       │ ──────────────>│
+     ┌─┴──┐          ┌──┴──┐
+     │test│          │test3│
+     └────┘          └─────┘
+
+@startuml
+
+class Domination {
+	Player[] players
+	void next()
+}
+
+class Case {
+	int crown
+	char type
+	void next()
+}
+
+class Domino {
+	+char type1
+	+char type2
+	+int crown1
+	+int crown2
+	+int n
+	#static int count
+	+Node getNode()
+}
+
+class Board {
+	Case[][] grid
+	Domino domino
+	void show()
+}
+
+
+class Player {
+	Board board
+	ArrayList<Domino> dominos
+	void next()
+}
+
+class Main {
+	#Domination game
+	#void main
+}
+
+Main *-- Domination
+Domination *-- "2-4" Player
+Player *-- "1-2" Domino
+Player *-- Board
+Board *-- Domino
+Board *-- "5*5" Case
+
+@enduml
