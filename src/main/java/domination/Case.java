@@ -44,7 +44,7 @@ public class Case {
 	 */
 	public static Case random() {
 		 return new Case(
-				types[new Random().nextInt(types.length)],
+				types[new Random().nextInt(types.length-1)],
 				(int)(crownMaxNumber * Math.random())
 		 );
 	}

@@ -228,7 +228,7 @@ public class Board {
 		for (int[] coo : test) {
 			if (0<=coo[0] && coo[0]<width){
 				if (0<=coo[1] && coo[1]<height){
-					result.add(coo);
+						result.add(coo);
 				}
 			}
 		}
@@ -283,11 +283,13 @@ public class Board {
 
 	public int computeWorth() {
 		int result = 0;
+		this.grid[2][2].crown = 0;
+		this.grid[2][2].type = 'x';
 		ArrayList<ArrayList<int[]>> areas = this.getAreas();
 		for (ArrayList<int[]> area : areas){
 			int crownArea = 0;
 			for (int[] coo : area){
-				crownArea+=this.grid[coo[0]][coo[1]].crown;
+				crownArea += this.grid[coo[0]][coo[1]].crown;
 			}
 			result += crownArea * area.size();
 		}
