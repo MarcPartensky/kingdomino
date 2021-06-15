@@ -79,6 +79,8 @@ public class Board {
 				grid[x][y] = new Case();
 			}
 		}
+		this.grid[2][2].crown = 0;
+		this.grid[2][2].type = 'x';
 	}
 
 	/*
@@ -283,6 +285,8 @@ public class Board {
 
 	public int computeWorth() {
 		int result = 0;
+		System.out.println("type case ");
+		System.out.println(this.grid[0][0].type);
 		this.grid[2][2].crown = 0;
 		this.grid[2][2].type = 'x';
 		ArrayList<ArrayList<int[]>> areas = this.getAreas();
@@ -374,8 +378,24 @@ public class Board {
 	 * it is within the borders.
 	 */
 	public boolean isValidMove(int x1, int y1, int x2, int y2, char t1, char t2) {
-		// true work needs to be done
-		return true;
+			this.grid[2][2].type = 'x';
+			int[][] cooInput = {{x1,y1},{x2,y2}};
+			char[] typeInput = new char[]{t1, t2};
+			for (int i = 0; i<2; i++){
+				ArrayList<int[]> neighbours = getNeighbour(cooInput[i][0], cooInput[i][1]);
+				for (int[] cell : neighbours){
+				  char typeNeighbour = grid[cell[0]][cell[1]].type;
+					if (typeNeighbour==typeInput[i] || typeNeighbour=='x'){
+						//System.out.println("Valide Move");
+						//System.out.println(cell[0]);
+						//System.out.println(cell[1]);
+						return true;
+					}
+				}
+
+			}
+			//System.out.println("Invalide move");
+			return false;
 	}
 
 	/*
