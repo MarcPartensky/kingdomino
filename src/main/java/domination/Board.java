@@ -1,24 +1,19 @@
 package domination;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import javafx.scene.layout.Pane;
+
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.control.Button;
-
-import domination.Case;
-import domination.Domino;
 
 /*
  * Board of a player.
@@ -209,6 +204,24 @@ public class Board {
 		}
 	}
 
+	public static boolean in1DArray(int[] candidate, ArrayList<int[]> list){
+		for(final int[] item : list){
+			if(Arrays.equals(item, candidate)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean in2DArray(int[] element, ArrayList<ArrayList<int[]>> list){
+		for (ArrayList<int[]> list1 : list) {
+			if (in1DArray(element, list1)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static ArrayList<int[]> getNeighbour(int x, int y){
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		int[][] test = {{x,y}, {x+1, y}, {x, y+1}, {x, y-1}, {x-1,y}};//Potential neighbors
@@ -232,7 +245,7 @@ public class Board {
 		char typeRef = this.grid[area.get(0)[0]][area.get(0)[1]].type;
 		for (int[] coo : neighbours) {
 			if (this.grid[coo[0]][coo[1]].type==typeRef){
-				if (!result.contains(coo)){
+				if (!in1DArray(coo, result)){
 					result.add(coo);
 				}
 			}
@@ -251,20 +264,11 @@ public class Board {
 		return result;
 	}
 
-	public static boolean in2Darray(int[] element, ArrayList<ArrayList<int[]>> list){
-		for (ArrayList<int[]> list1 : list) {
-			if (list1.contains(element)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public ArrayList<ArrayList<int[]>> getAreas(){
 		ArrayList<ArrayList<int[]>> result = new ArrayList<ArrayList<int[]>>();
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				if(in2Darray(new int[]{x, y}, result)){//The box is not already in a territory
+				if(!in2DArray(new int[]{x, y}, result)){//The cell is not already in a territory
 					result.add(this.getArea(x,y));
 				}
 			}
