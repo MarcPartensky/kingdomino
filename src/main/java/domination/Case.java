@@ -13,6 +13,7 @@ public class Case {
 	public int crown = 0;
 	public char type;
 	public boolean isNull = false;
+	public int tile = 1;
 
 	/*
 	 * Return a random monotile filename based on the monotiles names.
@@ -25,6 +26,7 @@ public class Case {
 				filteredNames.add(monotileName);
 		}
 		int n = new Random().nextInt(filteredNames.size());
+		// System.out.println(String.format("Case.getRandomMonotileName=%d", n));
 		int i = 0;
 		String randomMonotileName = "";
 		for (String filteredName : filteredNames) {

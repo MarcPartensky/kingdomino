@@ -87,7 +87,6 @@ public class Main extends Application {
 	protected Domination game;
 	protected HashMap<String, Character> nameToLetters = new HashMap();
 	protected int focusedDomino = 0;
-	protected boolean[] selectedDominos;
 	protected int[] boardCursor = { 0, 0 };
 
 	/*
@@ -150,7 +149,7 @@ public class Main extends Application {
 				break;
 			}
 			case 82: { // r
-				if (game.mode==0) {
+				if (game.mode==1) {
 					System.out.println("Rotate the domino");
 					game.getBoard().rotate();
 					show();
@@ -224,7 +223,7 @@ public class Main extends Application {
 				break;
 			}
 			case 10: { // enter
-				if (game.mode==1) {
+				if (game.mode==0) {
 					System.out.println("Select focused domino");
 					selectDomino();
 				} else {
@@ -235,7 +234,7 @@ public class Main extends Application {
 				break;
 			}
 			case 32: { // space
-				if (game.mode==1) {
+				if (game.mode==0) {
 					System.out.println("Select focused domino");
 					selectDomino();
 				} else {
@@ -246,7 +245,7 @@ public class Main extends Application {
 				break;
 			}
 			case 37: { // left
-				if (game.mode==0) {
+				if (game.mode==1) {
 					System.out.println("Move board cursor left");
 					game.getBoard().move(-1, 0);
 					show();
@@ -261,7 +260,7 @@ public class Main extends Application {
 				break;
 			}
 			case 38: { // up
-				 if (game.mode==0) {
+				 if (game.mode==1) {
 					System.out.println("Move board cursor up");
 					game.getBoard().move(0, -1);
 					show();
@@ -269,7 +268,7 @@ public class Main extends Application {
 				break;
 			}
 			case 39: { // right
-				if (game.mode==0) {
+				if (game.mode==1) {
 					System.out.println("Move board cursor right");
 					game.getBoard().move(1, 0);
 					show();
@@ -285,7 +284,7 @@ public class Main extends Application {
 				break;
 			}
 			case 40: { // down
-				 if (game.mode==0) {
+				 if (game.mode==1) {
 					System.out.println("Move board cursor down");
 					game.getBoard().move(0, 1);
 					show();
@@ -409,7 +408,7 @@ public class Main extends Application {
 		System.out.println("deck size:" + String.valueOf(deck.dominos.size()));
 		game = new Domination(players, deck);
 		game.load();
-		selectedDominos = new boolean[game.maxTurn];
+		game.selectedDominos = new boolean[game.maxTurn];
 
 		show();
 	}
@@ -432,9 +431,9 @@ public class Main extends Application {
 	protected void show() {
 		Scene scene;
 		if (game.mode==0) {
-			scene = buildBoardScene();
-		} else {
 			scene = buildDeckScene();
+		} else {
+			scene = buildBoardScene();
 		}
 		stage.setScene(scene);
 	}
@@ -443,7 +442,7 @@ public class Main extends Application {
 	 * Focus the focused domino.
 	 */
 	protected void focusDomino(int n) {
-		if (game.mode == 1) {
+		if (game.mode == 0) {
 			if (n<=game.maxTurn) {
 				focusedDomino = n;
 			} else {
@@ -460,8 +459,9 @@ public class Main extends Application {
 	protected void selectDomino() {
 		Player player = game.getPlayer();
 		Domino domino = game.deck.pickedDominos.get(focusedDomino);
-		selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
+		game.selectedDominos[focusedDomino] = !game.selectedDominos[focusedDomino];
 		player.dominos.add(domino);
+		System.out.println(String.format("domino.size=%d", player.dominos.size()));
 		game.next();
 		game.printState();
 	}
@@ -483,12 +483,12 @@ public class Main extends Application {
 	 * Return the scene of the board.
 	 */
 	protected Scene buildBoardScene() {
+		stage.setTitle(game.players.get(game.turn%playerNumber).name);
 		// AnchorPane root = new AnchorPane();
 		// VBox root = new VBox();
 		// Pane root = new Pane();
 		// root.setMinSize(500, 500);
 		// root.setFillWidth(true);
-		// pane.setSpacing(20);
 		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
 		// pane.setFillWidth(true);
@@ -540,8 +540,8 @@ public class Main extends Application {
 		// gridPane.setHgrow(Priority.ALWAYS);
 		System.out.println(String.format("players=%d", game.players.size()));
 		gridPane.prefWidthProperty().bind(root.widthProperty());
-		Image castleImage = castleImages.get(game.turn);
-		Image castleTileImage = castleTileImages.get(game.turn);
+		Image castleImage = castleImages.get(game.playerTurn);
+		Image castleTileImage = castleTileImages.get(game.playerTurn);
 		board.show(gridPane, monotiles, castleImage, castleTileImage, tileWidth, tileHeight);
 		return new Scene(root, width, height);
 	}
@@ -566,7 +566,7 @@ public class Main extends Application {
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
 			Node node = domino.getNode(tiles, monotiles, tileWidth, tileHeight);
-			if (selectedDominos[i]) {
+			if (game.selectedDominos[i]) {
 				System.out.println(String.format("%d is selected", i));
 				node.setStyle("-fx-padding: 2;" +
 											"-fx-border-style: solid inside;" +

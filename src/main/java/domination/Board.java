@@ -136,7 +136,8 @@ public class Board {
 						// rect.setCache(true);
 						pane.add(rect, x, y);
 					} else {
-						String monotileName = Case.getRandomMonotileName(c.type, c.crown, monotiles.keySet());
+						// String monotileName = Case.getRandomMonotileName(c.type, c.crown, monotiles.keySet());
+						String monotileName = String.format("%c%d-0%d.png", c.type, c.crown, c.tile);
 						ImageView view = new ImageView(monotiles.get(monotileName));
 						view.setFitWidth(caseWidth);
 						view.setFitHeight(caseHeight);
@@ -168,8 +169,8 @@ public class Board {
 		pane2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 		String monotileName1 = Case.getRandomMonotileName(domino.type1, domino.crown1, monotiles.keySet());
 		String monotileName2 = Case.getRandomMonotileName(domino.type2, domino.crown2, monotiles.keySet());
-		System.out.println("monotileName1=" + monotileName1);
-		System.out.println("monotileName2=" + monotileName2);
+		// System.out.println("monotileName1=" + monotileName1);
+		// System.out.println("monotileName2=" + monotileName2);
 		ImageView view1 = new ImageView(monotiles.get(monotileName1));
 		ImageView view2 = new ImageView(monotiles.get(monotileName2));
 		view1.setFitWidth(width);
@@ -237,7 +238,7 @@ public class Board {
 		return result;
 	}
 
-	public ArrayList<int[]> stepArea(ArrayList<int[]> area){
+	public ArrayList<int[]> stepArea(ArrayList<int[]> area) {
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
 		for (int[] coo : area){
@@ -260,7 +261,7 @@ public class Board {
 	/*
 	 * Returns the territory from the coordinates of a cell
 	 */
-	public ArrayList<int[]> getArea(int x, int y){
+	public ArrayList<int[]> getArea(int x, int y) {
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		result.add(new int[]{x, y});
 		for (int i = 0; i < width+height-2; i++) {
@@ -327,6 +328,7 @@ public class Board {
 		int x2 = getX2(x1, r);
 		int y2 = getY2(y1, r);
 		if (!isValidMove(x1, y1, x2, y2, domino.type1, domino.type2)) {
+			System.out.println("Is not valid move");
 			return false;
 		} else {
 			return true;
@@ -395,7 +397,6 @@ public class Board {
 						return true;
 					}
 				}
-
 			}
 			//System.out.println("Invalide move");
 			return false;
@@ -405,13 +406,11 @@ public class Board {
 	 * Tries to insert the domino.
 	 */
 	public void insert() {
-		if (canInsert(cx, cy, cr)) {
-			int cx2 = getX2(cx, cr);
-			int cy2 = getY2(cy, cr);
-			grid[cx][cy] = domino.getCase1();
-			grid[cx2][cy2] = domino.getCase2();
-			nextDomino = true;
-		}
+		int cx2 = getX2(cx, cr);
+		int cy2 = getY2(cy, cr);
+		grid[cx][cy] = domino.getCase1();
+		grid[cx2][cy2] = domino.getCase2();
+		nextDomino = true;
 	}
 
 	/*
@@ -428,7 +427,7 @@ public class Board {
 	 * Tries to rotate the domino at the given relative position.
 	 */
 	public void rotate() {
-		if (canFocus(cx, cy, cr+1)) {
+		if (canFocus(cx, cy, (cr+1)%4)) {
 			cr = (cr+1)%4;
 		}
 	}

@@ -14,31 +14,37 @@ public class Domination {
 	public Deck deck;
 	public boolean done = false;
 	public int round = 0;
-	public int mode = 1; // selection and placement  = 2 modes
+	public int mode = 0; // selection and placement  = 2 modes
+	public int previousMode = 1;
 	public int turn = 0;
+	public int playerTurn = 0;
+	public int n = 0;
 	public static int maxTurn;
 	public ArrayList<Integer> playersOrder = new ArrayList<Integer>();
+	public boolean[] selectedDominos;
 
 	/*
 	 * Skip to the next step.
 	 */
 	public void next() {
-		if (deck.dominos.size()>0) {
-			if (turn<maxTurn-1) {
-				turn++;
-			} else {
-				turn = 0;
-				if (mode==0) {
-					mode = 1;
-					clearPlayerDominos();
-					deck.pick(maxTurn);
-				} else {
-					mode = 0;
-					fillBoardDominos();
-					round++;
-				}
+		n++;
+		turn = n%maxTurn;
+		playerTurn = turn%players.size();
+		round = 2 * n/maxTurn;
+		previousMode = mode;
+		mode = (n/maxTurn) % 2;
+		System.out.println(String.format("maxTurn=%d", maxTurn));
+		printState();
+		if (previousMode==1 && mode==0) {
+			for (int i=0; i<maxTurn; i++) {
+				selectedDominos[i] = false;
 			}
-		} else {
+			clearPlayerDominos();
+			deck.pick(maxTurn);
+		} else if (mode==1){
+			fillBoardDominos();
+		}
+		if (deck.dominos.size()>0) {
 			done = true;
 		}
 	}
@@ -60,10 +66,13 @@ public class Domination {
 	 */
 	public void insertDomino() {
 		Player player = getPlayer();
-		player.board.insert();
-		fillBoardDominos();
-		next();
-		System.out.println(String.format("turn=%d", turn));
+		if (player.board.canInsert(player.board.cx, player.board.cy, player.board.cr)) {
+			player.board.insert();
+			fillBoardDominos();
+			next();
+		} else {
+			System.out.println("Invalid move!");
+		}
 	}
 
 	/*
@@ -71,7 +80,7 @@ public class Domination {
 	 */
 	public void fillBoardDominos() {
 		for (Player player: players) {
-			if (player.board.nextDomino) {
+			if (player.board.nextDomino && player.dominos.size()>0) {
 				System.out.println(String.format("player dominos=%d", player.dominos.size()));
 				player.board.domino = player.dominos.remove(player.dominos.size() - 1);
 				player.board.nextDomino = false;
@@ -83,7 +92,7 @@ public class Domination {
 	 * Return the current player.
 	 */
 	public Player getPlayer() {
-		return players.get(turn%players.size());
+		return players.get(playerTurn);
 	}
 
 	/*
@@ -103,6 +112,7 @@ public class Domination {
 		} else {
 			maxTurn =  players.size();
 		}
+		System.out.println(String.format("players.size=%d", players.size()));
 		deck.pick(maxTurn);
 	}
 
@@ -119,13 +129,13 @@ public class Domination {
 	 * Get the board at the set turn.
 	 */
 	public Board getBoard() {
-		return players.get(turn).board;
+		return players.get(playerTurn).board;
 	}
 
 	/*
 	 * Show the state of the game.
 	 */
 	public void printState() {
-		System.out.println(String.format("Game State: round=%d, mode=%d, turn=%d", round, mode, turn));
+		System.out.println(String.format("Game State: n=%d, round=%d, mode=%d, turn=%d, playerTurn=%d", n, round, mode, turn, playerTurn));
 	}
 }
