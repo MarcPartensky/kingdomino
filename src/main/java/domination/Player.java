@@ -26,4 +26,7 @@ public class Player {
 	public int getScore() {
 		return board.computeWorth();
 	}
+	public String getName() {
+		return name;
+	}
 }

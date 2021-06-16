@@ -458,22 +458,25 @@ public class Main extends Application {
 	}
 
 	protected Scene buildEndScene() {
-		stage.setTitle("End scene");
-		Label scoreLabel = new Label("Score:");
+		stage.setTitle("Game over!");
 		StackPane root = new StackPane();
-		Pane pane container = new Pane();
+		StackPane pane = new StackPane();
+		// pane.setWidth(width/2);
+		// pane.setHeight(height/2);
+		pane.setPrefSize(width/2, height/2);
 		TableView tableView = new TableView();
 		TableColumn<Player, String> column1 = new TableColumn<>("Player");
 		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
 		TableColumn<Player, Integer> column2 = new TableColumn<>("Score");
 		column2.setCellValueFactory(new PropertyValueFactory<>("score"));
-		tableView.setWidth(width/2);
-		tableView.setHeight(height/2);
 		tableView.getColumns().add(column1);
 		tableView.getColumns().add(column2);
 		for (Player player: game.players) {
 			tableView.getItems().add(player);
 		}
+
+		pane.setAlignment(Pos.CENTER);
+		pane.setMaxSize(width/2, height/2);
 		root.setBackground(new Background(backgroundImage));
 		root.getChildren().add(pane);
 		pane.getChildren().add(tableView);
