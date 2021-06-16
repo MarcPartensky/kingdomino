@@ -16,6 +16,8 @@ public class Domination {
 	public int round = 0;
 	public int mode = 1; // selection and placement  = 2 modes
 	public int turn = 0;
+	public int playerTurn = 0;
+	public int n = 0;
 	public static int maxTurn;
 	public ArrayList<Integer> playersOrder = new ArrayList<Integer>();
 
@@ -23,22 +25,18 @@ public class Domination {
 	 * Skip to the next step.
 	 */
 	public void next() {
-		if (deck.dominos.size()>0) {
-			if (turn<maxTurn-1) {
-				turn++;
-			} else {
-				turn = 0;
-				if (mode==0) {
-					mode = 1;
-					clearPlayerDominos();
-					deck.pick(maxTurn);
-				} else {
-					mode = 0;
-					fillBoardDominos();
-					round++;
-				}
-			}
+		n++;
+		turn = n%maxTurn;
+		playerTurn = turn%players.size();
+		round = 2 * n/maxTurn;
+		mode = (n/maxTurn) % 2;
+		if (mode==0) {
+			fillBoardDominos();
 		} else {
+			clearPlayerDominos();
+			deck.pick(maxTurn);
+		}
+		if (deck.dominos.size()>0) {
 			done = true;
 		}
 	}

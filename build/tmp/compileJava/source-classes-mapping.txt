@@ -1,7 +1,7 @@
 domination/Domination.java
  domination.Domination
-Main.java
- Main
+domination/Domino.java
+ domination.Domino
 domination/Deck.java
  domination.Deck
 domination/Player.java
@@ -10,5 +10,5 @@ domination/Board.java
  domination.Board
 domination/Case.java
  domination.Case
-domination/Domino.java
- domination.Domino
+Main.java
+ Main
