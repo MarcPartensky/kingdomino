@@ -1,28 +1,13 @@
-
-     ┌────┐          ┌─────┐
-     │test│          │test3│
-     └─┬──┘          └──┬──┘
-       │────┐           │
-       │    │           │
-       │<───┘           │
-       │                │
-       │                │
-       │ ──────────────>│
-     ┌─┴──┐          ┌──┴──┐
-     │test│          │test3│
-     └────┘          └─────┘
-
 @startuml
 
 class Domination {
-	Player[] players
-	void next()
+	+Player[] players
+	+void next()
 }
 
 class Case {
-	int crown
-	char type
-	void next()
+	+int crown
+	+char type
 }
 
 class Domino {
@@ -36,16 +21,15 @@ class Domino {
 }
 
 class Board {
-	Case[][] grid
-	Domino domino
-	void show()
+	+Case[][] grid
+	+Domino domino
+	+void show()
 }
 
 
 class Player {
-	Board board
-	ArrayList<Domino> dominos
-	void next()
+	+Board board
+	+ArrayList<Domino> dominos
 }
 
 class Main {
@@ -53,11 +37,21 @@ class Main {
 	#void main
 }
 
-Main *-- Domination
+class Deck {
+	+ArrayList<Domino> dominos
+	+ArrayList<Domino> pickedDominos
+	+void shuffle
+	+void pick
+}
+
+Main *-- "1" Domination
 Domination *-- "2-4" Player
 Player *-- "1-2" Domino
-Player *-- Board
-Board *-- Domino
+Player *-- "1" Board
+Board *-- "1" Domino
+Player *-- Deck
+Deck *-- "1-48" Domino
+Deck *-- "0-2" Domino
 Board *-- "5*5" Case
 
 @enduml

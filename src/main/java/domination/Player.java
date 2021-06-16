@@ -22,4 +22,8 @@ public class Player {
 		n = count++;
 		name = String.format("Player %d", n);
 	}
+
+	public int getScore() {
+		return board.computeWorth();
+	}
 }

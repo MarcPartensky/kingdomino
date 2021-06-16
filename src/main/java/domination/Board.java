@@ -19,6 +19,7 @@ import javafx.scene.layout.BackgroundFill;
  * Board of a player.
  */
 public class Board {
+
 	public final static int width = 5;
 	public final static int height = 5;
 	public int cx=0; // pivot x position
@@ -167,8 +168,10 @@ public class Board {
 		StackPane pane2 = new StackPane();
 		pane1.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 		pane2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
-		String monotileName1 = Case.getRandomMonotileName(domino.type1, domino.crown1, monotiles.keySet());
-		String monotileName2 = Case.getRandomMonotileName(domino.type2, domino.crown2, monotiles.keySet());
+		// String monotileName1 = Case.getRandomMonotileName(domino.type1, domino.crown1, monotiles.keySet());
+		// String monotileName2 = Case.getRandomMonotileName(domino.type2, domino.crown2, monotiles.keySet());
+		String monotileName1 = String.format("%c%d-0%d.png", domino.type1, domino.crown1, domino.tile1);
+		String monotileName2 = String.format("%c%d-0%d.png", domino.type2, domino.crown2, domino.tile2);
 		// System.out.println("monotileName1=" + monotileName1);
 		// System.out.println("monotileName2=" + monotileName2);
 		ImageView view1 = new ImageView(monotiles.get(monotileName1));
@@ -330,6 +333,8 @@ public class Board {
 		if (!isValidMove(x1, y1, x2, y2, domino.type1, domino.type2)) {
 			System.out.println("Is not valid move");
 			return false;
+		} else if (isOccupied(x1, y1, x2, y2)) {
+			return false;
 		} else {
 			return true;
 		}
@@ -391,15 +396,21 @@ public class Board {
 				for (int[] cell : neighbours){
 				  char typeNeighbour = grid[cell[0]][cell[1]].type;
 					if (typeNeighbour==typeInput[i] || typeNeighbour=='x'){
-						//System.out.println("Valide Move");
-						//System.out.println(cell[0]);
-						//System.out.println(cell[1]);
 						return true;
 					}
 				}
 			}
-			//System.out.println("Invalide move");
 			return false;
+	}
+
+	/*
+	 * Check if the domino is not being inserted on case already
+	 * occupied.
+	 */
+	public boolean isOccupied(int x1, int y1, int x2, int y2) {
+		Case c1 = grid[x1][y1];
+		Case c2 = grid[x2][y2];
+		return (!c1.isNull || !c2.isNull);
 	}
 
 	/*

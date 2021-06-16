@@ -32,6 +32,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -132,6 +135,13 @@ public class Main extends Application {
 				stage.close();
 				break;
 			}
+			case 69: { // e
+				System.out.println("End scene");
+				game.done = true;
+				show();
+				stage.setFullScreen(fullscreen);
+				break;
+			}
 			case 70: { // f
 				System.out.println("Fullscreen mode");
 				fullscreen =! fullscreen;
@@ -222,6 +232,12 @@ public class Main extends Application {
 				show();
 				break;
 			}
+			case 78: { // n
+				System.out.println("Skip");
+				game.next();
+				show();
+				break;
+			}
 			case 10: { // enter
 				if (game.mode==0) {
 					System.out.println("Select focused domino");
@@ -251,11 +267,11 @@ public class Main extends Application {
 					show();
 				} else {
 					System.out.println("Focus left side domino");
-					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
-					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					show();
-					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 				}
 				break;
 			}
@@ -274,12 +290,12 @@ public class Main extends Application {
 					show();
 				} else {
 					System.out.println("Focus right side domino");
-					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					focusedDomino = (focusedDomino + 1) % game.maxTurn;
-					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					System.out.println(focusedDomino);
 					show();
-					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn",focusedDomino, game.maxTurn));
+					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 				}
 				break;
 			}
@@ -430,12 +446,36 @@ public class Main extends Application {
 	 */
 	protected void show() {
 		Scene scene;
-		if (game.mode==0) {
+		System.out.println(String.format("game.done=%b", game.done));
+		if (game.done) {
+			scene = buildEndScene();
+		} else if (game.mode==0) {
 			scene = buildDeckScene();
 		} else {
 			scene = buildBoardScene();
 		}
 		stage.setScene(scene);
+	}
+
+	protected Scene buildEndScene() {
+		stage.setTitle("End scene");
+		Label scoreLabel = new Label("Score:");
+		StackPane root = new StackPane();
+		TableView tableView = new TableView();
+		TableColumn<Player, String> column1 = new TableColumn<>("Player");
+		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+		TableColumn<Player, Integer> column2 = new TableColumn<>("Score");
+		column2.setCellValueFactory(new PropertyValueFactory<>("score"));
+		tableView.setWidth(width/2);
+		tableView.setHeight(height/2);
+		tableView.getColumns().add(column1);
+		tableView.getColumns().add(column2);
+		for (Player player: game.players) {
+			tableView.getItems().add(player);
+		}
+		root.setBackground(new Background(backgroundImage));
+		root.getChildren().add(tableView);
+		return new Scene(root, width, height);
 	}
 
 	/*
@@ -459,10 +499,13 @@ public class Main extends Application {
 	protected void selectDomino() {
 		Player player = game.getPlayer();
 		Domino domino = game.deck.pickedDominos.get(focusedDomino);
-		game.selectedDominos[focusedDomino] = !game.selectedDominos[focusedDomino];
-		player.dominos.add(domino);
-		System.out.println(String.format("domino.size=%d", player.dominos.size()));
-		game.next();
+		if (!game.selectedDominos[focusedDomino]) {
+			game.selectedDominos[focusedDomino] = true;
+			player.dominos.add(domino);
+			game.next();
+		} else {
+			System.out.println(String.format("%d Domino already selected", domino.n));
+		}
 		game.printState();
 	}
 

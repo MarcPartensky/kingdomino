@@ -44,7 +44,7 @@ public class Domination {
 		} else if (mode==1){
 			fillBoardDominos();
 		}
-		if (deck.dominos.size()>0) {
+		if (deck.dominos.size()==0) {
 			done = true;
 		}
 	}
@@ -82,7 +82,7 @@ public class Domination {
 		for (Player player: players) {
 			if (player.board.nextDomino && player.dominos.size()>0) {
 				System.out.println(String.format("player dominos=%d", player.dominos.size()));
-				player.board.domino = player.dominos.remove(player.dominos.size() - 1);
+				player.board.domino = player.dominos.remove(0);
 				player.board.nextDomino = false;
 			}
 		}
