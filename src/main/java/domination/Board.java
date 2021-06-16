@@ -263,7 +263,7 @@ public class Board {
 	public ArrayList<int[]> getArea(int x, int y){
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		result.add(new int[]{x, y});
-		for (int i = 0; i < width+height-1; i++) {
+		for (int i = 0; i < width+height-2; i++) {
 			result = this.stepArea(result);
 		}
 		return result;
