@@ -80,7 +80,7 @@ public class Domination {
 	public void fillBoardDominos() {
 		for (Player player: players) {
 			if (player.board.nextDomino && player.dominos.size()>0) {
-				System.out.println(String.format("player dominos=%d", player.dominos.size()));
+				System.out.println(String.format("%s dominos = %d", player.name, player.dominos.size()));
 				player.board.domino = player.dominos.remove(0);
 				player.board.nextDomino = false;
 			}
