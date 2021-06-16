@@ -125,21 +125,14 @@ public class Main extends Application {
 		System.out.println("---");
 
 		switch(event.getCode().getCode()) {
-			case 87 : { // ESC
-				System.out.println("Compute worth");
-				System.out.println(String.format("Board Worth is=%d", game.getBoard().computeWorth()));
-				break;
-			}
 			case 27 : { // ESC
 				System.out.println("Closing the stage");
 				stage.close();
 				break;
 			}
-			case 69: { // e
-				System.out.println("End scene");
-				game.done = true;
-				show();
-				stage.setFullScreen(fullscreen);
+			case 81: { // q
+				System.out.println("Closing the stage");
+				stage.close();
 				break;
 			}
 			case 70: { // f
@@ -153,29 +146,12 @@ public class Main extends Application {
 				game.getBoard().print();
 				break;
 			}
-			case 81: { // q
-				System.out.println("Closing the stage");
-				stage.close();
-				break;
-			}
 			case 82: { // r
 				if (game.mode==1) {
 					System.out.println("Rotate the domino");
 					game.getBoard().rotate();
 					show();
 				}
-				break;
-			}
-			case 83: { // s
-				System.out.println("Shuffle the board");
-				game.getBoard().randomize();
-				show();
-				break;
-			}
-			case 84: { // t
-				System.out.println("Reset the game");
-				loadGame(playerNumber);
-				show();
 				break;
 			}
 			case 74: { // j
@@ -305,6 +281,31 @@ public class Main extends Application {
 					game.getBoard().move(0, 1);
 					show();
 				 }
+				break;
+			}
+			// For debugging
+			case 83: { // s
+				System.out.println("Shuffle the board");
+				game.getBoard().randomize();
+				show();
+				break;
+			}
+			case 84: { // t
+				System.out.println("Reset the game");
+				loadGame(playerNumber);
+				show();
+				break;
+			}
+			case 87 : { // ESC
+				System.out.println("Compute worth");
+				System.out.println(String.format("Board Worth is=%d", game.getBoard().computeWorth()));
+				break;
+			}
+			case 69: { // e
+				System.out.println("End scene");
+				game.done = true;
+				show();
+				stage.setFullScreen(fullscreen);
 				break;
 			}
 			default:  {
