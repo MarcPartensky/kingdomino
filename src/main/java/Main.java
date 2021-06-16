@@ -213,11 +213,8 @@ public class Main extends Application {
 					show();
 				} else {
 					System.out.println("Focus left side domino");
-					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					focusedDomino = (focusedDomino + (game.maxTurn-1)) % game.maxTurn;
-					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					show();
-					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 				}
 				break;
 			}
@@ -236,12 +233,8 @@ public class Main extends Application {
 					show();
 				} else {
 					System.out.println("Focus right side domino");
-					System.out.println(String.format("1: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 					focusedDomino = (focusedDomino + 1) % game.maxTurn;
-					System.out.println(String.format("2: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
-					System.out.println(focusedDomino);
 					show();
-					System.out.println(String.format("3: focused domino: %d for %d game.maxTurn", focusedDomino, game.maxTurn));
 				}
 				break;
 			}
@@ -382,7 +375,7 @@ public class Main extends Application {
 	public void loadGame(int playerNumber) {
 		this.playerNumber = playerNumber;
 		Label label = new Label("Load the game.");
-		System.out.println(String.format("playerNumber=%d", playerNumber));
+		System.out.println(String.format("Players number = %d", playerNumber));
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (int i=0; i<playerNumber; i++) {
 			players.add(new Player(new Board()));
@@ -390,7 +383,7 @@ public class Main extends Application {
 
 		// The game object in itself does not posesses the images.
 		Deck deck = buildDeck();
-		System.out.println("deck size:" + String.valueOf(deck.dominos.size()));
+		System.out.println("Deck size = " + String.valueOf(deck.dominos.size()));
 		game = new Domination(players, deck);
 		game.load();
 		game.selectedDominos = new boolean[game.maxTurn];
@@ -403,7 +396,7 @@ public class Main extends Application {
 	 */
 	protected void show() {
 		Scene scene;
-		System.out.println(String.format("game.done=%b", game.done));
+		System.out.println("Deck size = " + String.valueOf(game.deck.dominos.size()));
 		if (game.done) {
 			scene = buildEndScene();
 		} else if (game.mode==0) {
@@ -491,7 +484,6 @@ public class Main extends Application {
 		gridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		gridPane.setGridLinesVisible(true);
 		Board board = game.getBoard();
-		System.out.println(String.format("players=%d", game.players.size()));
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		Image castleImage = castleImages.get(game.playerTurn);
 		Image castleTileImage = castleTileImages.get(game.playerTurn);
@@ -511,12 +503,10 @@ public class Main extends Application {
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
-		System.out.println("pickedDominoSize:" + String.valueOf(game.deck.pickedDominos.size()));
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
 			Node node = domino.getNode(tiles, monotiles, tileWidth, tileHeight);
 			if (game.selectedDominos[i]) {
-				System.out.println(String.format("%d is selected", i));
 				node.setStyle("-fx-padding: 2;" +
 											"-fx-border-style: solid inside;" +
 											"-fx-border-width: 2;" +
@@ -525,7 +515,6 @@ public class Main extends Application {
 											"-fx-border-color: blue;");
 			}
 			if (focusedDomino==i) {
-				System.out.println(String.format("%d is focused", i));
 				node.setStyle("-fx-padding: 3;" +
 											"-fx-border-style: solid inside;" +
 											"-fx-border-width: 2;" +

@@ -33,7 +33,6 @@ public class Domination {
 		round = 2 * n/maxTurn;
 		previousMode = mode;
 		mode = (n/maxTurn) % 2;
-		System.out.println(String.format("maxTurn=%d", maxTurn));
 		printState();
 		if (previousMode==1 && mode==0) {
 			for (int i=0; i<maxTurn; i++) {
@@ -112,7 +111,6 @@ public class Domination {
 		} else {
 			maxTurn =  players.size();
 		}
-		System.out.println(String.format("players.size=%d", players.size()));
 		deck.pick(maxTurn);
 	}
 

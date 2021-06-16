@@ -90,9 +90,7 @@ public class Domino {
 			int width,
 			int height
 	) {
-		System.out.println(toString());
 		String name = getImageName();
-		System.out.println(name);
 		if (false) {
 			Image image = tiles.get(name);
 			ImageView view = new ImageView(image);
@@ -103,8 +101,6 @@ public class Domino {
 		} else {
 		String monotileName1 = String.format("%c%d-0%d.png", type1, crown1, tile1);
 			String monotileName2 = String.format("%c%d-0%d.png", type2, crown2, tile2);
-			System.out.println(monotileName1);
-			System.out.println(monotileName2);
 			Image image1 = monotiles.get(monotileName1);
 			ImageView view1 = new ImageView(image1);
 			view1.setFitWidth(width);

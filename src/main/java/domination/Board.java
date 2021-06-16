@@ -291,8 +291,6 @@ public class Board {
 
 	public int computeWorth() {
 		int result = 0;
-		System.out.println("type case ");
-		System.out.println(this.grid[0][0].type);
 		this.grid[2][2].crown = 0;
 		this.grid[2][2].type = 'x';
 		ArrayList<ArrayList<int[]>> areas = this.getAreas();
