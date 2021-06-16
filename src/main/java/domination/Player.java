@@ -29,4 +29,10 @@ public class Player {
 	public String getName() {
 		return name;
 	}
+
+	public void switchDomino() {
+		Domino temp = board.domino;
+		board.domino = dominos.get(0);
+		dominos.set(0, temp);
+	}
 }

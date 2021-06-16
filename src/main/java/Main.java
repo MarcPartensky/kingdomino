@@ -91,6 +91,7 @@ public class Main extends Application {
 	protected HashMap<String, Character> nameToLetters = new HashMap();
 	protected int focusedDomino = 0;
 	protected int[] boardCursor = { 0, 0 };
+	protected boolean debugMode = false;
 
 	/*
 	 * Main function to launch the game.
@@ -139,6 +140,19 @@ public class Main extends Application {
 				System.out.println("Fullscreen mode");
 				fullscreen =! fullscreen;
 				stage.setFullScreen(fullscreen);
+				break;
+			}
+			case 83: { // s
+				 if (game.mode==1) {
+					Player player = game.getPlayer();
+					if (player.dominos.size()==1) {
+						System.out.println("Switch player's dominos");
+						player.switchDomino();
+					} else {
+						System.out.println("Error: No other domino to switch with.");
+					}
+					show();
+				 }
 				break;
 			}
 			case 80: { // p
@@ -283,33 +297,45 @@ public class Main extends Application {
 				 }
 				break;
 			}
-			// For debugging
-			case 83: { // s
-				System.out.println("Shuffle the board");
-				game.getBoard().randomize();
-				show();
-				break;
-			}
-			case 84: { // t
-				System.out.println("Reset the game");
-				loadGame(playerNumber);
-				show();
-				break;
-			}
-			case 87 : { // ESC
-				System.out.println("Compute worth");
-				System.out.println(String.format("Board Worth is=%d", game.getBoard().computeWorth()));
-				break;
-			}
-			case 69: { // e
-				System.out.println("End scene");
-				game.done = true;
-				show();
-				stage.setFullScreen(fullscreen);
-				break;
+			case 100: { // d
+				System.out.println("Toggle debug mode");
+				debugMode =! debugMode;
 			}
 			default:  {
 				System.out.println("Unrecognized key");
+			}
+		}
+		// debug mode
+		if (debugMode) {
+			switch (event.getCode().getCode()) {
+				// For debugging
+				case 72: { // h
+					System.out.println("Shuffle the board");
+					game.getBoard().randomize();
+					show();
+					break;
+				}
+				case 84: { // t
+					System.out.println("Reset the game");
+					loadGame(playerNumber);
+					show();
+					break;
+				}
+				case 87 : { // w
+					System.out.println("Compute worth");
+					System.out.println(String.format("Board Worth is=%d", game.getBoard().computeWorth()));
+					break;
+				}
+				case 69: { // e
+					System.out.println("End scene");
+					game.done = true;
+					show();
+					stage.setFullScreen(fullscreen);
+					break;
+				}
+				default:  {
+					System.out.println("Unrecognized key");
+				}
 			}
 		}
 		System.out.println("Key pressed: " + event.getCode().getCode());

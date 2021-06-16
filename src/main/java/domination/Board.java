@@ -304,6 +304,9 @@ public class Board {
 			}
 			result += crownArea * area.size();
 		}
+		// Because the castle is always in the middle
+		// in this game.
+		result += 10;
 		return result;
 	}
 
