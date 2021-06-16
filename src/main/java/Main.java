@@ -461,6 +461,7 @@ public class Main extends Application {
 		stage.setTitle("End scene");
 		Label scoreLabel = new Label("Score:");
 		StackPane root = new StackPane();
+		Pane pane container = new Pane();
 		TableView tableView = new TableView();
 		TableColumn<Player, String> column1 = new TableColumn<>("Player");
 		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -474,7 +475,8 @@ public class Main extends Application {
 			tableView.getItems().add(player);
 		}
 		root.setBackground(new Background(backgroundImage));
-		root.getChildren().add(tableView);
+		root.getChildren().add(pane);
+		pane.getChildren().add(tableView);
 		return new Scene(root, width, height);
 	}
 
