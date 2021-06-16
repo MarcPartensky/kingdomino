@@ -23,13 +23,23 @@ public class Player {
 		name = String.format("Player %d", n);
 	}
 
+	/*
+	 * Return the score.
+	 */
 	public int getScore() {
 		return board.computeWorth();
 	}
+
+	/*
+	 * Return the name.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/*
+	 * Switch the player domino.
+	 */
 	public void switchDomino() {
 		Domino temp = board.domino;
 		board.domino = dominos.get(0);

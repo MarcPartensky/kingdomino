@@ -26,7 +26,6 @@ public class Case {
 				filteredNames.add(monotileName);
 		}
 		int n = new Random().nextInt(filteredNames.size());
-		// System.out.println(String.format("Case.getRandomMonotileName=%d", n));
 		int i = 0;
 		String randomMonotileName = "";
 		for (String filteredName : filteredNames) {
@@ -37,6 +36,9 @@ public class Case {
 	}
 
 
+	/*
+	 * Return a null case.
+	 */
 	public Case() {
 		isNull = true;
 	}
@@ -59,11 +61,4 @@ public class Case {
 		this.crown = crown;
 		this.n = count++;
 	}
-
-	/*
-	 * Return the name of the image of this case. (useless)
-	 */
-	// public String getImageName() {
-	// 	return String.valueOf(type) + String.valueOf(crown) + ".png";
-	// }
 }

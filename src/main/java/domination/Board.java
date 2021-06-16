@@ -119,25 +119,16 @@ public class Board {
 	public void show(GridPane pane, HashMap<String, Image> monotiles, Image castleImage, Image castleTileImage, int caseWidth, int caseHeight) {
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				// System.out.println(x);
-				// System.out.println(y);
 				if (x!=width/2 || y!=height/2) {
 					Case c = grid[x][y];
 					StackPane subpane = new StackPane();
 					subpane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
-					// System.out.println("c.n:" + String.valueOf(c.n) + ", x:" + String.valueOf(x) + ", y:" + String.valueOf(y));
 					if (c.isNull == true) {
 						Rectangle rect = new Rectangle(caseWidth, caseHeight);
 						rect.setFill(Color.WHITE);
 						rect.setStroke(Color.BLACK);
-						// rect.setFitWidth(100);
-						// rect.setFitHeight(100);
-						// rect.setPreserveRatio(true);
-						// rect.setSmooth(true);
-						// rect.setCache(true);
 						pane.add(rect, x, y);
 					} else {
-						// String monotileName = Case.getRandomMonotileName(c.type, c.crown, monotiles.keySet());
 						String monotileName = String.format("%c%d-0%d.png", c.type, c.crown, c.tile);
 						ImageView view = new ImageView(monotiles.get(monotileName));
 						view.setFitWidth(caseWidth);
@@ -145,9 +136,6 @@ public class Board {
 						subpane.getChildren().add(view);
 					}
 					pane.add(subpane, x, y);
-					// subpane.setFitHeight(100);
-					// subpane.setFitWidth(100);
-					// subpane.setPreserveRatio(true);
 				}
 			}
 			showDomino(pane, monotiles, caseWidth, caseHeight);
@@ -168,12 +156,8 @@ public class Board {
 		StackPane pane2 = new StackPane();
 		pane1.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 		pane2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
-		// String monotileName1 = Case.getRandomMonotileName(domino.type1, domino.crown1, monotiles.keySet());
-		// String monotileName2 = Case.getRandomMonotileName(domino.type2, domino.crown2, monotiles.keySet());
 		String monotileName1 = String.format("%c%d-0%d.png", domino.type1, domino.crown1, domino.tile1);
 		String monotileName2 = String.format("%c%d-0%d.png", domino.type2, domino.crown2, domino.tile2);
-		// System.out.println("monotileName1=" + monotileName1);
-		// System.out.println("monotileName2=" + monotileName2);
 		ImageView view1 = new ImageView(monotiles.get(monotileName1));
 		ImageView view2 = new ImageView(monotiles.get(monotileName2));
 		view1.setFitWidth(width);
@@ -210,6 +194,9 @@ public class Board {
 		}
 	}
 
+	/*
+	 * Check if an element is in a boolean array.
+	 */
 	public static boolean in1DArray(int[] candidate, ArrayList<int[]> list){
 		for(final int[] item : list){
 			if(Arrays.equals(item, candidate)){
@@ -219,6 +206,9 @@ public class Board {
 		return false;
 	}
 
+	/*
+	 * Check if an element is an a 2d boolean array.
+	 */
 	public static boolean in2DArray(int[] element, ArrayList<ArrayList<int[]>> list){
 		for (ArrayList<int[]> list1 : list) {
 			if (in1DArray(element, list1)){
@@ -228,6 +218,9 @@ public class Board {
 		return false;
 	}
 
+	/*
+	 * Return the neighbours cases.
+	 */
 	public static ArrayList<int[]> getNeighbours(int x, int y){
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		int[][] test = {{x,y}, {x+1, y}, {x, y+1}, {x, y-1}, {x-1,y}};//Potential neighbors
@@ -241,11 +234,14 @@ public class Board {
 		return result;
 	}
 
+	/*
+	 * Return the arraylist of the area.
+	 */
 	public ArrayList<int[]> stepArea(ArrayList<int[]> area) {
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
 		for (int[] coo : area){
-			neighbours.addAll(getNeighbours(coo[0], coo[1]));//potentially duplicates in the list
+			neighbours.addAll(getNeighbours(coo[0], coo[1])); //potentially duplicates in the list
 		}
 
 		//We get the type of a cell in the given area, representative of the type of the area
@@ -253,7 +249,7 @@ public class Board {
 
 		for (int[] coo : neighbours) {
 			if (this.grid[coo[0]][coo[1]].type==typeRef){
-				if (!in1DArray(coo, result)){//No duplicates in the result
+				if (!in1DArray(coo, result)){ //No duplicates in the result
 					result.add(coo);
 				}
 			}
@@ -273,6 +269,9 @@ public class Board {
 		return result;
 	}
 
+	/*
+	 * Return the arraylist of some areas.
+	 */
 	public ArrayList<ArrayList<int[]>> getAreas(){
 		ArrayList<ArrayList<int[]>> result = new ArrayList<ArrayList<int[]>>();
 		for (int x=0; x < width; x++) {

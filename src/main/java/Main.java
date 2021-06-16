@@ -67,7 +67,7 @@ public class Main extends Application {
 	protected boolean skipMenu = false;
 	protected int width = 800;
 	protected int height = 600;
-	protected int tileWidth = 100; // temp
+	protected int tileWidth = 100;
 	protected int tileHeight = 100;
 	protected Stage stage;
 	protected final int dominosMaxNumber = 48;
@@ -80,8 +80,6 @@ public class Main extends Application {
 	protected HashMap<String, Image> tiles = new HashMap<String, Image>();
 	protected String monotilesPath = "assets/img/monotiles";
 	protected HashMap<String, Image> monotiles = new HashMap<String, Image>();
-	// protected String emptyMonotilePath = "assets/img/empty.png";
-	// protected Image emptyMonotile;
 	protected String playersPath = "assets/img/player";
 	protected ArrayList<Image> castleImages = new ArrayList<Image>();
 	protected ArrayList<Image> castleTileImages = new ArrayList<Image>();
@@ -111,13 +109,6 @@ public class Main extends Application {
 		nameToLetters.put("Mine", 'i'); // wtf
 		nameToLetters.put("Montagne", 'm');
 	}
-
-	// @Override
-	// protected void initSettings(GameSettings settings) {
-	// 		settings.setWidth(800);
-	// 		settings.setHeight(600);
-	// 		settings.setTitle("Basic Game App");
-	// }
 
 	/*
 	 * Deal with events.
@@ -155,47 +146,12 @@ public class Main extends Application {
 				 }
 				break;
 			}
-			case 80: { // p
-				System.out.println("Printing the board");
-				game.getBoard().print();
-				break;
-			}
 			case 82: { // r
 				if (game.mode==1) {
 					System.out.println("Rotate the domino");
 					game.getBoard().rotate();
 					show();
 				}
-				break;
-			}
-			case 74: { // j
-				System.out.println("Show the menu");
-				Scene scene = buildMenu();
-				stage.setScene(scene);
-				break;
-			}
-			case 75: { // k
-				System.out.println("Show the board");
-				Scene scene = buildBoardScene();
-				stage.setScene(scene);
-				break;
-			}
-			case 76: { // l
-				System.out.println("Show the deck");
-				Scene scene = buildDeckScene();
-				stage.setScene(scene);
-				break;
-			}
-			case 65: { // a
-				System.out.println("Switch the board");
-				game.turn = (game.turn + 1) % playerNumber;
-				Scene scene = buildDeckScene();
-				stage.setScene(scene);
-				break;
-			}
-			case 48: { // 0
-				System.out.println("Unfocus domino");
-				show();
 				break;
 			}
 			case 49: { // 1
@@ -300,6 +256,11 @@ public class Main extends Application {
 			case 100: { // d
 				System.out.println("Toggle debug mode");
 				debugMode =! debugMode;
+				if (debugMode) {
+					System.out.println("Debug mode on!");
+				} else {
+					System.out.println("Debug mode off!");
+				}
 			}
 			default:  {
 				System.out.println("Unrecognized key");
@@ -308,7 +269,36 @@ public class Main extends Application {
 		// debug mode
 		if (debugMode) {
 			switch (event.getCode().getCode()) {
-				// For debugging
+				case 80: { // p
+					System.out.println("Printing the board");
+					game.getBoard().print();
+					break;
+				}
+				case 74: { // j
+					System.out.println("Show the menu");
+					Scene scene = buildMenu();
+					stage.setScene(scene);
+					break;
+				}
+				case 75: { // k
+					System.out.println("Show the board");
+					Scene scene = buildBoardScene();
+					stage.setScene(scene);
+					break;
+				}
+				case 76: { // l
+					System.out.println("Show the deck");
+					Scene scene = buildDeckScene();
+					stage.setScene(scene);
+					break;
+				}
+				case 65: { // a
+					System.out.println("Switch the board");
+					game.turn = (game.turn + 1) % playerNumber;
+					Scene scene = buildDeckScene();
+					stage.setScene(scene);
+					break;
+				}
 				case 72: { // h
 					System.out.println("Shuffle the board");
 					game.getBoard().randomize();
@@ -349,49 +339,14 @@ public class Main extends Application {
 		build();
 		stage.setTitle(title);
 		stage.setFullScreen(fullscreen);
-		// stage.setResizable(true);
 		loadResources();
 
 		dominosNumber = playerNumber * (dominosMaxNumber/4);
 
 		Scene scene = buildMenu();
-		// stage.centerOnScreen();
-		// stage.setResizable(false);
 		stage.setScene(scene);
 
-		// scene.setCursor(Cursor.OPEN_HAND);
-		// stage.setOnCloseRequest(close);
-
-		// ReadOnlyDoubleProperty widthProperty = pane.widthProperty();
-		// widthProperty.addListener( new ChangeListener<Number> (){
-		//   @Override
-		//   public void changed(
-		//     ObservableValue<? extends Number> observableValue,
-		//     Number oldVal, Number newVal) {
-		//       System.out.println("widthProperty changed from "
-		//         + oldVal.doubleValue() + " to " + newVal.doubleValue());
-		//   }
-		// });
-
-	  // gridPane.heightProperty().addListener(new ChangeListener<Number>() {
-			// @Override public void changed(ObservableValue<? extends Number>
-				// observableValue, Number oldSceneHeight, Number newSceneHeight) {
-				// this.height = newSceneHeight;
-				// System.out.println("height: " + newSceneHeight);
-			// }
-    // });
-
-    // gridPane.widthProperty().addListener(new ChangeListener<Number>() {
-			// @Override public void changed(ObservableValue<? extends Number>
-				// observableValue, Number oldSceneWidth, Number newSceneWidth) {
-					// this.width = newSceneWidth;
-					// System.out.println("Width: " + newSceneWidth);
-        // }
-    // });
-
-		// stage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> eventHandlerKeyPressed(event, stage));
 		stage.addEventHandler(KeyEvent.KEY_RELEASED, (event) -> eventHandlerKeyPressed(event, stage));
-		// stage.setOnKeyPressed((event) -> eventHandlerKeyPressed(event, stage));
 		stage.show();
 		this.stage = stage;
 
@@ -404,8 +359,6 @@ public class Main extends Application {
 	 * Menu scene, first scene of the game.
 	 */
 	public Scene buildMenu() {
-		// Label label = new Label("Menu");
-
 		Button buttonTwoPlayers = new Button("2 Players");
 		Button buttonThreePlayers = new Button("3 Players");
 		Button buttonFourPlayers = new Button("4 Players");
@@ -414,22 +367,11 @@ public class Main extends Application {
 		buttonThreePlayers.setOnAction(actionEvent ->  loadGame(3));
 		buttonFourPlayers.setOnAction(actionEvent ->  loadGame(4));
 
-		// buttonTwoPlayers.setMaxWidth(Double.MAX_VALUE);
-		// buttonThreePlayers.setMaxWidth(Double.MAX_VALUE);
-		// buttonFourPlayers.setMaxWidth(Double.MAX_VALUE);
-
 		VBox vbox = new VBox(buttonTwoPlayers, buttonThreePlayers, buttonFourPlayers);
 		vbox.setBackground(new Background(backgroundImage));
 		vbox.setSpacing(5);
 		vbox.setFillWidth(true);
 		vbox.setAlignment(Pos.CENTER);
-
-		// SplitPane pane = new SplitPane();
-		// pane.getChildren().add(label);
-		// pane.getChildren().add(buttonTwoPlayers);
-		// pane.getChildren().add(buttonThreePlayers);
-		// pane.getChildren().add(buttonFourPlayers);
-		// vbox.getChildren().add(label);
 
 		return new Scene(vbox, width, height);
 	}
@@ -456,18 +398,6 @@ public class Main extends Application {
 		show();
 	}
 
-	// GridPane pane = new GridPane();
-	// pane.setHgap(10);
-	// pane.setVgap(10);
-	// pane.setSpacing(5);
-	// pane.setFillWidth(true);
-	// pane.setAlignment(Pos.CENTER);
-	// pane.setBackground(new Background(backgroundImage));
-	// pane.setSpacing(5);
-	// pane.setFillWidth(true);
-	// pane.setAlignment(Pos.CENTER);
-	// pane.setSpacing(10);
-
 	/*
 	 * Show the game at its current state.
 	 */
@@ -484,12 +414,13 @@ public class Main extends Application {
 		stage.setScene(scene);
 	}
 
+	/*
+	 * Show the end scene.
+	 */
 	protected Scene buildEndScene() {
 		stage.setTitle("Game over!");
 		StackPane root = new StackPane();
 		StackPane pane = new StackPane();
-		// pane.setWidth(width/2);
-		// pane.setHeight(height/2);
 		pane.setPrefSize(width/2, height/2);
 		TableView tableView = new TableView();
 		TableColumn<Player, String> column1 = new TableColumn<>("Player");
@@ -501,7 +432,6 @@ public class Main extends Application {
 		for (Player player: game.players) {
 			tableView.getItems().add(player);
 		}
-
 		pane.setAlignment(Pos.CENTER);
 		pane.setMaxSize(width/2, height/2);
 		root.setBackground(new Background(backgroundImage));
@@ -546,12 +476,6 @@ public class Main extends Application {
 	 */
 	protected void insertDomino() {
 		game.insertDomino();
-		// if (board.canInsert(board.cx, board.cy, board.cr);
-		// Player player = game.getPlayer();
-		// Domino domino = game.deck.pickedDominos.get(focusedDomino);
-		// selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
-		// player.dominos.add(domino);
-		// game.next();
 	}
 
 	/*
@@ -559,60 +483,14 @@ public class Main extends Application {
 	 */
 	protected Scene buildBoardScene() {
 		stage.setTitle(game.players.get(game.turn%playerNumber).name);
-		// AnchorPane root = new AnchorPane();
-		// VBox root = new VBox();
-		// Pane root = new Pane();
-		// root.setMinSize(500, 500);
-		// root.setFillWidth(true);
 		StackPane root = new StackPane();
 		root.setBackground(new Background(backgroundImage));
-		// pane.setFillWidth(true);
 		GridPane gridPane = new GridPane();
-		// gridPane.setBackground(new Background(
-		// 			new BackgroundFill(Color.web("#964B00"), CornerRadii.EMPTY, new Insets(10))));
-		// gridPane.getColumnConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
-		// 		.mapToObj(width -> {
-		// 			ColumnConstraints constraints = new ColumnConstraints();
-		// 			System.out.println(width);
-		// 			constraints.setPercentWidth(width);
-		// 			constraints.setFillWidth(true);
-		// 			return constraints;
-		// 		}).toArray(ColumnConstraints[]::new));
-		// gridPane.getRowConstraints().addAll(DoubleStream.of(20, 20, 20, 20, 20)
-		// 		.mapToObj(height -> {
-		// 			RowConstraints constraints = new RowConstraints();
-		// 			constraints.setPercentHeight(height);
-		// 			constraints.setFillHeight(true);
-		// 			return constraints;
-		// 		}).toArray(RowConstraints[]::new));
-		// RowConstraints rowConstraints = new RowConstraints();
-		// ColumnConstraints columnConstraints = new ColumnConstraints();
-		// rowConstraints.setVgrow(Priority.ALWAYS);
-		// columnConstraints.setHgrow(Priority.ALWAYS);
-		// gridPane.getRowConstraints().add(rowConstraints);
-		// gridPane.getColumnConstraints().add(columnConstraints);
-		// // pane.getChildren().add(new Label("Pane"));
 		root.getChildren().add(gridPane);
-		// AnchorPane.setLeftAnchor(gridPane, 0.0);
-		// AnchorPane.setRightAnchor(gridPane, 0.0);
-		// gridPane.setHgrow(Priority.ALWAYS);
-		// root.setFillWidth(true);
-		// gridPane.setHgap(10);
-		// gridPane.setVgap(10);
-		// gridPane.setAlignment(Pos.CENTER);
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		gridPane.setGridLinesVisible(true);
-		// gridPane.setMinSize(150.0, Control.USE_PREF_SIZE);
-		// gridPane.setMaxSize(150.0, Control.USE_PREF_SIZE);
-		// pane.setPadding(new Insets(15));
 		Board board = game.getBoard();
-		// gridPane.setFitHeight(100);
-		// gridPane.setFitWidth(100);
-		// gridPane.setPreserveRatio(true);
-		// gridPane.setFillWidth(true);
-		// GridPane.setConstraints(gridPane, 8, 8);
-		// gridPane.setHgrow(Priority.ALWAYS);
 		System.out.println(String.format("players=%d", game.players.size()));
 		gridPane.prefWidthProperty().bind(root.widthProperty());
 		Image castleImage = castleImages.get(game.playerTurn);
@@ -626,15 +504,11 @@ public class Main extends Application {
 	 */
 	public Scene buildDeckScene() {
 		StackPane root = new StackPane();
-		// Label playerLabel = new Label(game.getPlayer().name);
-		// root.getChildren().add(playerLabel);
 		stage.setTitle(game.players.get(game.turn%playerNumber).name);
 		root.setBackground(new Background(backgroundImage));
 		GridPane gridPane = new GridPane();
 		root.getChildren().add(gridPane);
 		gridPane.setAlignment(Pos.CENTER);
-		// gridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		// gridPane.setGridLinesVisible(true);
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
 		System.out.println("pickedDominoSize:" + String.valueOf(game.deck.pickedDominos.size()));
@@ -721,55 +595,6 @@ public class Main extends Application {
 	}
 
 	/*
-	 * Build the deck of cards.
-	 */
-	// protected Deck buildDeckV1() {
-	// 	// Do not even try to understand.
-	// 	ArrayList<int[]> data = new ArrayList<int[]>();
-	// 	ArrayList<Domino> dominos = new ArrayList<Domino>();
-	// 	// HashSet<String> dominosTypeHashset = new HashSet();
-
-	// 	System.out.println("csvPath: " + csvPath);
-	// 	try {
-	// 		BufferedReader csvReader = new BufferedReader(new FileReader(csvPath));
-	// 		String row;
-	// 		boolean first = true;
-	// 		while ((row = csvReader.readLine()) != null) {
-	// 			if (first) { first=false; continue; }
-	// 			// System.out.println(row);
-	// 			String[] rowData = row.split(",");
-	// 			int[] rowDataInt = new int[5];
-	// 			rowDataInt[0] = Integer.parseInt(rowData[0]);
-	// 			rowDataInt[2] = Integer.parseInt(rowData[2]);
-	// 			rowDataInt[4] = Integer.parseInt(rowData[4]);
-	// 			data.add(rowDataInt);
-	// 			dominosTypeHashset.add(rowData[1]);
-	// 			dominosTypeHashset.add(rowData[3]);
-	// 		}
-	// 		csvReader.close();
-	// 	} catch (IOException e) {
-	// 		System.out.println("Csv path not found.");
-	// 		System.out.println(e.getClass());
-	// 	}
-	// 	// System.out.println("data size:" + String.valueOf(data.size()));
-	// 	List<String> dominosTypeList = new ArrayList<String>(dominosTypeHashset);
-	// 	for (int i=0; i<data.size(); i++) {
-	// 		System.out.println(Arrays.toString(data.get(i)));
-	// 		dominos.add(new Domino(
-	// 					data.get(i)[4],
-	// 					dominosTypeList.indexOf(data.get(i)[1]),
-	// 					dominosTypeList.indexOf(data.get(i)[3]),
-	// 					data.get(i)[0],
-	// 					data.get(i)[2]
-	// 				));
-	// 	}
-	// 	Deck deck = new Deck(dominos);
-	// 	deck.shuffle();
-	// 	deck.truncate(dominosNumber);
-	// 	return deck;
-	// }
-
-	/*
 	 * Build the deck smoothly.
 	 */
 	protected Deck buildDeck() {
@@ -783,10 +608,6 @@ public class Main extends Application {
 				i++;
 				if (i==1) { continue; }
 				String[] data = row.split(",");
-				// System.out.println(data[1]);
-				// System.out.println(data[3]);
-				// System.out.println(nameToLetters.get(data[1]));
-				// System.out.println(nameToLetters.get(data[3]));
 				dominos.add(new Domino(
 							i,
 							nameToLetters.get(data[1]),

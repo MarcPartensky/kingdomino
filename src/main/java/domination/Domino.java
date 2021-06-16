@@ -93,9 +93,7 @@ public class Domino {
 		System.out.println(toString());
 		String name = getImageName();
 		System.out.println(name);
-		// if (tiles.containsKey(name)) {
 		if (false) {
-			// System.out.println("domino image found");
 			Image image = tiles.get(name);
 			ImageView view = new ImageView(image);
 			view.setRotate(90);
@@ -103,11 +101,7 @@ public class Domino {
 			view.setFitHeight(height);
 			return view;
 		} else {
-			// System.out.println("domino image not found");
-			// StackPane pane = new StackPane();
-			// String monotileName1 = Case.getRandomMonotileName(type1, crown1, monotiles.keySet());
-			// String monotileName2 = Case.getRandomMonotileName(type2, crown2, monotiles.keySet());
-			String monotileName1 = String.format("%c%d-0%d.png", type1, crown1, tile1);
+		String monotileName1 = String.format("%c%d-0%d.png", type1, crown1, tile1);
 			String monotileName2 = String.format("%c%d-0%d.png", type2, crown2, tile2);
 			System.out.println(monotileName1);
 			System.out.println(monotileName2);
