@@ -460,8 +460,8 @@ public class Main extends Application {
 			game.next();
 		} else {
 			System.out.println(String.format("%d Domino already selected", domino.n));
+			game.printState();
 		}
-		game.printState();
 	}
 
 	/*
