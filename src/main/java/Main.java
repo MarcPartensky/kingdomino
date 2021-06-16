@@ -87,7 +87,6 @@ public class Main extends Application {
 	protected Domination game;
 	protected HashMap<String, Character> nameToLetters = new HashMap();
 	protected int focusedDomino = 0;
-	protected boolean[] selectedDominos;
 	protected int[] boardCursor = { 0, 0 };
 
 	/*
@@ -409,7 +408,7 @@ public class Main extends Application {
 		System.out.println("deck size:" + String.valueOf(deck.dominos.size()));
 		game = new Domination(players, deck);
 		game.load();
-		selectedDominos = new boolean[game.maxTurn];
+		game.selectedDominos = new boolean[game.maxTurn];
 
 		show();
 	}
@@ -460,8 +459,9 @@ public class Main extends Application {
 	protected void selectDomino() {
 		Player player = game.getPlayer();
 		Domino domino = game.deck.pickedDominos.get(focusedDomino);
-		selectedDominos[focusedDomino] = !selectedDominos[focusedDomino];
+		game.selectedDominos[focusedDomino] = !game.selectedDominos[focusedDomino];
 		player.dominos.add(domino);
+		System.out.println(String.format("domino.size=%d", player.dominos.size()));
 		game.next();
 		game.printState();
 	}
@@ -483,6 +483,7 @@ public class Main extends Application {
 	 * Return the scene of the board.
 	 */
 	protected Scene buildBoardScene() {
+		stage.setTitle(game.players.get(game.turn%playerNumber).name);
 		// AnchorPane root = new AnchorPane();
 		// VBox root = new VBox();
 		// Pane root = new Pane();
@@ -539,8 +540,8 @@ public class Main extends Application {
 		// gridPane.setHgrow(Priority.ALWAYS);
 		System.out.println(String.format("players=%d", game.players.size()));
 		gridPane.prefWidthProperty().bind(root.widthProperty());
-		Image castleImage = castleImages.get(game.turn);
-		Image castleTileImage = castleTileImages.get(game.turn);
+		Image castleImage = castleImages.get(game.playerTurn);
+		Image castleTileImage = castleTileImages.get(game.playerTurn);
 		board.show(gridPane, monotiles, castleImage, castleTileImage, tileWidth, tileHeight);
 		return new Scene(root, width, height);
 	}
@@ -565,7 +566,7 @@ public class Main extends Application {
 		for (int i=0; i<game.deck.pickedDominos.size(); i++) {
 			Domino domino = game.deck.pickedDominos.get(i);
 			Node node = domino.getNode(tiles, monotiles, tileWidth, tileHeight);
-			if (selectedDominos[i]) {
+			if (game.selectedDominos[i]) {
 				System.out.println(String.format("%d is selected", i));
 				node.setStyle("-fx-padding: 2;" +
 											"-fx-border-style: solid inside;" +

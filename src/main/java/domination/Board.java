@@ -139,7 +139,8 @@ public class Board {
 						// rect.setCache(true);
 						pane.add(rect, x, y);
 					} else {
-						String monotileName = Case.getRandomMonotileName(c.type, c.crown, monotiles.keySet());
+						// String monotileName = Case.getRandomMonotileName(c.type, c.crown, monotiles.keySet());
+						String monotileName = String.format("%c%d-0%d.png", c.type, c.crown, c.tile);
 						ImageView view = new ImageView(monotiles.get(monotileName));
 						view.setFitWidth(caseWidth);
 						view.setFitHeight(caseHeight);
@@ -171,8 +172,8 @@ public class Board {
 		pane2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, new Insets(10))));
 		String monotileName1 = Case.getRandomMonotileName(domino.type1, domino.crown1, monotiles.keySet());
 		String monotileName2 = Case.getRandomMonotileName(domino.type2, domino.crown2, monotiles.keySet());
-		System.out.println("monotileName1=" + monotileName1);
-		System.out.println("monotileName2=" + monotileName2);
+		// System.out.println("monotileName1=" + monotileName1);
+		// System.out.println("monotileName2=" + monotileName2);
 		ImageView view1 = new ImageView(monotiles.get(monotileName1));
 		ImageView view2 = new ImageView(monotiles.get(monotileName2));
 		view1.setFitWidth(width);
