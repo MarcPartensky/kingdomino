@@ -150,7 +150,7 @@ public class Main extends Application {
 				break;
 			}
 			case 82: { // r
-				if (game.mode==0) {
+				if (game.mode==1) {
 					System.out.println("Rotate the domino");
 					game.getBoard().rotate();
 					show();
@@ -224,7 +224,7 @@ public class Main extends Application {
 				break;
 			}
 			case 10: { // enter
-				if (game.mode==1) {
+				if (game.mode==0) {
 					System.out.println("Select focused domino");
 					selectDomino();
 				} else {
@@ -235,7 +235,7 @@ public class Main extends Application {
 				break;
 			}
 			case 32: { // space
-				if (game.mode==1) {
+				if (game.mode==0) {
 					System.out.println("Select focused domino");
 					selectDomino();
 				} else {
@@ -246,7 +246,7 @@ public class Main extends Application {
 				break;
 			}
 			case 37: { // left
-				if (game.mode==0) {
+				if (game.mode==1) {
 					System.out.println("Move board cursor left");
 					game.getBoard().move(-1, 0);
 					show();
@@ -261,7 +261,7 @@ public class Main extends Application {
 				break;
 			}
 			case 38: { // up
-				 if (game.mode==0) {
+				 if (game.mode==1) {
 					System.out.println("Move board cursor up");
 					game.getBoard().move(0, -1);
 					show();
@@ -269,7 +269,7 @@ public class Main extends Application {
 				break;
 			}
 			case 39: { // right
-				if (game.mode==0) {
+				if (game.mode==1) {
 					System.out.println("Move board cursor right");
 					game.getBoard().move(1, 0);
 					show();
@@ -285,7 +285,7 @@ public class Main extends Application {
 				break;
 			}
 			case 40: { // down
-				 if (game.mode==0) {
+				 if (game.mode==1) {
 					System.out.println("Move board cursor down");
 					game.getBoard().move(0, 1);
 					show();
@@ -432,9 +432,9 @@ public class Main extends Application {
 	protected void show() {
 		Scene scene;
 		if (game.mode==0) {
-			scene = buildBoardScene();
-		} else {
 			scene = buildDeckScene();
+		} else {
+			scene = buildBoardScene();
 		}
 		stage.setScene(scene);
 	}
@@ -443,7 +443,7 @@ public class Main extends Application {
 	 * Focus the focused domino.
 	 */
 	protected void focusDomino(int n) {
-		if (game.mode == 1) {
+		if (game.mode == 0) {
 			if (n<=game.maxTurn) {
 				focusedDomino = n;
 			} else {

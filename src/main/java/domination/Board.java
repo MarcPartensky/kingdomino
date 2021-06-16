@@ -399,7 +399,7 @@ public class Board {
 	 * Tries to rotate the domino at the given relative position.
 	 */
 	public void rotate() {
-		if (canFocus(cx, cy, cr+1)) {
+		if (canFocus(cx, cy, (cr+1)%4)) {
 			cr = (cr+1)%4;
 		}
 	}

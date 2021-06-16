@@ -14,7 +14,8 @@ public class Domination {
 	public Deck deck;
 	public boolean done = false;
 	public int round = 0;
-	public int mode = 1; // selection and placement  = 2 modes
+	public int mode = 0; // selection and placement  = 2 modes
+	public int previousMode = 1;
 	public int turn = 0;
 	public int playerTurn = 0;
 	public int n = 0;
@@ -29,12 +30,14 @@ public class Domination {
 		turn = n%maxTurn;
 		playerTurn = turn%players.size();
 		round = 2 * n/maxTurn;
+		previousMode = mode;
 		mode = (n/maxTurn) % 2;
-		if (mode==0) {
-			fillBoardDominos();
-		} else {
+		printState();
+		if (previousMode==1 && mode==0) {
 			clearPlayerDominos();
 			deck.pick(maxTurn);
+		} else if (previousMode==0 && mode==1){
+			fillBoardDominos();
 		}
 		if (deck.dominos.size()>0) {
 			done = true;
@@ -81,7 +84,7 @@ public class Domination {
 	 * Return the current player.
 	 */
 	public Player getPlayer() {
-		return players.get(turn%players.size());
+		return players.get(playerTurn);
 	}
 
 	/*
@@ -124,6 +127,6 @@ public class Domination {
 	 * Show the state of the game.
 	 */
 	public void printState() {
-		System.out.println(String.format("Game State: round=%d, mode=%d, turn=%d", round, mode, turn));
+		System.out.println(String.format("Game State: n=%d, round=%d, mode=%d, turn=%d", n, round, mode, turn));
 	}
 }
