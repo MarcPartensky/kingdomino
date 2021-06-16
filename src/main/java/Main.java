@@ -334,8 +334,6 @@ public class Main extends Application {
 		stage.setFullScreen(fullscreen);
 		loadResources();
 
-		dominosNumber = playerNumber * (dominosMaxNumber/4);
-
 		Scene scene = buildMenu();
 		stage.setScene(scene);
 
@@ -377,6 +375,8 @@ public class Main extends Application {
 		Label label = new Label("Load the game.");
 		System.out.println(String.format("Players number = %d", playerNumber));
 		ArrayList<Player> players = new ArrayList<Player>();
+		dominosNumber = playerNumber * (dominosMaxNumber/4);
+
 		for (int i=0; i<playerNumber; i++) {
 			players.add(new Player(new Board()));
 		}
