@@ -106,7 +106,7 @@ public class Main extends Application {
 		nameToLetters.put("Foret", 'f');
 		nameToLetters.put("Mer", 'o');
 		nameToLetters.put("Prairie", 'p');
-		nameToLetters.put("Mine", 'i'); // wtf
+		nameToLetters.put("Mine", 'i');
 		nameToLetters.put("Montagne", 'm');
 	}
 
