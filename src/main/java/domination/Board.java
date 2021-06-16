@@ -224,7 +224,7 @@ public class Board {
 		return false;
 	}
 
-	public static ArrayList<int[]> getNeighbour(int x, int y){
+	public static ArrayList<int[]> getNeighbours(int x, int y){
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		int[][] test = {{x,y}, {x+1, y}, {x, y+1}, {x, y-1}, {x-1,y}};//Potential neighbors
 		for (int[] coo : test) {
@@ -241,19 +241,22 @@ public class Board {
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		ArrayList<int[]> neighbours = new ArrayList<int[]>();
 		for (int[] coo : area){
-			ArrayList<int[]> tmp = getNeighbour(coo[0], coo[1]);
-			neighbours.addAll(tmp);//potentially duplicates in the list
+			neighbours.addAll(getNeighbours(coo[0], coo[1]));//potentially duplicates in the list
 		}
+
+		//We get the type of a cell in the given area, representative of the type of the area
 		char typeRef = this.grid[area.get(0)[0]][area.get(0)[1]].type;
+
 		for (int[] coo : neighbours) {
 			if (this.grid[coo[0]][coo[1]].type==typeRef){
-				if (!in1DArray(coo, result)){
+				if (!in1DArray(coo, result)){//No duplicates in the result
 					result.add(coo);
 				}
 			}
 		}
 		return result;
 	}
+
 	/*
 	 * Returns the territory from the coordinates of a cell
 	 */
@@ -270,7 +273,7 @@ public class Board {
 		ArrayList<ArrayList<int[]>> result = new ArrayList<ArrayList<int[]>>();
 		for (int x=0; x < width; x++) {
 			for (int y=0; y < height; y++) {
-				if(!in2DArray(new int[]{x, y}, result)){//The cell is not already in a territory
+				if(!in2DArray(new int[]{x, y}, result)){//The cell is not already in a area
 					result.add(this.getArea(x,y));
 				}
 			}
@@ -382,7 +385,7 @@ public class Board {
 			int[][] cooInput = {{x1,y1},{x2,y2}};
 			char[] typeInput = new char[]{t1, t2};
 			for (int i = 0; i<2; i++){
-				ArrayList<int[]> neighbours = getNeighbour(cooInput[i][0], cooInput[i][1]);
+				ArrayList<int[]> neighbours = getNeighbours(cooInput[i][0], cooInput[i][1]);
 				for (int[] cell : neighbours){
 				  char typeNeighbour = grid[cell[0]][cell[1]].type;
 					if (typeNeighbour==typeInput[i] || typeNeighbour=='x'){
