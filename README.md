@@ -4,13 +4,27 @@
 
 ## Comment jouer?
 
-- 1 : Affiche le menu
-- 2 : Affiche le tableau
-- 3 : Affiche les cartes
-- a : Change de tableau
-- s : Mélange le plateau (shuffle)
-- r : Redémarre le jeu
-- f : Plein écran (fullscren)
+### Contrôles principaux
+- 1 : Focus le 1er domino
+- 2 : Focus le 2e domino
+- 3 : Focus le 3e domino
+- 4 : Focus le 4e domino
+- r : Tourne le domino
+- n : Skip le panneau
+- Flèches : Se déplacer
+- Space/Enter : Sélectionner ou insérer
+- Esc/q : Quitter
+- f : Plein écran
+- d : Mode débogage
+
+### Contrôles en mode débogage
+- p : Affiche le tableau
+- j : Affiche le menu
+- k : Reconstruit la scène
+- l : Affiche le jeu de carte
+- t : Redémarre le jeu
+- w : Affiche la valeur du plateau
+- e : Affiche la scène finale
 - Esc/q : Quitter
 
 ## Installation
