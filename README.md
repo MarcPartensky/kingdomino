@@ -19,7 +19,7 @@
 
 - Installer [openjdk 11](https://openjdk.java.net/install/)
 
-```
+```sh
 ./gradlew run # Lance le jeu
 ```
 
