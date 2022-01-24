@@ -26,6 +26,7 @@
 ### Avec docker sur Mac et Linux
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # Installe homebrew
-brew install docker make # Installe make et docker
+brew install --cask docker # Installe docker
+brew install make # Installe make
 make docker # Lance le jeu dans un conteneur docker
 ```
