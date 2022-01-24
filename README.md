@@ -44,3 +44,7 @@ brew install --cask docker # Installe docker
 brew install make # Installe make
 make docker # Lance le jeu dans un conteneur docker
 ```
+## Règles
+
+[Règles](./règle.pdf)
+
