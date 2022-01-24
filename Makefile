@@ -15,4 +15,4 @@ dockerbuild:
 	docker build . -t marcpartensky/kingdomino
 
 dockerrun:
-	docker run --rm --privileged --device /dev/dri -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -t marcpartensky/kingdomino
+	docker run --rm --device /dev/dri -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -t marcpartensky/kingdomino
