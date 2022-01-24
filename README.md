@@ -46,5 +46,4 @@ make docker # Lance le jeu dans un conteneur docker
 ```
 ## Règles
 
-[Règles](./règles.pdf)
-
+![Règles](https://docs.google.com/viewer?url=https://github.com/MarcPartensky/kingdomino/blob/master/r%C3%A8gles.pdf)
