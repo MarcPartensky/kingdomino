@@ -1,0 +1,6 @@
+.git
+*.log
+Makefile
+Dockerfile
+README.md
+gradlew.bat
