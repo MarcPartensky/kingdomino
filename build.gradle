@@ -12,4 +12,9 @@ javafx {
     modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'Main'
+
+// tasks.withType(JavaCompile) {
+//     options.compilerArgs += ['-Djavafx.cachedir=/tmp']
+// }
+
+mainClassName = 'com.kingdomino.Main'
