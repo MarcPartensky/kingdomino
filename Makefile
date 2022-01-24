@@ -3,7 +3,7 @@ run:
 
 installwindows:
 	choco install gradle
-	choco install openjdk-13
+	choco install openjdk-11
 
 installunix:
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
