@@ -46,5 +46,5 @@ make docker # Lance le jeu dans un conteneur docker
 ```
 ## Règles
 
-[Règles](./règle.pdf)
+[Règles](./règles.pdf)
 
