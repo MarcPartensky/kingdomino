@@ -12,3 +12,20 @@
 - r : Redémarre le jeu
 - f : Plein écran (fullscren)
 - Esc/q : Quitter
+
+## Installation
+
+### Sans docker
+
+- Installer [openjdk 11](https://openjdk.java.net/install/)
+
+```
+./gradlew run # Lance le jeu
+```
+
+### Avec docker sur Mac et Linux
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # Installe homebrew
+brew install docker make # Installe make et docker
+make docker # Lance le jeu dans un conteneur docker
+```
