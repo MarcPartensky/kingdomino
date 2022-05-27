@@ -37,12 +37,9 @@
 ./gradlew run # Lance le jeu
 ```
 
-### Avec docker sur Mac et Linux
+### Avec docker (et docker-compose) sur Mac et Linux
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # Installe homebrew
-brew install --cask docker # Installe docker
-brew install make # Installe make
-make dockerrun # Lance le jeu dans un conteneur docker
+docker-compose up
 ```
 ## Règles
 
